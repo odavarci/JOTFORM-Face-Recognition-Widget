@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const Demo = (props) => {
     let a = {first:"ömer", last:"davarcı"};
 
