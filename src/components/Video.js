@@ -176,14 +176,6 @@ function Video(props) {
                   </button>
               }
             </div>
-            {/* <div>
-              <button onClick={logResponses} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
-                Get Responses
-              </button>
-              <button onClick={submitFace} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
-                Submit A Face
-              </button>
-            </div> */}
             {
               captureVideo ?
                 modelsLoaded ?
