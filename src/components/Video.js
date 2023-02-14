@@ -1,0 +1,224 @@
+import axios from 'axios';
+import * as faceapi from 'face-api.js';
+import React, { useEffect } from 'react';
+import Wrapper from './Helper/Wrapper';
+
+function Video(props) {
+
+  let formID = props.formID;
+  let apiKey = props.apiKey;
+  let faceRecognizorThreshold = 0.20;
+
+  const [modelsLoaded, setModelsLoaded] = React.useState(false);
+  const [captureVideo, setCaptureVideo] = React.useState(false);
+  const [capturedFace, setCapturedFace] = React.useState(null);
+  const [recognizedProfile, setRecognizedProfile] = React.useState(null);
+
+  const videoRef = React.useRef();
+  const videoHeight = 480;
+  const videoWidth = 640;
+  const canvasRef = React.useRef();
+
+  useEffect(() => {
+    const loadModels = async () => {
+      const MODEL_URL = process.env.PUBLIC_URL + '/models';
+
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+      ])
+      .then(setModelsLoaded(true));
+    }
+    loadModels();
+  }, []);
+
+  const startVideo = () => {
+    setCaptureVideo(true);
+    navigator.mediaDevices
+      .getUserMedia({ video: { width: 300 } })
+      .then(stream => {
+        let video = videoRef.current;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(err => {
+        console.error("error:", err);
+      });
+  }
+
+  const handleVideoOnPlay = () => {
+    const videoInterval = setInterval(async () => {
+      if (canvasRef && canvasRef.current) {
+        canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
+        const displaySize = {
+          width: videoWidth,
+          height: videoHeight
+        }
+
+        faceapi.matchDimensions(canvasRef.current, displaySize);
+
+        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
+        if(detection !== undefined) {
+          const resizedDetection = faceapi.resizeResults(detection, displaySize);
+          
+          //User's face captured. So no need for keep camera open.
+          if(capturedFace === null){
+            closeWebcam();
+            clearInterval(videoInterval);
+            setCapturedFace(detection.descriptor);
+          }
+
+          canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
+          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
+        }
+      }
+    }, 100)
+  }
+
+  const closeWebcam = () => {
+    videoRef.current.pause();
+    videoRef.current.srcObject.getTracks()[0].stop();
+    setCaptureVideo(false);
+  }
+
+  const getResponses = () => {
+    return new Promise(function(resolve, reject){
+        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
+        .then(function(response){
+            let result = response.data.content.filter( (item) => {
+                return item.status !== 'DELETED';
+            });
+            resolve(result);
+        })
+        .catch(function(error){
+            reject("Submission fetch error!");
+        });
+    });
+  }
+  
+  const logResponses = () => {
+    let result = getResponses();
+    result.then(function(response){
+      console.log(response);
+    });
+  }
+
+  const getQID = () => {
+    axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
+    .then(function(response){
+      console.log(response);
+    })
+  }
+
+  const submitFace = (face, name, surname) => {
+    let formData = new FormData();
+    formData.append('submission[3]', face);
+    formData.append('submission[6_first]', name);
+    formData.append('submission[6_last]', surname);
+
+    axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
+    .then(function(response){
+      console.log("Submit response", response);
+    })
+    .catch(function(error){
+      console.log(error);
+    })
+  }
+
+  const calculateSimilarityOfFaces = (face1, face2) => {
+    let distance = 0;
+    for(let i = 0; i < face1.length; i++){
+      distance += Math.pow((face1[i] - face2[i]), 2)
+    }
+    return distance;
+  }
+
+  const findFace = () => {
+    let submissions = getResponses();
+    submissions.then(function(response){
+      for(let i = 0; i < response.length; i++) {
+        let face = response[i].answers[3].answer.split(",");
+        let distance = calculateSimilarityOfFaces(face, capturedFace);
+        console.log("Distance:", distance);
+        if(distance < faceRecognizorThreshold) {
+          console.log(i);
+          let name = response[i].answers[6].answer.first;
+          let surname = response[i].answers[6].answer.last;
+          setRecognizedProfile([name, surname]);
+          break;
+        }
+      }
+      // if(recognizedProfile === null) {
+      //   //submitFace(capturedFace, "Ömer", "Davarcı");
+      //   setRecognizedProfile(["no match found", ""]);
+      // }
+    });
+  }
+
+  return (
+    <Wrapper>
+      {
+        (capturedFace === null) ? 
+          <div>
+            <div style={{ textAlign: 'center', padding: '10px' }}>
+              {
+                captureVideo && modelsLoaded ?
+                  <button onClick={closeWebcam} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
+                    Close Webcam
+                  </button>
+                  :
+                  <button onClick={startVideo} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
+                    Open Webcam
+                  </button>
+              }
+            </div>
+            {/* <div>
+              <button onClick={logResponses} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
+                Get Responses
+              </button>
+              <button onClick={submitFace} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
+                Submit A Face
+              </button>
+            </div> */}
+            {
+              captureVideo ?
+                modelsLoaded ?
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                      <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                      <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+                    </div>
+                  </div>
+                  :
+                  <div>loading...</div>
+                :
+                <>
+                </>
+            }
+          </div>
+          :
+          //This code renders if we captured the face of user.
+          <Wrapper>
+            {
+              (recognizedProfile === null) ?
+                <div>
+                  {findFace()}
+                  <h2>LOADING...</h2>
+                </div>
+                :
+                <div>
+                  <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                </div>
+            }
+          </Wrapper>
+      }
+    </Wrapper>
+    
+  );
+}
+
+export default Video;
