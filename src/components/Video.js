@@ -7,12 +7,6 @@ let jotform;
 
 function Video(props) {
 
-  jotform = window.JFCustomWidget;
-  jotform.subscribe("ready", () => {
-    console.log("widget is ready");
-    console.log(jotform.getFieldsValueById("3_first"));
-  });
-
   let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
@@ -21,11 +15,18 @@ function Video(props) {
   const [captureVideo, setCaptureVideo] = React.useState(false);
   const [capturedFace, setCapturedFace] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
+  const [widgetLoaded, setWidgetLoaded] = React.useState(false);
 
   const videoRef = React.useRef();
   const videoHeight = 480;
   const videoWidth = 640;
   const canvasRef = React.useRef();
+
+  jotform = window.JFCustomWidget;
+  jotform.subscribe("ready", () => {
+    console.log("widget is ready");
+    setWidgetLoaded(true);
+  });
 
   useEffect(() => {
     const loadModels = async () => {
@@ -165,52 +166,58 @@ function Video(props) {
 
   return (
     <Wrapper>
-      {
-        (capturedFace === null) ? 
-          <div>
-            <div>
-              {
-                !captureVideo && modelsLoaded ?
-                  startVideo()
-                  :
-                  <></>
-              }
-            </div>
+        {widgetLoaded ?
+            <Wrapper>
             {
-              captureVideo ?
-                modelsLoaded ?
+              (capturedFace === null) ? 
+                <div>
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                      <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                      <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                    </div>
+                    {
+                      !captureVideo && modelsLoaded ?
+                        startVideo()
+                        :
+                        <></>
+                    }
                   </div>
-                  :
-                  <div>loading...</div>
-                :
-                <>
-                </>
-            }
-          </div>
-          :
-          //This code renders if we captured the face of user.
-          <Wrapper>
-            {
-              (recognizedProfile === null) ?
-                <div>
-                  {findFace()}
-                  <h2>LOADING...</h2>
+                  {
+                    captureVideo ?
+                      modelsLoaded ?
+                        <div>
+                          <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                            <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                            <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+                          </div>
+                        </div>
+                        :
+                        <div>loading...</div>
+                      :
+                      <>
+                      </>
+                  }
                 </div>
                 :
-                <div>
-                  {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                  <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                </div>
+                //This code renders if we captured the face of user.
+                <Wrapper>
+                  {
+                    (recognizedProfile === null) ?
+                      <div>
+                        {findFace()}
+                        <h2>Processing Face...</h2>
+                      </div>
+                      :
+                      <div>
+                        {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
+                        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                      </div>
+                  }
+                </Wrapper>
             }
           </Wrapper>
-      }
+          :
+          <h2>Widget Loading...</h2>
+        }
+        
     </Wrapper>
-    
   );
 }
 
