@@ -3,11 +3,14 @@ import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
+let jotform;
+
 function Video(props) {
 
-  const jotform = window.JFCustomWidget;
+  jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log("widget is ready");
+    console.log(jotform.getFieldsValueById("3_first"));
   });
 
   let formID = props.formID;
@@ -201,6 +204,7 @@ function Video(props) {
                 :
                 <div>
                   <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                  {jotform.requestFrameResize({width:100, height:50})}
                 </div>
             }
           </Wrapper>
