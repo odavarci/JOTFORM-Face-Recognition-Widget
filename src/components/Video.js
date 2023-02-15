@@ -5,6 +5,11 @@ import Wrapper from './Helper/Wrapper';
 
 function Video(props) {
 
+  const jotform = window.JFCustomWidget;
+  jotform.subscribe("ready", () => {
+    console.log("widget is ready");
+  });
+
   let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
@@ -152,10 +157,6 @@ function Video(props) {
           break;
         }
       }
-      // if(recognizedProfile === null) {
-      //   //submitFace(capturedFace, "Ömer", "Davarcı");
-      //   setRecognizedProfile(["no match found", ""]);
-      // }
     });
   }
 
@@ -164,16 +165,12 @@ function Video(props) {
       {
         (capturedFace === null) ? 
           <div>
-            <div style={{ textAlign: 'center', padding: '10px' }}>
+            <div>
               {
-                captureVideo && modelsLoaded ?
-                  <button onClick={closeWebcam} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
-                    Close Webcam
-                  </button>
+                !captureVideo && modelsLoaded ?
+                  startVideo()
                   :
-                  <button onClick={startVideo} style={{ cursor: 'pointer', backgroundColor: 'green', color: 'white', padding: '15px', fontSize: '25px', border: 'none', borderRadius: '10px' }}>
-                    Open Webcam
-                  </button>
+                  <></>
               }
             </div>
             {
