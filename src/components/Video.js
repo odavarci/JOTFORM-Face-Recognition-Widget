@@ -203,8 +203,8 @@ function Video(props) {
                 </div>
                 :
                 <div>
+                  {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
                   <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                  {jotform.requestFrameResize({width:100, height:50})}
                 </div>
             }
           </Wrapper>
