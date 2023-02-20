@@ -178,15 +178,18 @@ function Video(props) {
                 <div>
                   <div>
                     {
-                      !captureVideo && modelsLoaded ?
-                        startVideo()
+                      modelsLoaded ?
+                        !captureVideo ?
+                          startVideo()
+                        :
+                        <></>
                         :
                         <></>
                     }
                   </div>
                   {
-                    captureVideo ?
-                      modelsLoaded ?
+                    modelsLoaded ?
+                      captureVideo ?
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
                             <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
@@ -196,29 +199,26 @@ function Video(props) {
                         :
                         <div>loading...</div>
                       :
-                      <>
-                      </>
+                      <></>
                   }
                 </div>
                 :
                 <Wrapper>
-                    <div>
-                      {
-                        (isRecognized === null) ?
-                          <div>
-                            {findFace()}
-                            <h2>Processing Face...</h2>
-                          </div>
-                          :
-                          (isRecognized === false) ?
-                            <h2>Not Found!</h2>
-                            :
-                            <div>
-                              {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                              <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                            </div>
-                      }
-                    </div>
+                  {
+                    (isRecognized === null) ?
+                      <div>
+                        {findFace()}
+                        <h2>Processing Face...</h2>
+                      </div>
+                      :
+                      (isRecognized === false) ?
+                        <h2>Not Found!</h2>
+                        :
+                        <div>
+                          {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
+                           <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                        </div>
+                  }
                 </Wrapper>
             }
           </Wrapper>
