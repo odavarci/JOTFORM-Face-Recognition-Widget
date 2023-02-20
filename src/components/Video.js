@@ -168,6 +168,24 @@ function Video(props) {
     });
   }
 
+  const returnFaceInfo = () => {
+    if(recognizedProfile === null){
+      if(isRecognized === null){
+        findFace();
+      }
+      else{
+        return(
+          <p>Face not found!</p>
+        );  
+      }
+    }
+    else{
+      return (
+        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+      );
+    }
+  }
+
   return (
     <Wrapper>
         {widgetLoaded ?
@@ -200,26 +218,27 @@ function Video(props) {
                   }
                 </div>
                 :
+                returnFaceInfo()
                 //This code renders if we captured the face of user.
-                <Wrapper>
-                  {
-                    (recognizedProfile === null) ?
-                      <div>
-                        {findFace()}
-                        {
-                          (isRecognized === false) ?
-                            <h2>Not Found!</h2>
-                            :
-                            <h2>Processing Face...</h2>
-                        }
-                      </div>
-                      :
-                      <div>
-                        {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                      </div>
-                  }
-                </Wrapper>
+                // <Wrapper>
+                //   {
+                //     (recognizedProfile === null) ?
+                //       <div>
+                //         {findFace()}
+                //         {
+                //           (isRecognized === false) ?
+                //             <h2>Not Found!</h2>
+                //             :
+                //             <h2>Processing Face...</h2>
+                //         }
+                //       </div>
+                //       :
+                //       <div>
+                //         {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
+                //         <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                //       </div>
+                //   }
+                // </Wrapper>
             }
           </Wrapper>
           :
