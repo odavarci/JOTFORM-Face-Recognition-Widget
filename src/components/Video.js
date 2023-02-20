@@ -16,6 +16,7 @@ function Video(props) {
   const [capturedFace, setCapturedFace] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
+  const [isRecognized, setIsRecognized] = React.useState(null);
 
   const videoRef = React.useRef();
   const videoHeight = 480;
@@ -161,6 +162,9 @@ function Video(props) {
           break;
         }
       }
+      if(recognizedProfile === null) {
+        setCapturedFace(false);
+      }
     });
   }
 
@@ -202,7 +206,12 @@ function Video(props) {
                     (recognizedProfile === null) ?
                       <div>
                         {findFace()}
-                        <h2>Processing Face...</h2>
+                        {
+                          (isRecognized === false) ?
+                            <h2>Not Found!</h2>
+                            :
+                            <h2>Processing Face...</h2>
+                        }
                       </div>
                       :
                       <div>
