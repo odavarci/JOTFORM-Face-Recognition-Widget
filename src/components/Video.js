@@ -163,6 +163,7 @@ function Video(props) {
         }
       }
       if(recognizedProfile === null) {
+        console.log("capturedFace setted to false");
         setCapturedFace(false);
       }
     });
@@ -174,6 +175,7 @@ function Video(props) {
         findFace();
       }
       else{
+        console.log("face not found questionere is worked");
         return(
           <p>Face not found!</p>
         );  
