@@ -22,11 +22,14 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  jotform = window.JFCustomWidget;
-  jotform.subscribe("ready", () => {
-    console.log("widget is ready");
-    setWidgetLoaded(true);
-  });
+  if(!widgetLoaded) {
+    jotform = window.JFCustomWidget;
+    jotform.subscribe("ready", (formId, value) => {
+      console.log("FormId: ", formID);
+      console.log("Value: ", value);
+      setWidgetLoaded(true);
+    });
+  }
 
   useEffect(() => {
     const loadModels = async () => {
@@ -161,6 +164,7 @@ function Video(props) {
           break;
         }
       }
+      setRecognizedProfile(["not","found"]);
     });
   }
 
