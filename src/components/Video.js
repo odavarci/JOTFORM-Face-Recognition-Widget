@@ -202,11 +202,13 @@ function Video(props) {
                 </div>
                 :
                 <Wrapper>
-                    {findFace()}
                     <div>
                       {
                         (isRecognized === null) ?
-                          <h2>Processing Face...</h2>
+                          <div>
+                            {findFace()}
+                            <h2>Processing Face...</h2>
+                          </div>
                           :
                           (isRecognized === false) ?
                             <h2>Not Found!</h2>
