@@ -14,6 +14,7 @@ function Video(props) {
   const [modelsLoaded, setModelsLoaded] = React.useState(false);
   const [captureVideo, setCaptureVideo] = React.useState(false);
   const [capturedFace, setCapturedFace] = React.useState(null);
+  const [isRecognized, setIsRecognized] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
 
@@ -25,8 +26,6 @@ function Video(props) {
   if(!widgetLoaded) {
     jotform = window.JFCustomWidget;
     jotform.subscribe("ready", (formId, value) => {
-      console.log("FormId: ", formID);
-      console.log("Value: ", value);
       setWidgetLoaded(true);
     });
   }
@@ -163,8 +162,10 @@ function Video(props) {
           setRecognizedProfile([name, surname]);
           break;
         }
+        if(recognizedProfile !== null) {
+          setIsRecognized(false);
+        }
       }
-      setRecognizedProfile(["not","found"]);
     });
   }
 
@@ -200,20 +201,22 @@ function Video(props) {
                   }
                 </div>
                 :
-                //This code renders if we captured the face of user.
                 <Wrapper>
-                  {
-                    (recognizedProfile === null) ?
-                      <div>
-                        {findFace()}
-                        <h2>Processing Face...</h2>
-                      </div>
-                      :
-                      <div>
-                        {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                      </div>
-                  }
+                    {findFace()}
+                    <div>
+                      {
+                        (isRecognized === null) ?
+                          <h2>Processing Face...</h2>
+                          :
+                          (isRecognized === false) ?
+                            <h2>Not Found!</h2>
+                            :
+                            <div>
+                              {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
+                              <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                            </div>
+                      }
+                    </div>
                 </Wrapper>
             }
           </Wrapper>
