@@ -14,7 +14,6 @@ function Video(props) {
   const [modelsLoaded, setModelsLoaded] = React.useState(false);
   const [captureVideo, setCaptureVideo] = React.useState(false);
   const [capturedFace, setCapturedFace] = React.useState(null);
-  const [isRecognized, setIsRecognized] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
 
@@ -23,12 +22,11 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  if(!widgetLoaded) {
-    jotform = window.JFCustomWidget;
-    jotform.subscribe("ready", (formId, value) => {
-      setWidgetLoaded(true);
-    });
-  }
+  jotform = window.JFCustomWidget;
+  jotform.subscribe("ready", () => {
+    console.log("widget is ready");
+    setWidgetLoaded(true);
+  });
 
   useEffect(() => {
     const loadModels = async () => {
@@ -162,9 +160,6 @@ function Video(props) {
           setRecognizedProfile([name, surname]);
           break;
         }
-        if(recognizedProfile !== null) {
-          setIsRecognized(false);
-        }
       }
     });
   }
@@ -178,18 +173,15 @@ function Video(props) {
                 <div>
                   <div>
                     {
-                      modelsLoaded ?
-                        !captureVideo ?
-                          startVideo()
-                        :
-                        <></>
+                      !captureVideo && modelsLoaded ?
+                        startVideo()
                         :
                         <></>
                     }
                   </div>
                   {
-                    modelsLoaded ?
-                      captureVideo ?
+                    captureVideo ?
+                      modelsLoaded ?
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
                             <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
@@ -199,25 +191,24 @@ function Video(props) {
                         :
                         <div>loading...</div>
                       :
-                      <></>
+                      <>
+                      </>
                   }
                 </div>
                 :
+                //This code renders if we captured the face of user.
                 <Wrapper>
                   {
-                    (isRecognized === null) ?
+                    (recognizedProfile === null) ?
                       <div>
                         {findFace()}
                         <h2>Processing Face...</h2>
                       </div>
                       :
-                      (isRecognized === false) ?
-                        <h2>Not Found!</h2>
-                        :
-                        <div>
-                          {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                           <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                        </div>
+                      <div>
+                        {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
+                        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+                      </div>
                   }
                 </Wrapper>
             }
