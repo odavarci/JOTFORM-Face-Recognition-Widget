@@ -150,6 +150,8 @@ function Video(props) {
   const findFace = () => {
     let submissions = getResponses();
     submissions.then(function(response){
+      let isMatched = false;
+
       for(let i = 0; i < response.length; i++) {
         let face = response[i].answers[3].answer.split(",");
         let distance = calculateSimilarityOfFaces(face, capturedFace);
@@ -158,13 +160,14 @@ function Video(props) {
           console.log(i);
           let name = response[i].answers[6].answer.first;
           let surname = response[i].answers[6].answer.last;
+          isMatched = true;
           setRecognizedProfile([name, surname]);
           break;
         }
       }
-      if(recognizedProfile === null) {
+      if(!isMatched) {
         console.log("capturedFace setted to false");
-        setCapturedFace(false);
+        setIsRecognized(false);
       }
     });
   }
