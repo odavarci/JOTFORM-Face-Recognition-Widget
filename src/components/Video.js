@@ -188,7 +188,7 @@ function Video(props) {
     jotform.setFieldsValueById(
       [{
         id: '3',
-        value: name
+        value: {name, surname}
       }]
     );
   }
