@@ -26,9 +26,12 @@ function Video(props) {
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
+    console.log(jotform.formID);
+    let formData = new FormData();
+    formData.append('24', 'helloWorld');
     jotform.setFieldsValueById(
       [{
-        id: '#input_24',
+        id: '24',
         value: 'hello world'
       }]
     );
