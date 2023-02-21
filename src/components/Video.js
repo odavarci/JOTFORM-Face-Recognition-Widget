@@ -26,10 +26,9 @@ function Video(props) {
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
-    console.log("Function response: ", jotform.isFromCardform());
-    jotform.setFieldsValueByLabel(
+    jotform.setFieldsValueById(
       {
-        "name":"ömer"
+        "input_24":"hello world"
       }
     );
     setWidgetLoaded(true);
