@@ -25,7 +25,7 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
-    console.log("widget is ready");
+    console.log(jotform);
     setWidgetLoaded(true);
   });
 
@@ -166,7 +166,6 @@ function Video(props) {
         }
       }
       if(!isMatched) {
-        console.log("capturedFace setted to false");
         setIsRecognized(false);
       }
     });
@@ -178,7 +177,6 @@ function Video(props) {
         findFace();
       }
       else{
-        console.log("face not found questionere is worked");
         return(
           <p>Face not found!</p>
         );  
@@ -224,26 +222,6 @@ function Video(props) {
                 </div>
                 :
                 returnFaceInfo()
-                //This code renders if we captured the face of user.
-                // <Wrapper>
-                //   {
-                //     (recognizedProfile === null) ?
-                //       <div>
-                //         {findFace()}
-                //         {
-                //           (isRecognized === false) ?
-                //             <h2>Not Found!</h2>
-                //             :
-                //             <h2>Processing Face...</h2>
-                //         }
-                //       </div>
-                //       :
-                //       <div>
-                //         {jotform.requestFrameResize({width:videoWidth, height:videoHeight/2})}
-                //         <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-                //       </div>
-                //   }
-                // </Wrapper>
             }
           </Wrapper>
           :
