@@ -28,7 +28,7 @@ function Video(props) {
     console.log(jotform);
     jotform.setFieldsValueById(
       [{
-        id: 'input_24',
+        id: '#input_24',
         value: 'hello world'
       }]
     );
@@ -194,6 +194,8 @@ function Video(props) {
       );
     }
   }
+
+  getQID();
 
   return (
     <Wrapper>
