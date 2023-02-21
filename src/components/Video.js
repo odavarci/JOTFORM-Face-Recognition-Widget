@@ -26,6 +26,7 @@ function Video(props) {
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
+    console.log("Function response: ", jotform.isFromCardform());
     setWidgetLoaded(true);
   });
 
