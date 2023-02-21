@@ -27,6 +27,11 @@ function Video(props) {
   jotform.subscribe("ready", () => {
     console.log(jotform);
     console.log("Function response: ", jotform.isFromCardform());
+    jotform.setFieldsValueByLabel(
+      {
+        "name":"ömer"
+      }
+    );
     setWidgetLoaded(true);
   });
 
