@@ -26,15 +26,6 @@ function Video(props) {
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
-    console.log(jotform.formID);
-    let formData = new FormData();
-    formData.append('24', 'helloWorld');
-    jotform.setFieldsValueById(
-      [{
-        id: '24',
-        value: 'hello world'
-      }]
-    );
     setWidgetLoaded(true);
   });
 
@@ -180,6 +171,21 @@ function Video(props) {
     });
   }
 
+  const sendFaceInfo = () => {
+    let name = recognizedProfile[0];
+    let surname = recognizedProfile[1];
+    jotform.setFieldsValueById(
+      [{
+        id: '3_first',
+        value: {name}
+      },
+      {
+        id: '3_last',
+        value: {surname}
+      }]
+    );
+  }
+
   const returnFaceInfo = () => {
     if(recognizedProfile === null){
       if(isRecognized === null){
@@ -192,13 +198,13 @@ function Video(props) {
       }
     }
     else{
-      return (
-        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-      );
+      // return (
+      //   <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+      // );
+      sendFaceInfo();
     }
   }
 
-  getQID();
 
   return (
     <Wrapper>
