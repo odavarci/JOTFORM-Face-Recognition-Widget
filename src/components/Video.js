@@ -171,13 +171,24 @@ function Video(props) {
     });
   }
 
+  // const sendFaceInfo = () => {
+  //   let name = recognizedProfile[0];
+  //   let surname = recognizedProfile[1];
+  //   jotform.setFieldsValueById(
+  //     [{
+  //       id: '25',
+  //       value: name + ' ' + surname
+  //     }]
+  //   );
+  // }
+
   const sendFaceInfo = () => {
     let name = recognizedProfile[0];
     let surname = recognizedProfile[1];
     jotform.setFieldsValueById(
       [{
-        id: '25',
-        value: name + ' ' + surname
+        id: '3_first',
+        value: name
       }]
     );
   }
