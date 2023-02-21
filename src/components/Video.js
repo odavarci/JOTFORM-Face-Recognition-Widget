@@ -27,9 +27,10 @@ function Video(props) {
   jotform.subscribe("ready", () => {
     console.log(jotform);
     jotform.setFieldsValueById(
-      {
-        "input_24":"hello world"
-      }
+      [{
+        id: 'input_24',
+        value: 'hello world'
+      }]
     );
     setWidgetLoaded(true);
   });
