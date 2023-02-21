@@ -189,11 +189,7 @@ function Video(props) {
       [{
         id: '3',
         value: {name}
-      },
-    {
-      id: '3',
-      value: {surname}
-    }]
+      }]
     );
   }
 
