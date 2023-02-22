@@ -188,10 +188,7 @@ function Video(props) {
     jotform.setFieldsValueById(
       [{
         id: '3',
-        value: {
-          first : 'asd',
-          last: 'dsa'
-        }
+        value: name
       }]
     );
     console.log("face info sent");
