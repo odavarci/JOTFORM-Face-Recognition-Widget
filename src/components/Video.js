@@ -184,9 +184,9 @@ function Video(props) {
 
   const getFormData = () => {
     jotform.getFieldsValueById(
-      [{
+      {
         id: '25'
-      }], () => {
+      }, () => {
       console.log("DONE");
     });
   }
