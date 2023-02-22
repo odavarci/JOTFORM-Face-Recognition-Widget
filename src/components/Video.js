@@ -183,13 +183,12 @@ function Video(props) {
   }
 
   const getFormData = () => {
-    jotform.getFieldsValueById([
-      {
-        id: '3'
-      }
-    ], () => {
+    jotform.getFieldsValueById(
+      [{
+        id: '25'
+      }], () => {
       console.log("DONE");
-    })
+    });
   }
 
   const returnFaceInfo = () => {
