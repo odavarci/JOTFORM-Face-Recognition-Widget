@@ -187,7 +187,7 @@ function Video(props) {
     let surname = recognizedProfile[1];
     jotform.setFieldsValueById(
       [{
-        id: '3',
+        id: '3_first',
         value: 'hasan'
       }]
     );
