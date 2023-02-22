@@ -187,10 +187,11 @@ function Video(props) {
     let surname = recognizedProfile[1];
     jotform.setFieldsValueById(
       [{
-        id: 'first_3',
-        value: "hasan"
+        id: '3',
+        value: 'hasan'
       }]
     );
+    console.log("face info sent");
   }
 
   const returnFaceInfo = () => {
@@ -205,15 +206,14 @@ function Video(props) {
       }
     }
     else{
-      // return (
-      //   <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-      // );
       jotform.setFrameSize(
         {width:0,
         length:0
         });
-      console.log("face info sent");
       sendFaceInfo();
+      return (
+        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+      );
     }
   }
 
