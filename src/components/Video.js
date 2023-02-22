@@ -187,8 +187,8 @@ function Video(props) {
       {
         id: '3'
       }
-    ], (response) => {
-      console.log(response);
+    ], () => {
+      console.log("DONE");
     })
   }
 
