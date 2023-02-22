@@ -155,9 +155,9 @@ function Video(props) {
       for(let i = 0; i < response.length; i++) {
         let face = response[i].answers[3].answer.split(",");
         let distance = calculateSimilarityOfFaces(face, capturedFace);
-        console.log("Distance:", distance);
         if(distance < faceRecognizorThreshold) {
           console.log(i);
+          console.log("Distance:", distance);
           let name = response[i].answers[6].answer.first;
           let surname = response[i].answers[6].answer.last;
           isMatched = true;
@@ -171,17 +171,6 @@ function Video(props) {
     });
   }
 
-  // const sendFaceInfo = () => {
-  //   let name = recognizedProfile[0];
-  //   let surname = recognizedProfile[1];
-  //   jotform.setFieldsValueById(
-  //     [{
-  //       id: '25',
-  //       value: name + ' ' + surname
-  //     }]
-  //   );
-  // }
-
   const sendFaceInfo = () => {
     let name = recognizedProfile[0];
     let surname = recognizedProfile[1];
@@ -191,7 +180,16 @@ function Video(props) {
         value: name + ' ' + surname
       }]
     );
-    console.log("face info sent");
+  }
+
+  const getFormData = () => {
+    jotform.getFieldsValueById([
+      {
+        id: '3'
+      }
+    ], (response) => {
+      console.log(response);
+    })
   }
 
   const returnFaceInfo = () => {
@@ -201,7 +199,10 @@ function Video(props) {
       }
       else{
         return(
-          <p>Face not found!</p>
+          <Wrapper>
+            <p>Face not found. Please fill the form.</p>
+            <button onClick={getFormData}>Done!</button>
+          </Wrapper>
         );  
       }
     }
