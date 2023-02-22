@@ -130,7 +130,7 @@ function Video(props) {
     formData.append('submission[6_first]', name);
     formData.append('submission[6_last]', surname);
 
-    axios.post('https://api.jotform.com/form/' + '230400715165041' + '/submissions?apiKey=' + apiKey, formData)
+    axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
       console.log("Submit response", response);
     })
@@ -186,6 +186,7 @@ function Video(props) {
     jotform.getFieldsValueById( ['3'], (response) => {
         let input = response.data[0].value.split(" ");
         submitFace(capturedFace, input[0], input[1]);
+        console.log("Submission sent");
     });
   }
 
