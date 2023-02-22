@@ -183,10 +183,12 @@ function Video(props) {
   }
 
   const getFormData = () => {
+    let a = "still a :(";
     jotform.getFieldsValueById( ['3'], (response) => {
         let input = response.data[0].value.split(" ");
-        return input;
+        a = input;
     });
+    return a;
   }
 
   const creteNewFaceSubmission = () => {
