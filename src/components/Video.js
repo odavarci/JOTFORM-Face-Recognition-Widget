@@ -182,18 +182,11 @@ function Video(props) {
     );
   }
 
-  const getFormData = () => {
-    let a = "still a :(";
+  const creteNewFaceSubmission = () => {
     jotform.getFieldsValueById( ['3'], (response) => {
         let input = response.data[0].value.split(" ");
-        a = input;
+        submitFace(capturedFace, input[0], input[1]);
     });
-    return a;
-  }
-
-  const creteNewFaceSubmission = () => {
-    let data = getFormData();
-    console.log(data);
   }
 
   const returnFaceInfo = () => {
