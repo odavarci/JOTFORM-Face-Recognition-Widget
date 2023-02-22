@@ -183,11 +183,15 @@ function Video(props) {
   }
 
   const getFormData = () => {
-    jotform.getFieldsValueById(
-      ['3'], (response) => {
-        let name = response.data[0].value;
-      console.log(name);
+    jotform.getFieldsValueById( ['3'], (response) => {
+        let input = response.data[0].value.split(" ");
+        return input;
     });
+  }
+
+  const creteNewFaceSubmission = () => {
+    let data = getFormData();
+    console.log(data);
   }
 
   const returnFaceInfo = () => {
@@ -199,7 +203,7 @@ function Video(props) {
         return(
           <Wrapper>
             <p>Face not found. Please fill the form.</p>
-            <button onClick={getFormData}>Done!</button>
+            <button onClick={creteNewFaceSubmission}>Done!</button>
           </Wrapper>
         );  
       }
