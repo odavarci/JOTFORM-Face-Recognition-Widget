@@ -155,9 +155,9 @@ function Video(props) {
       for(let i = 0; i < response.length; i++) {
         let face = response[i].answers[3].answer.split(",");
         let distance = calculateSimilarityOfFaces(face, capturedFace);
+        console.log(i);
+        console.log("Distance:", distance);
         if(distance < faceRecognizorThreshold) {
-          console.log(i);
-          console.log("Distance:", distance);
           let name = response[i].answers[6].answer.first;
           let surname = response[i].answers[6].answer.last;
           isMatched = true;
