@@ -29,34 +29,20 @@ function Video(props) {
     setWidgetLoaded(true);
   });
 
-  // useEffect(() => {
-  //   const loadModels = async () => {
-  //     const MODEL_URL = process.env.PUBLIC_URL + '/models';
+  useEffect(() => {
+    const loadModels = async () => {
+      const MODEL_URL = process.env.PUBLIC_URL + '/models';
 
-  //     Promise.all([
-  //       faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-  //       faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-  //       faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-  //       faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-  //     ])
-  //     .then(setModelsLoaded(true));
-  //   }
-  //   loadModels();
-  // }, []);
-
-  const loadModels = async () => {
-    const MODEL_URL = process.env.PUBLIC_URL + '/models';
-
-    Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-    ])
-    .then(setModelsLoaded(true));
-  }
-  
-  loadModels();
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+      ])
+      .then(setModelsLoaded(true));
+    }
+    loadModels();
+  }, []);
 
   const startVideo = () => {
     setCaptureVideo(true);
