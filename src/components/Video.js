@@ -59,7 +59,10 @@ function Video(props) {
   }
 
   const handleVideoOnPlay = () => {
+    let i = 0;
     const videoInterval = setInterval(async () => {
+      i++;
+      console.log("INTERVAL: ", i);
       if (canvasRef && canvasRef.current) {
         canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
         const displaySize = {
@@ -171,7 +174,7 @@ function Video(props) {
     });
   }
 
-  const sendFaceInfo = () => {
+  const setFieldsValue = () => {
     let name = recognizedProfile[0];
     let surname = recognizedProfile[1];
     jotform.setFieldsValueById(
@@ -190,39 +193,96 @@ function Video(props) {
     });
   }
 
+  // const returnFaceInfo = () => {
+  //   if(recognizedProfile === null){
+  //     if(isRecognized === null){
+  //       findFace();
+  //     }
+  //     else{
+  //       return(
+  //         <Wrapper>
+  //           <p>Face not found. Please fill the form.</p>
+  //           <button onClick={creteNewFaceSubmission}>Done!</button>
+  //         </Wrapper>
+  //       );  
+  //     }
+  //   }
+  //   else{
+  //     jotform.setFrameSize(
+  //       {width:0,
+  //       length:0
+  //       });
+  //     setFieldsValue();
+  //     return (
+  //       <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+  //     );
+  //   }
+  // }
+
   const returnFaceInfo = () => {
-    if(recognizedProfile === null){
-      if(isRecognized === null){
-        findFace();
-      }
-      else{
-        return(
-          <Wrapper>
-            <p>Face not found. Please fill the form.</p>
-            <button onClick={creteNewFaceSubmission}>Done!</button>
-          </Wrapper>
-        );  
-      }
+    if(isRecognized === false){
+      return(
+        <Wrapper>
+          <p>Face not found. Please fill the form.</p>
+          <button onClick={creteNewFaceSubmission}>Done!</button>
+        </Wrapper>
+      );  
     }
     else{
-      jotform.setFrameSize(
-        {width:0,
-        length:0
-        });
-      sendFaceInfo();
+      setFieldsValue();
       return (
         <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
       );
     }
   }
 
+  // return (
+  //   <Wrapper>
+  //       {widgetLoaded ?
+  //           <Wrapper>
+  //           {
+  //             (capturedFace === null) ? 
+  //               <div>
+  //                 <div>
+  //                   {
+  //                     !captureVideo && modelsLoaded ?
+  //                       startVideo()
+  //                       :
+  //                       <></>
+  //                   }
+  //                 </div>
+  //                 {
+  //                   captureVideo ?
+  //                     modelsLoaded ?
+  //                       <div>
+  //                         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+  //                           <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+  //                           <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+  //                         </div>
+  //                       </div>
+  //                       :
+  //                       <div>loading...</div>
+  //                     :
+  //                     <>
+  //                     </>
+  //                 }
+  //               </div>
+  //               :
+  //               returnFaceInfo()
+  //           }
+  //         </Wrapper>
+  //         :
+  //         <h2>Widget Loading...</h2>
+  //       }
+  //   </Wrapper>
+  // );
 
   return (
     <Wrapper>
         {widgetLoaded ?
             <Wrapper>
             {
-              (capturedFace === null) ? 
+              (recognizedProfile === null && isRecognized === null) ? 
                 <div>
                   <div>
                     {
@@ -255,7 +315,6 @@ function Video(props) {
           :
           <h2>Widget Loading...</h2>
         }
-        
     </Wrapper>
   );
 }
