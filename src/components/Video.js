@@ -13,7 +13,7 @@ function Video(props) {
 
   const [modelsLoaded, setModelsLoaded] = React.useState(false);
   const [captureVideo, setCaptureVideo] = React.useState(false);
-  const [capturedFace, setCapturedFace] = React.useState(null);
+  //const [capturedFace, setCapturedFace] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
   const [isRecognized, setIsRecognized] = React.useState(null);
@@ -59,10 +59,8 @@ function Video(props) {
   }
 
   const handleVideoOnPlay = () => {
-    let i = 0;
+    let timesRecognitionLeft = 10;
     const videoInterval = setInterval(async () => {
-      i++;
-      console.log("INTERVAL: ", i);
       if (canvasRef && canvasRef.current) {
         canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
         const displaySize = {
@@ -74,20 +72,25 @@ function Video(props) {
 
         const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
         if(detection !== undefined) {
-          const resizedDetection = faceapi.resizeResults(detection, displaySize);
-          
-          //User's face captured. So no need for keep camera open.
-          if(capturedFace === null){
+          timesRecognitionLeft--;
+
+          if(findFace(detection.descriptor)){
             closeWebcam();
             clearInterval(videoInterval);
-            setCapturedFace(detection.descriptor);
+            //setCapturedFace(detection.descriptor);
           }
-
+  
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
+          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, detection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, detection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, detection);
         }
+        if(timesRecognitionLeft === 0 && recognizedProfile === null){
+          setIsRecognized(false);
+          closeWebcam();
+          clearInterval(videoInterval);
+        }
+
       }
     }, 100)
   }
@@ -150,26 +153,49 @@ function Video(props) {
     return distance;
   }
 
-  const findFace = () => {
+  // const findFace = () => {
+  //   let submissions = getResponses();
+  //   submissions.then(function(response){
+  //     let isMatched = false;
+
+  //     for(let i = 0; i < response.length; i++) {
+  //       let face = response[i].answers[3].answer.split(",");
+  //       let distance = calculateSimilarityOfFaces(face, capturedFace);
+  //       console.log(response[i].answers[6].answer.first);
+  //       console.log("Distance:", distance);
+  //       if(distance < faceRecognizorThreshold) {
+  //         let name = response[i].answers[6].answer.first;
+  //         let surname = response[i].answers[6].answer.last;
+  //         isMatched = true;
+  //         setRecognizedProfile([name, surname]);
+  //         break;
+  //       }
+  //     }
+  //     if(!isMatched) {
+  //       setIsRecognized(false);
+  //     }
+  //   });
+  // }
+
+  const findFace = (face) => {
     let submissions = getResponses();
     submissions.then(function(response){
+
       let isMatched = false;
 
       for(let i = 0; i < response.length; i++) {
-        let face = response[i].answers[3].answer.split(",");
-        let distance = calculateSimilarityOfFaces(face, capturedFace);
-        console.log(response[i].answers[6].answer.first);
-        console.log("Distance:", distance);
+        let currentFace = response[i].answers[3].answer.split(",");
+        let distance = calculateSimilarityOfFaces(face, currentFace);
         if(distance < faceRecognizorThreshold) {
           let name = response[i].answers[6].answer.first;
           let surname = response[i].answers[6].answer.last;
           isMatched = true;
           setRecognizedProfile([name, surname]);
-          break;
+          return true;
         }
       }
       if(!isMatched) {
-        setIsRecognized(false);
+        return false;
       }
     });
   }
