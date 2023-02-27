@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 let jotform;
-let capturedFace;
 
 function Video(props) {
 
@@ -14,7 +13,7 @@ function Video(props) {
 
   const [modelsLoaded, setModelsLoaded] = React.useState(false);
   const [captureVideo, setCaptureVideo] = React.useState(false);
-  //const [capturedFace, setCapturedFace] = React.useState(null);
+  const [capturedFace, setCapturedFace] = React.useState(null);
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
   const [isRecognized, setIsRecognized] = React.useState(null);
@@ -74,7 +73,6 @@ function Video(props) {
         const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
-          capturedFace = detection.descriptor;
 
           if(findFace(detection.descriptor)){
             closeWebcam();
@@ -88,9 +86,10 @@ function Video(props) {
           canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, detection);
         }
         if(timesRecognitionLeft === 0 && recognizedProfile === null){
-          setIsRecognized(false);
           closeWebcam();
           clearInterval(videoInterval);
+          setIsRecognized(false);
+          setCapturedFace(detection.descriptor);
         }
 
       }
