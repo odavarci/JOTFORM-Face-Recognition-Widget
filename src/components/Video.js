@@ -5,6 +5,7 @@ import Wrapper from './Helper/Wrapper';
 
 let jotform;
 let faceArchiveSubmissions;
+let basicElementDemoID = '230572712727052';
 
 function Video(props) {
 
@@ -129,7 +130,7 @@ function Video(props) {
   }
 
   const getQID = () => {
-    axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
+    axios.get('https://api.jotform.com/form/' + basicElementDemoID + '/questions?apiKey=' + apiKey)
     .then(function(response){
       console.log(response);
     })
