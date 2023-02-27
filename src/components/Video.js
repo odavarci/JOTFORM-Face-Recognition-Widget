@@ -79,10 +79,9 @@ function Video(props) {
           timesRecognitionLeft--;
 
           if(findFace(detection.descriptor)){
-            console.log("IF STATEMENT WORKED!");
             closeWebcam();
             clearInterval(videoInterval);
-            //setCapturedFace(detection.descriptor);
+            return;
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
@@ -159,53 +158,6 @@ function Video(props) {
     return distance;
   }
 
-  // const findFace = () => {
-  //   let submissions = getResponses();
-  //   submissions.then(function(response){
-  //     let isMatched = false;
-
-  //     for(let i = 0; i < response.length; i++) {
-  //       let face = response[i].answers[3].answer.split(",");
-  //       let distance = calculateSimilarityOfFaces(face, capturedFace);
-  //       console.log(response[i].answers[6].answer.first);
-  //       console.log("Distance:", distance);
-  //       if(distance < faceRecognizorThreshold) {
-  //         let name = response[i].answers[6].answer.first;
-  //         let surname = response[i].answers[6].answer.last;
-  //         isMatched = true;
-  //         setRecognizedProfile([name, surname]);
-  //         break;
-  //       }
-  //     }
-  //     if(!isMatched) {
-  //       setIsRecognized(false);
-  //     }
-  //   });
-  // }
-
-  // const findFace = (face) => {
-  //   let submissions = getResponses();
-  //   submissions.then(function(response){
-
-  //     let isMatched = false;
-
-  //     for(let i = 0; i < response.length; i++) {
-  //       let currentFace = response[i].answers[3].answer.split(",");
-  //       let distance = calculateSimilarityOfFaces(face, currentFace);
-  //       if(distance < faceRecognizorThreshold) {
-  //         let name = response[i].answers[6].answer.first;
-  //         let surname = response[i].answers[6].answer.last;
-  //         isMatched = true;
-  //         setRecognizedProfile([name, surname]);
-  //         return true;
-  //       }
-  //     }
-  //     if(!isMatched) {
-  //       return false;
-  //     }
-  //   });
-  // }
-
   const findFace = (face) => {
     let isMatched = false;
 
@@ -244,32 +196,6 @@ function Video(props) {
     });
   }
 
-  // const returnFaceInfo = () => {
-  //   if(recognizedProfile === null){
-  //     if(isRecognized === null){
-  //       findFace();
-  //     }
-  //     else{
-  //       return(
-  //         <Wrapper>
-  //           <p>Face not found. Please fill the form.</p>
-  //           <button onClick={creteNewFaceSubmission}>Done!</button>
-  //         </Wrapper>
-  //       );  
-  //     }
-  //   }
-  //   else{
-  //     jotform.setFrameSize(
-  //       {width:0,
-  //       length:0
-  //       });
-  //     setFieldsValue();
-  //     return (
-  //       <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-  //     );
-  //   }
-  // }
-
   const returnFaceInfo = () => {
     if(isRecognized === false){
       return(
@@ -286,48 +212,7 @@ function Video(props) {
       );
     }
   }
-
-  // return (
-  //   <Wrapper>
-  //       {widgetLoaded ?
-  //           <Wrapper>
-  //           {
-  //             (capturedFace === null) ? 
-  //               <div>
-  //                 <div>
-  //                   {
-  //                     !captureVideo && modelsLoaded ?
-  //                       startVideo()
-  //                       :
-  //                       <></>
-  //                   }
-  //                 </div>
-  //                 {
-  //                   captureVideo ?
-  //                     modelsLoaded ?
-  //                       <div>
-  //                         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-  //                           <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-  //                           <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-  //                         </div>
-  //                       </div>
-  //                       :
-  //                       <div>loading...</div>
-  //                     :
-  //                     <>
-  //                     </>
-  //                 }
-  //               </div>
-  //               :
-  //               returnFaceInfo()
-  //           }
-  //         </Wrapper>
-  //         :
-  //         <h2>Widget Loading...</h2>
-  //       }
-  //   </Wrapper>
-  // );
-
+  
   return (
     <Wrapper>
         {widgetLoaded ?
