@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 let jotform;
+let capturedFace;
 
 function Video(props) {
 
@@ -73,6 +74,7 @@ function Video(props) {
         const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
+          capturedFace = detection.descriptor;
 
           if(findFace(detection.descriptor)){
             closeWebcam();
