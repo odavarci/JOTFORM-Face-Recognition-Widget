@@ -212,7 +212,9 @@ function Video(props) {
       );
     }
   }
-  
+
+  getQID();
+
   return (
     <Wrapper>
         {widgetLoaded ?
