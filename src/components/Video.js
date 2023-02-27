@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 let jotform;
+let faceArchiveSubmissions;
 
 function Video(props) {
 
@@ -25,8 +26,11 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
-    console.log(jotform);
-    setWidgetLoaded(true);
+    let submissions = getResponses();
+    submissions.then(function(response){
+      faceArchiveSubmissions = response;
+      setWidgetLoaded(true);  
+    });
   });
 
   useEffect(() => {
@@ -75,6 +79,7 @@ function Video(props) {
           timesRecognitionLeft--;
 
           if(findFace(detection.descriptor)){
+            console.log("IF STATEMENT WORKED!");
             closeWebcam();
             clearInterval(videoInterval);
             //setCapturedFace(detection.descriptor);
@@ -178,27 +183,46 @@ function Video(props) {
   //   });
   // }
 
+  // const findFace = (face) => {
+  //   let submissions = getResponses();
+  //   submissions.then(function(response){
+
+  //     let isMatched = false;
+
+  //     for(let i = 0; i < response.length; i++) {
+  //       let currentFace = response[i].answers[3].answer.split(",");
+  //       let distance = calculateSimilarityOfFaces(face, currentFace);
+  //       if(distance < faceRecognizorThreshold) {
+  //         let name = response[i].answers[6].answer.first;
+  //         let surname = response[i].answers[6].answer.last;
+  //         isMatched = true;
+  //         setRecognizedProfile([name, surname]);
+  //         return true;
+  //       }
+  //     }
+  //     if(!isMatched) {
+  //       return false;
+  //     }
+  //   });
+  // }
+
   const findFace = (face) => {
-    let submissions = getResponses();
-    submissions.then(function(response){
+    let isMatched = false;
 
-      let isMatched = false;
-
-      for(let i = 0; i < response.length; i++) {
-        let currentFace = response[i].answers[3].answer.split(",");
-        let distance = calculateSimilarityOfFaces(face, currentFace);
-        if(distance < faceRecognizorThreshold) {
-          let name = response[i].answers[6].answer.first;
-          let surname = response[i].answers[6].answer.last;
-          isMatched = true;
-          setRecognizedProfile([name, surname]);
-          return true;
-        }
+    for(let i = 0; i < faceArchiveSubmissions.length; i++) {
+      let currentFace = faceArchiveSubmissions[i].answers[3].answer.split(",");
+      let distance = calculateSimilarityOfFaces(face, currentFace);
+      if(distance < faceRecognizorThreshold) {
+        let name = faceArchiveSubmissions[i].answers[6].answer.first;
+        let surname = faceArchiveSubmissions[i].answers[6].answer.last;
+        isMatched = true;
+        setRecognizedProfile([name, surname]);
+        return true;
       }
-      if(!isMatched) {
-        return false;
-      }
-    });
+    }
+    if(!isMatched) {
+      return false;
+    }
   }
 
   const setFieldsValue = () => {
