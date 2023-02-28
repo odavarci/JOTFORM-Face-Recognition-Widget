@@ -3,7 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
-let jotform;
+let jotform, jotformAPI;
 let faceArchiveSubmissions;
 let basicElementDemoID = '230572712-727052';
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone'];
@@ -14,6 +14,9 @@ function Video(props) {
   let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
+
+  jotformAPI = window.JF;
+  jotform = window.JFCustomWidget;
 
   const [modelsLoaded, setModelsLoaded] = React.useState(false);
   const [captureVideo, setCaptureVideo] = React.useState(false);
@@ -27,7 +30,6 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
     let submissions = getResponses();
@@ -35,6 +37,8 @@ function Video(props) {
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
+    console.log("Widget: ", jotform);
+    console.log("API:", jotformAPI);
   });
   
   useEffect(() => {
@@ -190,7 +194,6 @@ function Video(props) {
         value: name + ' ' + surname
       }]
     );
-    console.log(jotform.formID);
   }
 
   const creteNewFaceSubmission = () => {
