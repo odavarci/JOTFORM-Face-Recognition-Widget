@@ -32,7 +32,7 @@ function Video(props) {
 
   jotform.subscribe("ready", (formId, value) => {
 
-    widgetFormID = formId;
+    widgetFormID = formId.formID;
     console.log(widgetFormID);
 
     let submissions = getResponses();
