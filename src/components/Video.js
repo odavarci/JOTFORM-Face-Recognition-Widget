@@ -11,9 +11,11 @@ let widgetFormID;
 
 function Video(props) {
 
-  var url = (window.location != window.parent.location)
-            ? document.referrer
-            : document.location.href;
+  // var url = (window.location != window.parent.location)
+  //           ? document.referrer
+  //           : document.location.href;
+
+  var url = document.referrer;
 
   console.log(url);
 
