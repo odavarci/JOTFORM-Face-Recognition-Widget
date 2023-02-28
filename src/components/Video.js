@@ -21,7 +21,7 @@ function Video(props) {
 
   //let url = document.location.href;
 
-  console.log(window.parent.location.href);
+  console.log(window.parent);
   console.log(window.location.href);
   console.log(document.location.ancestorOrigins[0]);
 
