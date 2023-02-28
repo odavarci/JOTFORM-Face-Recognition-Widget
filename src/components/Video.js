@@ -29,14 +29,14 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
-    widgetFormID = jotform.formID;
-    console.log(widgetFormID);
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
   });
+  widgetFormID = jotform.formID;
+  console.log(widgetFormID);
 
   useEffect(() => {
     const loadModels = async () => {
