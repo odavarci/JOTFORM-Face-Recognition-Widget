@@ -5,7 +5,6 @@ import Wrapper from './Helper/Wrapper';
 
 let jotform, jotformAPI;
 let faceArchiveSubmissions;
-let basicElementDemoID = '230572712-727052';
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone'];
 let widgetFormID;
 
@@ -34,12 +33,14 @@ function Video(props) {
 
     widgetFormID = formId.formID;
     console.log(widgetFormID);
+    getDataBaseFormID();
+    setWidgetLoaded(true);
 
-    let submissions = getResponses();
-    submissions.then(function(response){
-      faceArchiveSubmissions = response;
-      setWidgetLoaded(true);  
-    });
+    // let submissions = getResponses();
+    // submissions.then(function(response){
+    //   faceArchiveSubmissions = response;
+    //   setWidgetLoaded(true);  
+    // });
   });
   
   useEffect(() => {
@@ -56,6 +57,13 @@ function Video(props) {
     }
     loadModels();
   }, []);
+
+  const getDataBaseFormID = () => {
+    let response = getSubmissions(widgetFormID);
+    response.then((response) => {
+      console.log(response);
+    });
+  }
 
   const startVideo = () => {
     setCaptureVideo(true);
@@ -115,9 +123,9 @@ function Video(props) {
     setCaptureVideo(false);
   }
 
-  const getResponses = () => {
+  const getSubmissions = (id) => {
     return new Promise(function(resolve, reject){
-        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
+        axios.get('https://api.jotform.com/form/' + id + '/submissions?apiKey=' + apiKey)
         .then(function(response){
             let result = response.data.content.filter( (item) => {
                 return item.status !== 'DELETED';
@@ -127,13 +135,6 @@ function Video(props) {
         .catch(function(error){
             reject("Submission fetch error!");
         });
-    });
-  }
-  
-  const logResponses = () => {
-    let result = getResponses();
-    result.then(function(response){
-      console.log(response);
     });
   }
 
