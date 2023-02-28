@@ -30,7 +30,6 @@ function Video(props) {
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
     console.log(jotform);
-    console.log(jotform.formID);
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
@@ -191,6 +190,7 @@ function Video(props) {
         value: name + ' ' + surname
       }]
     );
+    console.log(jotform.formID);
   }
 
   const creteNewFaceSubmission = () => {
