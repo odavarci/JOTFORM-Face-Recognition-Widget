@@ -11,25 +11,6 @@ let widgetFormID;
 
 function Video(props) {
 
-  const getParentOrigin = ()  => {
-    const locationAreDisctint = (window.location !== window.parent.location);
-    const parentOrigin = ((locationAreDisctint ? document.referrer : document.location) || "").toString();
-  
-    if (parentOrigin) {
-      return new URL(parentOrigin).origin;
-    }
-  
-    const currentLocation = document.location;
-  
-    if (currentLocation.ancestorOrigins && currentLocation.ancestorOrigins.length) {
-      return currentLocation.ancestorOrigins[0];
-    }
-  
-    return "";
-  }
-
-  console.log(getParentOrigin());
-
   let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
@@ -49,8 +30,11 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  jotform.subscribe("ready", () => {
-    console.log(jotform);
+  jotform.subscribe("ready", (formId) => {
+
+    widgetFormID = formID;
+    console.log(widgetFormID);
+
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
