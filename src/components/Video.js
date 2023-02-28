@@ -37,8 +37,9 @@ function Video(props) {
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
-    console.log("Widget: ", jotform);
-    console.log("API:", jotformAPI);
+    // console.log("Widget: ", jotform);
+    // console.log("API:", jotformAPI);
+    console.log(jotform.getFormTrackerID());
   });
   
   useEffect(() => {
