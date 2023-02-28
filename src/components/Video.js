@@ -21,7 +21,9 @@ function Video(props) {
 
   //let url = document.location.href;
 
-  console.log(url);
+  console.log(window.parent.location.href);
+  console.log(window.location.href);
+  console.log(document.location.ancestorOrigins[0]);
 
   let formID = props.formID;
   let apiKey = props.apiKey;
