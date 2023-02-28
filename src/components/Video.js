@@ -15,11 +15,11 @@ function Video(props) {
   //           ? document.referrer
   //           : document.location.href;
 
-  //var url = document.referrer;
+  var url = document.referrer;
 
   //let url = document.location.ancestorOrigins[0];
 
-  let url = document.location.href;
+  //let url = document.location.href;
 
   console.log(url);
 
