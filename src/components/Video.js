@@ -35,9 +35,12 @@ function Video(props) {
       setWidgetLoaded(true);  
     });
   });
-  widgetFormID = jotform.formID;
-  console.log(widgetFormID);
-
+  
+  if(widgetLoaded) {
+    widgetFormID = jotform.formID;
+    console.log(widgetFormID);
+  }
+  
   useEffect(() => {
     const loadModels = async () => {
       const MODEL_URL = process.env.PUBLIC_URL + '/models';
