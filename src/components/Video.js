@@ -30,9 +30,9 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  jotform.subscribe("ready", (formId) => {
+  jotform.subscribe("ready", (formId, value) => {
 
-    widgetFormID = formID;
+    widgetFormID = formId;
     console.log(widgetFormID);
 
     let submissions = getResponses();
