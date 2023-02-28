@@ -3,11 +3,15 @@ import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
-let jotform, jotformAPI;
-let faceArchiveSubmissions;
-const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone'];
-let widgetFormID;
-let formDatabaseID = '230581075716052';
+let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
+let widgetFormID; //Form that user interacts right now
+let widgetDatabaseFormID; //Form that stores the face and other infos of widgetFormID
+
+let jotform, jotformAPI; //Objects for managing jotform stuff
+let faceArchiveSubmissions; //Stores the captured faces.
+const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
+
+
 
 function Video(props) {
 
@@ -25,23 +29,20 @@ function Video(props) {
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
   const [isRecognized, setIsRecognized] = React.useState(null);
 
+  //Video properties
   const videoRef = React.useRef();
   const videoHeight = 480;
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  jotform.subscribe("ready", (formId, value) => {
-
-    widgetFormID = formId.formID;
-    getDataBaseFormID();
-    setWidgetLoaded(true);
-
-    // let submissions = getResponses();
-    // submissions.then(function(response){
-    //   faceArchiveSubmissions = response;
-    //   setWidgetLoaded(true);  
-    // });
-  });
+  if(!widgetLoaded) {
+    jotform.subscribe("ready", (response) => {
+      widgetFormID = response.formID;
+      console.log(widgetFormID);
+      getDataBaseFormID();
+      setWidgetLoaded(true);
+    });
+  }
   
   useEffect(() => {
     const loadModels = async () => {
@@ -62,8 +63,22 @@ function Video(props) {
     let response = getSubmissions(formDatabaseID);
     response.then((response) => {
       for(let i = 0; i < response.length; i++) {
-        console.log(response[i].answers[4].answer);
+        if(response[i].answers[4].answer === widgetFormID) {
+          widgetDatabaseFormID = response[i].answers[5].answer; //This form used before
+          return;
+        }
       }
+
+    });
+  }
+
+  const createNewDatabaseForm = (formID) => {
+    axios.post('https://api.jotform.com/form/' + )
+    .then(function(response){
+      console.log("Submit response", response);
+    })
+    .catch(function(error){
+      console.log(error);
     });
   }
 
@@ -159,7 +174,7 @@ function Video(props) {
     })
     .catch(function(error){
       console.log(error);
-    })
+    });
   }
 
   const calculateSimilarityOfFaces = (face1, face2) => {
@@ -224,6 +239,8 @@ function Video(props) {
       );
     }
   }
+
+  getQID();
 
   return (
     <Wrapper>
