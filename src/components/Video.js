@@ -61,7 +61,9 @@ function Video(props) {
   const getDataBaseFormID = () => {
     let response = getSubmissions(formDatabaseID);
     response.then((response) => {
-      console.log(response);
+      for(let i = 0; i < response.length; i++) {
+        console.log(response[i].answers[4].answer);
+      }
     });
   }
 
