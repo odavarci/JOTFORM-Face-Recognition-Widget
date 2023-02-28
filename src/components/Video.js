@@ -29,14 +29,13 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
-    //widgetFormID = jotform.formId();
-    //console.log(widgetFormID);
+    widgetFormID = jotform.formID;
+    console.log(widgetFormID);
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
-    console.log(jotform);
   });
 
   useEffect(() => {
