@@ -5,7 +5,9 @@ import Wrapper from './Helper/Wrapper';
 
 let jotform;
 let faceArchiveSubmissions;
-let basicElementDemoID = '230572712727052';
+let basicElementDemoID = '230572712-727052';
+const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone'];
+let widgetFormID;
 
 function Video(props) {
 
@@ -27,6 +29,8 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
+    widgetFormID = jotform.formID();
+    console.log(widgetFormID);
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
