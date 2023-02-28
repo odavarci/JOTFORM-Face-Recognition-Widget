@@ -7,6 +7,7 @@ let jotform, jotformAPI;
 let faceArchiveSubmissions;
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone'];
 let widgetFormID;
+let formDatabaseID = '230581075716052';
 
 function Video(props) {
 
@@ -32,7 +33,7 @@ function Video(props) {
   jotform.subscribe("ready", (formId, value) => {
 
     widgetFormID = formId.formID;
-    console.log(widgetFormID);
+    console.log(formDatabaseID);
     getDataBaseFormID();
     setWidgetLoaded(true);
 
