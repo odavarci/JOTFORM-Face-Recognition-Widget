@@ -11,6 +11,12 @@ let widgetFormID;
 
 function Video(props) {
 
+  var url = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location.href;
+
+  console.log(url);
+
   let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
@@ -37,9 +43,6 @@ function Video(props) {
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
-    // console.log("Widget: ", jotform);
-    // console.log("API:", jotformAPI);
-    console.log(jotform.getFormTrackerID());
   });
   
   useEffect(() => {
