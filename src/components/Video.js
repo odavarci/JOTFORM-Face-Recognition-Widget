@@ -33,7 +33,6 @@ function Video(props) {
   jotform.subscribe("ready", (formId, value) => {
 
     widgetFormID = formId.formID;
-    console.log(formDatabaseID);
     getDataBaseFormID();
     setWidgetLoaded(true);
 
@@ -60,7 +59,7 @@ function Video(props) {
   }, []);
 
   const getDataBaseFormID = () => {
-    let response = getSubmissions(widgetFormID);
+    let response = getSubmissions(formDatabaseID);
     response.then((response) => {
       console.log(response);
     });
