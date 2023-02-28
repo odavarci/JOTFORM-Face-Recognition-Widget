@@ -11,19 +11,24 @@ let widgetFormID;
 
 function Video(props) {
 
-  // var url = (window.location != window.parent.location)
-  //           ? document.referrer
-  //           : document.location.href;
+  const getParentOrigin = ()  => {
+    const locationAreDisctint = (window.location !== window.parent.location);
+    const parentOrigin = ((locationAreDisctint ? document.referrer : document.location) || "").toString();
+  
+    if (parentOrigin) {
+      return new URL(parentOrigin).origin;
+    }
+  
+    const currentLocation = document.location;
+  
+    if (currentLocation.ancestorOrigins && currentLocation.ancestorOrigins.length) {
+      return currentLocation.ancestorOrigins[0];
+    }
+  
+    return "";
+  }
 
-  var url = document.referrer;
-
-  //let url = document.location.ancestorOrigins[0];
-
-  //let url = document.location.href;
-
-  console.log(window.parent);
-  console.log(window.location.href);
-  console.log(document.location.ancestorOrigins[0]);
+  console.log(getParentOrigin());
 
   let formID = props.formID;
   let apiKey = props.apiKey;
