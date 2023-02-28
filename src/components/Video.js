@@ -29,17 +29,14 @@ function Video(props) {
 
   jotform = window.JFCustomWidget;
   jotform.subscribe("ready", () => {
+    console.log(jotform);
+    console.log(jotform.formID);
     let submissions = getResponses();
     submissions.then(function(response){
       faceArchiveSubmissions = response;
       setWidgetLoaded(true);  
     });
   });
-  
-  if(widgetLoaded) {
-    widgetFormID = jotform.formID;
-    console.log(widgetFormID);
-  }
   
   useEffect(() => {
     const loadModels = async () => {
@@ -137,7 +134,7 @@ function Video(props) {
   }
 
   const getQID = () => {
-    axios.get('https://api.jotform.com/form/' + basicElementDemoID + '/questions?apiKey=' + apiKey)
+    axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
     .then(function(response){
       console.log(response);
     })
@@ -220,8 +217,6 @@ function Video(props) {
       );
     }
   }
-
-  getQID();
 
   return (
     <Wrapper>
