@@ -5,13 +5,13 @@ import Wrapper from './Helper/Wrapper';
 
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
-let widgetDatabaseFormID = null; //Form that stores the face and other infos of widgetFormID
+let QID;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
 let faceArchiveSubmissions; //Stores the captured faces.
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
 
-
+const basicID = '230572712727052';
 
 function Video(props) {
 
@@ -28,6 +28,7 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
   const [isRecognized, setIsRecognized] = React.useState(null);
+  const [widgetDatabaseFormID, setWidgetDatabaseFormID] = React.useState(null);
 
   //Video properties
   const videoRef = React.useRef();
@@ -38,8 +39,8 @@ function Video(props) {
   if(!widgetLoaded) {
     jotform.subscribe("ready", (response) => {
       widgetFormID = response.formID;
-      console.log(widgetFormID);
-      getDataBaseFormID();
+      getQID(widgetFormID);
+      getWidgetDatabaseFormID();
       setWidgetLoaded(true);
     });
   }
@@ -59,34 +60,50 @@ function Video(props) {
     loadModels();
   }, []);
 
-  const getDataBaseFormID = () => {
+  const getWidgetDatabaseFormID = () => {
     let response = getSubmissions(formDatabaseID);
     response.then((response) => {
       for(let i = 0; i < response.length; i++) {
         if(response[i].answers[4].answer === widgetFormID) {
-          widgetDatabaseFormID = response[i].answers[5].answer; //This form used before
+          console.log("Database ID:", response[i].answers[5].answer);
+          setWidgetDatabaseFormID(response[i].answers[5].answer);
           return;
         }
       }
+      getWidgetDatabaseFormID("-1");
     });
   }
 
   const createNewDatabaseForm = (formID) => {
-    let formJSON = {
-      "questions[1][type]": "control_fullname",
-      "questions[1][text]": "text",
-      "questions[1][order]": "order",
-      "questions[1][name]": "name",
-      "properties[title]": "fromScript"
-    };
 
-    axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formJSON)
+    let formData = new FormData();
+    formData.append('questions[1][type]', 'control_head');
+    formData.append('questions[1][text]', 'text');
+    formData.append('questions[1][order]', '1');
+    formData.append('questions[1][name]', 'name');
+    formData.append('properties[title]', 'TITLE');
+
+    axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
     .then(function(response){
       console.log("Create From Response:", response);
     })
     .catch(function(error){
       console.log(error);
     });
+  }
+
+  const getSavedQID = (id) => {
+    axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
+    .then(function(response) {
+      QID = response.data.content.filter( element => basicElementTypes.includes(element.type) );
+    })
+  }
+
+  const getQID = (id) => {
+    axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
+    .then(function(response){
+      console.log(response);
+    })
   }
 
   const startVideo = () => {
@@ -162,13 +179,6 @@ function Video(props) {
     });
   }
 
-  const getQID = () => {
-    axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
-    .then(function(response){
-      console.log(response);
-    })
-  }
-
   const submitFace = (face, name, surname) => {
     let formData = new FormData();
     formData.append('submission[3]', face);
@@ -223,11 +233,16 @@ function Video(props) {
   }
 
   const creteNewFaceSubmission = () => {
-    jotform.getFieldsValueById( ['3'], (response) => {
-        let input = response.data[0].value.split(" ");
-        submitFace(capturedFace, input[0], input[1]);
-        console.log("Submission sent");
-    });
+    let arr = [];
+    for(let i = 0; i < QID.length; i++) {
+      arr.push(QID.qid);
+    }
+    jotform.getFieldsValueById( arr, (response) => {
+        // let input = response.data[0].value.split(" ");
+        // submitFace(capturedFace, input[0], input[1]);
+        // console.log("Submission sent");
+        console.log(response);
+      });
   }
 
   const returnFaceInfo = () => {
@@ -247,8 +262,7 @@ function Video(props) {
     }
   }
 
-  getQID();
-  createNewDatabaseForm("");
+  getQID(basicID);
 
   return (
     <Wrapper>
