@@ -39,7 +39,7 @@ function Video(props) {
   if(!widgetLoaded) {
     jotform.subscribe("ready", (response) => {
       widgetFormID = response.formID;
-      getQID(widgetFormID);
+      getSavedQID(widgetFormID);
       getWidgetDatabaseFormID();
       setWidgetLoaded(true);
     });
