@@ -5,10 +5,11 @@ import Wrapper from './Helper/Wrapper';
 
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
+let widgetDatabaseFormID; //Form that stores the database
 let QID;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
-let faceArchiveSubmissions; //Stores the captured faces.
+let faceArchiveSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
 
 const basicID = '230572712727052';
@@ -28,7 +29,6 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = React.useState(null);
   const [widgetLoaded, setWidgetLoaded] = React.useState(false);
   const [isRecognized, setIsRecognized] = React.useState(null);
-  const [widgetDatabaseFormID, setWidgetDatabaseFormID] = React.useState(null);
 
   //Video properties
   const videoRef = React.useRef();
@@ -39,8 +39,15 @@ function Video(props) {
   if(!widgetLoaded) {
     jotform.subscribe("ready", (response) => {
       widgetFormID = response.formID;
-      getSavedQID(widgetFormID);
-      getWidgetDatabaseFormID();
+      getWidgetDatabaseFormID().then( (response) => {
+        widgetDatabaseFormID = response;
+        getSavedQID(widgetFormID).then( (response) => {
+          QID = response;
+          getSubmissions(widgetDatabaseFormID).then( (response) => {
+            faceArchiveSubmissions = response;
+          });
+        });
+      });
       setWidgetLoaded(true);
     });
   }
@@ -60,17 +67,33 @@ function Video(props) {
     loadModels();
   }, []);
 
+  const getSubmissions = (id) => {
+    return new Promise(function(resolve, reject){
+        axios.get('https://api.jotform.com/form/' + id + '/submissions?apiKey=' + apiKey)
+        .then(function(response){
+            let result = response.data.content.filter( (item) => {
+                return item.status !== 'DELETED';
+            });
+            resolve(result);
+        })
+        .catch(function(error){
+            reject("Submission fetch error!");
+        });
+    });
+  }
+
   const getWidgetDatabaseFormID = () => {
-    let response = getSubmissions(formDatabaseID);
-    response.then((response) => {
-      for(let i = 0; i < response.length; i++) {
-        if(response[i].answers[4].answer === widgetFormID) {
-          console.log("Database ID:", response[i].answers[5].answer);
-          setWidgetDatabaseFormID(response[i].answers[5].answer);
-          return;
+    return new Promise(function(resolve, reject){
+      let response = getSubmissions(formDatabaseID);
+      response.then((response) => {
+        for(let i = 0; i < response.length; i++) {
+          if(response[i].answers[4].answer === widgetFormID) {
+            console.log("Database ID:", response[i].answers[5].answer);
+            resolve(response[i].answers[5].answer);
+          }
         }
-      }
-      getWidgetDatabaseFormID("-1");
+        reject('-1');
+      });
     });
   }
 
@@ -93,10 +116,13 @@ function Video(props) {
   }
 
   const getSavedQID = (id) => {
-    axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
-    .then(function(response) {
-      QID = response.data.content.filter( element => basicElementTypes.includes(element.type) );
-    })
+    return new Promise(function(resolve, reject){
+      axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
+      .then(function(response) {
+        let toReturn = response.data.content.filter( element => basicElementTypes.includes(element.type) );
+        resolve(toReturn);
+      });
+    });
   }
 
   const getQID = (id) => {
@@ -164,35 +190,20 @@ function Video(props) {
     setCaptureVideo(false);
   }
 
-  const getSubmissions = (id) => {
-    return new Promise(function(resolve, reject){
-        axios.get('https://api.jotform.com/form/' + id + '/submissions?apiKey=' + apiKey)
-        .then(function(response){
-            let result = response.data.content.filter( (item) => {
-                return item.status !== 'DELETED';
-            });
-            resolve(result);
-        })
-        .catch(function(error){
-            reject("Submission fetch error!");
-        });
-    });
-  }
+  // const submitFace = (face, name, surname) => {
+  //   let formData = new FormData();
+  //   formData.append('submission[3]', face);
+  //   formData.append('submission[6_first]', name);
+  //   formData.append('submission[6_last]', surname);
 
-  const submitFace = (face, name, surname) => {
-    let formData = new FormData();
-    formData.append('submission[3]', face);
-    formData.append('submission[6_first]', name);
-    formData.append('submission[6_last]', surname);
-
-    axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
-    .then(function(response){
-      console.log("Submit response", response);
-    })
-    .catch(function(error){
-      console.log(error);
-    });
-  }
+  //   axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
+  //   .then(function(response){
+  //     console.log("Submit response", response);
+  //   })
+  //   .catch(function(error){
+  //     console.log(error);
+  //   });
+  // }
 
   const calculateSimilarityOfFaces = (face1, face2) => {
     let distance = 0;
@@ -261,8 +272,6 @@ function Video(props) {
       );
     }
   }
-
-  getQID(basicID);
 
   return (
     <Wrapper>
