@@ -5,7 +5,7 @@ import Wrapper from './Helper/Wrapper';
 
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
-let widgetDatabaseFormID; //Form that stores the face and other infos of widgetFormID
+let widgetDatabaseFormID = null; //Form that stores the face and other infos of widgetFormID
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
 let faceArchiveSubmissions; //Stores the captured faces.
@@ -68,14 +68,21 @@ function Video(props) {
           return;
         }
       }
-
     });
   }
 
   const createNewDatabaseForm = (formID) => {
-    axios.post('https://api.jotform.com/form/' + )
+    let formJSON = {
+      "questions[1][type]": "control_fullname",
+      "questions[1][text]": "text",
+      "questions[1][order]": "order",
+      "questions[1][name]": "name",
+      "properties[title]": "fromScript"
+    };
+
+    axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formJSON)
     .then(function(response){
-      console.log("Submit response", response);
+      console.log("Create From Response:", response);
     })
     .catch(function(error){
       console.log(error);
@@ -241,6 +248,7 @@ function Video(props) {
   }
 
   getQID();
+  createNewDatabaseForm("");
 
   return (
     <Wrapper>
