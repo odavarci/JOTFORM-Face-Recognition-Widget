@@ -264,11 +264,13 @@ function Video(props) {
           });
         });
       });
-      console.log("widget ID:", widgetFormID);
-      console.log("widget database ID:", widgetDatabaseFormID);
-      console.log("widget questions:", widgetQuestions);
       setWidgetLoaded(true);
     });
+  }
+  else{
+    console.log("widget ID:", widgetFormID);
+    console.log("widget database ID:", widgetDatabaseFormID);
+    console.log("widget questions:", widgetQuestions);
   }
 
   // return (
