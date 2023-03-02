@@ -104,8 +104,8 @@ function Video(props) {
       .then(function(response) {
         let arr = response.data.content;
         let toReturn = [];
-        console.log(Object.keys(arr).length);
-        for(let i = 0; i< arr.length; i++) {
+        let length = Object.keys(arr).length;
+        for(let i = 0; i< length; i++) {
           console.log(arr[i].type);
           if(basicElementTypes.includes(arr[i].type)){
             console.log("in");
