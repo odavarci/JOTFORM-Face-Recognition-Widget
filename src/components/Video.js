@@ -269,8 +269,6 @@ function Video(props) {
     }
   }
 
-  createNewDatabaseForm();
-
   return (
     <Wrapper>
         {widgetLoaded ?
