@@ -35,25 +35,6 @@ function Video(props) {
   const videoHeight = 480;
   const videoWidth = 640;
   const canvasRef = React.useRef();
-
-  if(!widgetLoaded) {
-    jotform.subscribe("ready", (response) => {
-      widgetFormID = response.formID;
-      getWidgetDatabaseFormID().then( (response) => {
-        widgetDatabaseFormID = response;
-        getSavedQuestions(widgetFormID).then( (response) => {
-          widgetQuestions = response;
-          getSubmissions(widgetDatabaseFormID).then( (response) => {
-            faceArchiveSubmissions = response;
-          });
-        });
-      });
-      console.log("widget ID:", widgetFormID);
-      console.log("widget database ID:", widgetDatabaseFormID);
-      console.log("widget questions:", widgetQuestions);
-      setWidgetLoaded(true);
-    });
-  }
   
   useEffect(() => {
     const loadModels = async () => {
@@ -269,46 +250,74 @@ function Video(props) {
     }
   }
 
-  return (
+  //Initilization
+  if(!widgetLoaded) {
+    console.log("WORKED!");
+    jotform.subscribe("ready", (response) => {
+      widgetFormID = response.formID;
+      getWidgetDatabaseFormID().then( (response) => {
+        widgetDatabaseFormID = response;
+        getSavedQuestions(widgetFormID).then( (response) => {
+          widgetQuestions = response;
+          getSubmissions(widgetDatabaseFormID).then( (response) => {
+            faceArchiveSubmissions = response;
+          });
+        });
+      });
+      console.log("widget ID:", widgetFormID);
+      console.log("widget database ID:", widgetDatabaseFormID);
+      console.log("widget questions:", widgetQuestions);
+      setWidgetLoaded(true);
+    });
+  }
+
+  // return (
+  //   <Wrapper>
+  //       {widgetLoaded ?
+  //           <Wrapper>
+  //           {
+  //             (recognizedProfile === null && isRecognized === null) ? 
+  //               <div>
+  //                 <div>
+  //                   {
+  //                     !captureVideo && modelsLoaded ?
+  //                       startVideo()
+  //                       :
+  //                       <></>
+  //                   }
+  //                 </div>
+  //                 {
+  //                   captureVideo ?
+  //                     modelsLoaded ?
+  //                       <div>
+  //                         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+  //                           <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+  //                           <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+  //                         </div>
+  //                       </div>
+  //                       :
+  //                       <div>loading...</div>
+  //                     :
+  //                     <>
+  //                     </>
+  //                 }
+  //               </div>
+  //               :
+  //               returnFaceInfo()
+  //           }
+  //         </Wrapper>
+  //         :
+  //         <h2>Widget Loading...</h2>
+  //       }
+  //   </Wrapper>
+  // );
+
+  return(
     <Wrapper>
-        {widgetLoaded ?
-            <Wrapper>
-            {
-              (recognizedProfile === null && isRecognized === null) ? 
-                <div>
-                  <div>
-                    {
-                      !captureVideo && modelsLoaded ?
-                        startVideo()
-                        :
-                        <></>
-                    }
-                  </div>
-                  {
-                    captureVideo ?
-                      modelsLoaded ?
-                        <div>
-                          <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                            <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                            <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                          </div>
-                        </div>
-                        :
-                        <div>loading...</div>
-                      :
-                      <>
-                      </>
-                  }
-                </div>
-                :
-                returnFaceInfo()
-            }
-          </Wrapper>
-          :
-          <h2>Widget Loading...</h2>
-        }
+      <h1>Hello World!</h1>
     </Wrapper>
   );
+
 }
 
 export default Video;
