@@ -6,7 +6,7 @@ import Wrapper from './Helper/Wrapper';
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
-let QID;
+let widgetQuestions;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
 let faceArchiveSubmissions; //Stores the submissions in the database
@@ -41,13 +41,16 @@ function Video(props) {
       widgetFormID = response.formID;
       getWidgetDatabaseFormID().then( (response) => {
         widgetDatabaseFormID = response;
-        getSavedQID(widgetFormID).then( (response) => {
-          QID = response;
+        getSavedQuestions(widgetFormID).then( (response) => {
+          widgetQuestions = response;
           getSubmissions(widgetDatabaseFormID).then( (response) => {
             faceArchiveSubmissions = response;
           });
         });
       });
+      console.log("widget ID:", widgetFormID);
+      console.log("widget database ID:", widgetDatabaseFormID);
+      console.log("widget questions:", widgetQuestions);
       setWidgetLoaded(true);
     });
   }
@@ -102,7 +105,7 @@ function Video(props) {
     let formData = new FormData();
     formData.append('questions[1][type]', 'control_head');
     formData.append('questions[1][text]', 'text');
-    formData.append('questions[1][order]', '1');
+    formData.append('questions[1][order]', '0');
     formData.append('questions[1][name]', 'name');
     formData.append('properties[title]', 'TITLE');
 
@@ -115,7 +118,7 @@ function Video(props) {
     });
   }
 
-  const getSavedQID = (id) => {
+  const getSavedQuestions = (id) => {
     return new Promise(function(resolve, reject){
       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
       .then(function(response) {
@@ -123,13 +126,6 @@ function Video(props) {
         resolve(toReturn);
       });
     });
-  }
-
-  const getQID = (id) => {
-    axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
-    .then(function(response){
-      console.log(response);
-    })
   }
 
   const startVideo = () => {
@@ -272,6 +268,8 @@ function Video(props) {
       );
     }
   }
+
+  createNewDatabaseForm();
 
   return (
     <Wrapper>
