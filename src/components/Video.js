@@ -241,8 +241,8 @@ function Video(props) {
 
   const creteNewFaceSubmission = () => {
     let arr = [];
-    for(let i = 0; i < QID.length; i++) {
-      arr.push(QID.qid);
+    for(let i = 0; i < widgetQuestions.length; i++) {
+      arr.push(widgetQuestions.qid);
     }
     jotform.getFieldsValueById( arr, (response) => {
         // let input = response.data[0].value.split(" ");
