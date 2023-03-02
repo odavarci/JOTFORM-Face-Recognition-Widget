@@ -105,7 +105,9 @@ function Video(props) {
         let arr = response.data.content;
         let toReturn = [];
         for(let i = 0; i< arr.length; i++) {
+          console.log(arr[i].type);
           if(basicElementTypes.includes(arr[i].type)){
+            console.log("in");
             toReturn.push(arr[i]);
           }
         }
@@ -266,7 +268,6 @@ function Video(props) {
         let promiseQuestions = getSavedQuestions(widgetFormID);
         promiseQuestions.then( (response) => {
           widgetQuestions = response;
-          console.log("widget questions in:", widgetQuestions);
           let promiseSubmission = getSubmissions(widgetDatabaseFormID);
             promiseSubmission.then( (response) => {
             faceArchiveSubmissions = response;
@@ -276,12 +277,12 @@ function Video(props) {
       });
     });
   }
-  else{
-    console.log("widget ID:", widgetFormID);
-    console.log("widget database ID:", widgetDatabaseFormID);
-    console.log("widget questions:", widgetQuestions);
-    console.log("Submissions:", faceArchiveSubmissions);
-  }
+  // else{
+  //   console.log("widget ID:", widgetFormID);
+  //   console.log("widget database ID:", widgetDatabaseFormID);
+  //   console.log("widget questions:", widgetQuestions);
+  //   console.log("Submissions:", faceArchiveSubmissions);
+  // }
 
   // return (
   //   <Wrapper>
