@@ -72,7 +72,6 @@ function Video(props) {
       response.then((response) => {
         for(let i = 0; i < response.length; i++) {
           if(response[i].answers[4].answer === widgetFormID) {
-            console.log("Database ID:", response[i].answers[5].answer);
             resolve(response[i].answers[5].answer);
           }
         }
@@ -255,16 +254,21 @@ function Video(props) {
     console.log("WORKED!");
     jotform.subscribe("ready", (response) => {
       widgetFormID = response.formID;
-      getWidgetDatabaseFormID().then( (response) => {
+      let promiseDatabase = getWidgetDatabaseFormID();
+      promiseDatabase.then( (response) => {
         widgetDatabaseFormID = response;
-        getSavedQuestions(widgetFormID).then( (response) => {
+        console.log("widget database ID in:", widgetDatabaseFormID);
+        let promiseQuestions = getSavedQuestions(widgetFormID);
+        promiseQuestions.then( (response) => {
           widgetQuestions = response;
-          getSubmissions(widgetDatabaseFormID).then( (response) => {
+          console.log("widget questions in:", widgetQuestions);
+          let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+            promiseSubmission.then( (response) => {
             faceArchiveSubmissions = response;
+            console.log("Submissions:", faceArchiveSubmissions);
           });
         });
       });
-      setWidgetLoaded(true);
     });
   }
   else{
