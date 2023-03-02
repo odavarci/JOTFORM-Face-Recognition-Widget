@@ -102,8 +102,10 @@ function Video(props) {
     return new Promise(function(resolve, reject){
       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
       .then(function(response) {
-        let toReturn = response.data.content.filter( element => basicElementTypes.includes(element.type) );
-        resolve(toReturn);
+        console.log(response);
+        resolve("1");
+        //let toReturn = response.data.content.filter( element => basicElementTypes.includes(element.type) );
+        //resolve(toReturn);
       });
     });
   }
