@@ -104,7 +104,8 @@ function Video(props) {
       .then(function(response) {
         //console.log(response.data.content[3]);
         //resolve("1");
-        let toReturn = response.data.content.filter( element => basicElementTypes.includes(element.type) );
+        let arr = response.data.content
+        let toReturn = arr.filter( element => basicElementTypes.includes(element.type) );
         resolve(toReturn);
       });
     });
