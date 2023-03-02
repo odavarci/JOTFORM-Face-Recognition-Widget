@@ -257,7 +257,6 @@ function Video(props) {
 
   //Initilization
   if(!widgetLoaded) {
-    console.log("WORKED!");
     jotform.subscribe("ready", (response) => {
       widgetFormID = response.formID;
       let promiseDatabase = getWidgetDatabaseFormID();
@@ -271,7 +270,7 @@ function Video(props) {
           let promiseSubmission = getSubmissions(widgetDatabaseFormID);
             promiseSubmission.then( (response) => {
             faceArchiveSubmissions = response;
-            console.log("Submissions:", faceArchiveSubmissions);
+            setWidgetLoaded(true);
           });
         });
       });
@@ -281,6 +280,7 @@ function Video(props) {
     console.log("widget ID:", widgetFormID);
     console.log("widget database ID:", widgetDatabaseFormID);
     console.log("widget questions:", widgetQuestions);
+    console.log("Submissions:", faceArchiveSubmissions);
   }
 
   // return (
