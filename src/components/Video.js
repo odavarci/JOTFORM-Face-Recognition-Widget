@@ -102,10 +102,13 @@ function Video(props) {
     return new Promise(function(resolve, reject){
       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
       .then(function(response) {
-        //console.log(response.data.content[3]);
-        //resolve("1");
-        let arr = response.data.content
-        let toReturn = arr.filter( element => basicElementTypes.includes(element.type) );
+        let arr = response.data.content;
+        let toReturn = [];
+        for(let i = 0; i< arr.length; i++) {
+          if(basicElementTypes.includes(arr[i].type)){
+            toReturn.push(arr[i]);
+          }
+        }
         resolve(toReturn);
       });
     });
