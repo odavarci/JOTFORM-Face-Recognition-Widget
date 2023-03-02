@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { checkPrimeSync } from 'crypto';
 import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
@@ -105,6 +106,8 @@ function Video(props) {
         let arr = response.data.content;
         let toReturn = [];
         let length = Object.keys(arr).length;
+        console.log(arr);
+        console.log(arr[4]);
         for(let i = 0; i < length; i++) {
           console.log(arr[i]);
           if(basicElementTypes.includes(arr[i].type)){
