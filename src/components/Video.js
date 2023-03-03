@@ -76,27 +76,25 @@ function Video(props) {
           }
         }
         console.log("new form created");
-        createNewDatabaseForm(widgetFormID);
-        reject('-1');
+        let promise = createNewDatabaseForm(widgetFormID);
+        promise.then((response) => {
+          resolve(response);
+        });
       });
     });
   }
 
   const createNewDatabaseForm = (formID) => {
-
-    let formData = new FormData();
-    formData.append('questions[1][type]', 'control_head');
-    formData.append('questions[1][text]', 'text');
-    formData.append('questions[1][order]', '');
-    formData.append('questions[1][name]', 'name');
-    formData.append('properties[title]', 'TITLE');
-
-    axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
-    .then(function(response){
-      console.log("Create From Response:", response);
-    })
-    .catch(function(error){
-      console.log(error);
+    return new Promise(function(resolve, reject){
+      let formData = new FormData();
+      formData.append('properties[title]', 'TITLE');
+      axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
+      .then(function(response){
+        resolve(response.data.content.id);
+      })
+      .catch(function(error){
+        reject(-1);
+      });
     });
   }
 
