@@ -104,20 +104,11 @@ function Video(props) {
       .then(function(response) {
         let arr = response.data.content;
         let toReturn = [];
-        let length = Object.keys(arr).length;
-        console.log(arr);
-        console.log(length);
-        // for(let i = 0; i < length; i++) {
-        //   console.log("ith element: ", arr[i]);
-        //   if(basicElementTypes.includes(arr[i].type)){
-        //     console.log("in");
-        //     toReturn.push(arr[i]);
-        //   }
-        // }
 
         for(let i in arr) {
-          console.log(i);
-          console.log(arr[i]);
+          if(basicElementTypes.includes(arr[i].type)) {
+            toReturn.push(arr[i]);
+          }
         }
 
         resolve(toReturn);
@@ -286,12 +277,12 @@ function Video(props) {
       });
     });
   }
-  // else{
-  //   console.log("widget ID:", widgetFormID);
-  //   console.log("widget database ID:", widgetDatabaseFormID);
-  //   console.log("widget questions:", widgetQuestions);
-  //   console.log("Submissions:", faceArchiveSubmissions);
-  // }
+  else{
+    console.log("widget ID:", widgetFormID);
+    console.log("widget database ID:", widgetDatabaseFormID);
+    console.log("widget questions:", widgetQuestions);
+    console.log("Submissions:", faceArchiveSubmissions);
+  }
 
   // return (
   //   <Wrapper>
