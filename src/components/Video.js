@@ -102,8 +102,8 @@ function Video(props) {
 
   const submitDatabaseMatch = (formID, databaseID) => {
     let formData = new FormData();
-    formData.add('submission[4]',formID);
-    formData.add('submission[5]', databaseID);
+    formData.append('submission[4]',formID);
+    formData.append('submission[5]', databaseID);
     axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
       console.log("Submitted Match response", response);
@@ -112,6 +112,21 @@ function Video(props) {
       console.log(error);
     });
   }
+
+  // const submitFace = (face, name, surname) => {
+  //   let formData = new FormData();
+  //   formData.append('submission[3]', face);
+  //   formData.append('submission[6_first]', name);
+  //   formData.append('submission[6_last]', surname);
+
+  //   axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
+  //   .then(function(response){
+  //     console.log("Submit response", response);
+  //   })
+  //   .catch(function(error){
+  //     console.log(error);
+  //   });
+  // }
 
   const getSavedQuestions = (id) => {
     return new Promise(function(resolve, reject){
@@ -189,20 +204,6 @@ function Video(props) {
     setCaptureVideo(false);
   }
 
-  // const submitFace = (face, name, surname) => {
-  //   let formData = new FormData();
-  //   formData.append('submission[3]', face);
-  //   formData.append('submission[6_first]', name);
-  //   formData.append('submission[6_last]', surname);
-
-  //   axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
-  //   .then(function(response){
-  //     console.log("Submit response", response);
-  //   })
-  //   .catch(function(error){
-  //     console.log(error);
-  //   });
-  // }
 
   const calculateSimilarityOfFaces = (face1, face2) => {
     let distance = 0;
