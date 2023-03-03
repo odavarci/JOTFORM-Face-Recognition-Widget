@@ -102,11 +102,12 @@ function Video(props) {
     return new Promise(function(resolve, reject){
       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
       .then(function(response) {
-        let arr = response.data.content;
+        let arr = JSON.parse(response.data.content);
         let toReturn = [];
         let length = Object.keys(arr).length;
         console.log(arr);
-        console.log("static 4:", arr[4]);
+        console.log(length);
+        console.log("static 4:", arr[2]);
         for(let i = 0; i < length; i++) {
           console.log("ith element: ", arr[i]);
           if(basicElementTypes.includes(arr[i].type)){
