@@ -104,13 +104,7 @@ function Video(props) {
     let formData = new FormData();
     formData.append('submission[4]',formID);
     formData.append('submission[5]', databaseID);
-    axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData)
-    .then(function(response){
-      console.log("Submitted Match response", response);
-    })
-    .catch(function(error){
-      console.log(error);
-    });
+    axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData);
   }
 
   // const submitFace = (face, name, surname) => {
@@ -273,37 +267,35 @@ function Video(props) {
     }
   }
 
-  submitDatabaseMatch("asd", "asd");
-
   //Initilization
-  // if(!widgetLoaded) {
-  //   jotform.subscribe("ready", (response) => {
-  //     //WIDGET FORM ID
-  //     widgetFormID = response.formID;
-  //     //QUESTIONS OF WIDGET FORM
-  //     let promiseQuestions = getSavedQuestions(widgetFormID);
-  //     promiseQuestions.then( (response) => {
-  //       widgetQuestions = response;
-  //       //DATABASE FORM ID
-  //       let promiseDatabase = getWidgetDatabaseFormID();
-  //       promiseDatabase.then( (response) => {
-  //         widgetDatabaseFormID = response;
-  //         //DATABSE SUBMISSIONS
-  //         let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-  //           promiseSubmission.then( (response) => {
-  //           faceArchiveSubmissions = response;
-  //           setWidgetLoaded(true);
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
-  // else {
-  //   console.log("form id:", widgetFormID);
-  //   console.log("form questions:", widgetQuestions);
-  //   console.log("database id:", widgetDatabaseFormID);
-  //   console.log("database submission:", faceArchiveSubmissions);
-  // }
+  if(!widgetLoaded) {
+    jotform.subscribe("ready", (response) => {
+      //WIDGET FORM ID
+      widgetFormID = response.formID;
+      //QUESTIONS OF WIDGET FORM
+      let promiseQuestions = getSavedQuestions(widgetFormID);
+      promiseQuestions.then( (response) => {
+        widgetQuestions = response;
+        //DATABASE FORM ID
+        let promiseDatabase = getWidgetDatabaseFormID();
+        promiseDatabase.then( (response) => {
+          widgetDatabaseFormID = response;
+          //DATABSE SUBMISSIONS
+          let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+            promiseSubmission.then( (response) => {
+            faceArchiveSubmissions = response;
+            setWidgetLoaded(true);
+          });
+        });
+      });
+    });
+  }
+  else {
+    console.log("form id:", widgetFormID);
+    console.log("form questions:", widgetQuestions);
+    console.log("database id:", widgetDatabaseFormID);
+    console.log("database submission:", faceArchiveSubmissions);
+  }
 
   // return (
   //   <Wrapper>
