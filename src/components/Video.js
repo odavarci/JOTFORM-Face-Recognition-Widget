@@ -117,6 +117,7 @@ function Video(props) {
 
         for(let i in arr) {
           console.log(i);
+          console.log(arr[i]);
         }
 
         resolve(toReturn);
