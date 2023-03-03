@@ -95,6 +95,7 @@ function Video(props) {
         resolve(response.data.content.id);
       })
       .catch(function(error){
+        console.log(error);
         reject(-1);
       });
     });
@@ -104,7 +105,10 @@ function Video(props) {
     let formData = new FormData();
     formData.append('submission[4]',formID);
     formData.append('submission[5]', databaseID);
-    axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData);
+    axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData)
+    .then((response) => {
+      console.log("match submit return", response);
+    });
   }
 
   // const submitFace = (face, name, surname) => {
