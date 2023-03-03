@@ -75,6 +75,8 @@ function Video(props) {
             resolve(response[i].answers[5].answer);
           }
         }
+        console.log("new form created");
+        createNewDatabaseForm(widgetFormID);
         reject('-1');
       });
     });
@@ -85,7 +87,7 @@ function Video(props) {
     let formData = new FormData();
     formData.append('questions[1][type]', 'control_head');
     formData.append('questions[1][text]', 'text');
-    formData.append('questions[1][order]', '0');
+    formData.append('questions[1][order]', '');
     formData.append('questions[1][name]', 'name');
     formData.append('properties[title]', 'TITLE');
 
