@@ -72,9 +72,8 @@ function Video(props) {
       submission.then((response) => {
         for(let i = 0; i < response.length; i++) {
           if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
-            console.log("found!!");
             resolve(response[i].answers[5].answer);
-            return;
+            console.log("after resolve");
           }
         }
         console.log("new form created");
@@ -84,6 +83,7 @@ function Video(props) {
           submitDatabaseMatch(widgetFormID,response);
           resolve(response);
         });
+        reject("-1");
       });
     });
   }
