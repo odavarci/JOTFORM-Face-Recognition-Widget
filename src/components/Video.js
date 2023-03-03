@@ -79,7 +79,7 @@ function Video(props) {
         let promise = createNewDatabaseForm(widgetFormID);
         promise.then((response) => {
           console.log("SUBMIT MATCH WORKED");
-          submitDatabaseMatch(response);
+          submitDatabaseMatch(widgetFormID,response);
           resolve(response);
         });
       });
@@ -102,8 +102,8 @@ function Video(props) {
 
   const submitDatabaseMatch = (formID, databaseID) => {
     let formData = new FormData();
-    formData.add('submission_4',formID);
-    formData.add('submission_5', databaseID);
+    formData.add('submission[4]',formID);
+    formData.add('submission[5]', databaseID);
     axios.post('https://api.jotform.com/form/' + formDatabaseID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
       console.log("Submitted Match response", response);
