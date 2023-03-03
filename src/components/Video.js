@@ -68,11 +68,13 @@ function Video(props) {
 
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
-      let response = getSubmissions(formDatabaseID);
-      response.then((response) => {
+      let submission = getSubmissions(formDatabaseID);
+      submission.then((response) => {
         for(let i = 0; i < response.length; i++) {
-          if(response[i].answers[4].answer === widgetFormID) {
+          if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+            console.log("found!!");
             resolve(response[i].answers[5].answer);
+            return;
           }
         }
         console.log("new form created");
