@@ -6,7 +6,7 @@ import Wrapper from './Helper/Wrapper';
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
-let widgetQuestions;
+let widgetQuestions, widgetDatabaseQuestions;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
 let faceArchiveSubmissions; //Stores the submissions in the database
@@ -260,14 +260,17 @@ function Video(props) {
   //Initilization
   if(!widgetLoaded) {
     jotform.subscribe("ready", (response) => {
+      //WIDGET FORM ID
       widgetFormID = response.formID;
-      let promiseDatabase = getWidgetDatabaseFormID();
-      promiseDatabase.then( (response) => {
-        widgetDatabaseFormID = response;
-        console.log("widget database ID in:", widgetDatabaseFormID);
-        let promiseQuestions = getSavedQuestions(widgetFormID);
-        promiseQuestions.then( (response) => {
-          widgetQuestions = response;
+      //QUESTIONS OF WIDGET FORM
+      let promiseQuestions = getSavedQuestions(widgetFormID);
+      promiseQuestions.then( (response) => {
+        widgetQuestions = response;
+        //DATABASE FORM ID
+        let promiseDatabase = getWidgetDatabaseFormID();
+        promiseDatabase.then( (response) => {
+          widgetDatabaseFormID = response;
+          //DATABSE SUBMISSIONS
           let promiseSubmission = getSubmissions(widgetDatabaseFormID);
             promiseSubmission.then( (response) => {
             faceArchiveSubmissions = response;
@@ -277,11 +280,11 @@ function Video(props) {
       });
     });
   }
-  else{
-    console.log("widget ID:", widgetFormID);
-    console.log("widget database ID:", widgetDatabaseFormID);
-    console.log("widget questions:", widgetQuestions);
-    console.log("Submissions:", faceArchiveSubmissions);
+  else {
+    console.log("form id:", widgetFormID);
+    console.log("form questions:", widgetQuestions);
+    console.log("database id:", widgetDatabaseFormID);
+    console.log("database submission:", faceArchiveSubmissions);
   }
 
   // return (
