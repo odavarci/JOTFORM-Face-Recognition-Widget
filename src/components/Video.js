@@ -78,6 +78,7 @@ function Video(props) {
         console.log("new form created");
         let promise = createNewDatabaseForm(widgetFormID);
         promise.then((response) => {
+          submitDatabaseMatch(response);
           resolve(response);
         });
       });
@@ -94,6 +95,21 @@ function Video(props) {
       })
       .catch(function(error){
         reject(-1);
+      });
+    });
+  }
+
+  const submitDatabaseMatch = (databaseID) => {
+    return new Promise(function(resolve,reject){
+      let formData = new FormData();
+      formData.add('submission_4',widgetFormID);
+      formData.add('submission_5', databaseID);
+      axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
+      .then(function(response){
+        console.log("Submitted Match response", response);
+      })
+      .catch(function(error){
+        console.log(error);
       });
     });
   }
