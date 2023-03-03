@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { checkPrimeSync } from 'crypto';
 import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
