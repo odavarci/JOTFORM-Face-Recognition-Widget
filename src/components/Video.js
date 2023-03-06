@@ -68,23 +68,28 @@ function Video(props) {
 
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
-      let submission = getSubmissions(formDatabaseID);
-      submission.then((response) => {
-        for(let i = 0; i < response.length; i++) {
-          if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
-            resolve(response[i].answers[5].answer);
-            console.log("after resolve");
+      try {
+        let submission = getSubmissions(formDatabaseID);
+        submission.then((response) => {
+          for(let i = 0; i < response.length; i++) {
+            if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+              resolve(response[i].answers[5].answer);
+              return;
+            }
           }
-        }
-        console.log("new form created");
-        let promise = createNewDatabaseForm(widgetFormID);
-        promise.then((response) => {
-          console.log("SUBMIT MATCH WORKED");
-          submitDatabaseMatch(widgetFormID,response);
-          resolve(response);
+          console.log("new form created");
+          let promise = createNewDatabaseForm(widgetFormID);
+          promise.then((response) => {
+            console.log("SUBMIT MATCH WORKED");
+            submitDatabaseMatch(widgetFormID,response);
+            resolve(response);
+          });
         });
-        reject("-1");
-      });
+      }
+      catch(error) {
+        console.log("getWidgetDatabaseFormID Error: ", error);
+        reject(error);
+      }
     });
   }
 
@@ -97,7 +102,7 @@ function Video(props) {
         resolve(response.data.content.id);
       })
       .catch(function(error){
-        console.log(error);
+        console.log("createNewDatabaseForm Error: ", error);
         reject(-1);
       });
     });
@@ -130,19 +135,25 @@ function Video(props) {
 
   const getSavedQuestions = (id) => {
     return new Promise(function(resolve, reject){
-      axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
-      .then(function(response) {
-        let arr = response.data.content;
-        let toReturn = [];
+      try{
+        axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
+        .then(function(response) {
+          let arr = response.data.content;
+          let toReturn = [];
 
-        for(let i in arr) {
-          if(basicElementTypes.includes(arr[i].type)) {
-            toReturn.push(arr[i]);
+          for(let i in arr) {
+            if(basicElementTypes.includes(arr[i].type)) {
+              toReturn.push(arr[i]);
+            }
           }
-        }
 
-        resolve(toReturn);
-      });
+          resolve(toReturn);
+        });
+      }
+      catch (error){
+        console.log("getSavedQuestions Error:", error);
+        reject(error);
+      }
     });
   }
 
