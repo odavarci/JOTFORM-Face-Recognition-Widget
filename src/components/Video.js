@@ -187,65 +187,6 @@ function Video(props) {
     });
   }
 
-  const startVideo = () => {
-    setCaptureVideo(true);
-    navigator.mediaDevices
-      .getUserMedia({ video: { width: 300 } })
-      .then(stream => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(err => {
-        console.error("error:", err);
-      });
-  }
-
-  const handleVideoOnPlay = () => {
-    let timesRecognitionLeft = 10;
-    const videoInterval = setInterval(async () => {
-      if (canvasRef && canvasRef.current) {
-        canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
-        const displaySize = {
-          width: videoWidth,
-          height: videoHeight
-        }
-
-        faceapi.matchDimensions(canvasRef.current, displaySize);
-
-        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
-        if(detection !== undefined) {
-          timesRecognitionLeft--;
-
-          if(findFace(detection.descriptor)){
-            closeWebcam();
-            clearInterval(videoInterval);
-            return;
-          }
-  
-          canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, detection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, detection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, detection);
-        }
-        if(timesRecognitionLeft === 0 && recognizedProfile === null){
-          closeWebcam();
-          clearInterval(videoInterval);
-          setIsRecognized(false);
-          setCapturedFace(detection.descriptor);
-        }
-
-      }
-    }, 100)
-  }
-
-  const closeWebcam = () => {
-    videoRef.current.pause();
-    videoRef.current.srcObject.getTracks()[0].stop();
-    setCaptureVideo(false);
-  }
-
-
   const calculateSimilarityOfFaces = (face1, face2) => {
     let distance = 0;
     for(let i = 0; i < face1.length; i++){
@@ -314,35 +255,130 @@ function Video(props) {
     }
   }
 
-  //Initilization
-  if(!widgetLoaded) {
-    jotform.subscribe("ready", (response) => {
-      //WIDGET FORM ID
-      widgetFormID = response.formID;
-      //QUESTIONS OF WIDGET FORM
-      let promiseQuestions = getSavedQuestions(widgetFormID);
-      promiseQuestions.then( (response) => {
-        widgetQuestions = response;
-        //DATABASE FORM ID
-        let promiseDatabase = getWidgetDatabaseFormID();
-        promiseDatabase.then( (response) => {
-          widgetDatabaseFormID = response;
-          //DATABSE SUBMISSIONS
-          let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-            promiseSubmission.then( (response) => {
-            faceArchiveSubmissions = response;
-            setWidgetLoaded(true);
+  //WEBCAM FUNCTIONS--------------------------------------------------------
+  const startVideo = () => {
+    setCaptureVideo(true);
+    navigator.mediaDevices
+      .getUserMedia({ video: { width: 300 } })
+      .then(stream => {
+        let video = videoRef.current;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(err => {
+        console.error("error:", err);
+      });
+  }
+
+  const handleVideoOnPlay = () => {
+    let timesRecognitionLeft = 10;
+    const videoInterval = setInterval(async () => {
+      if (canvasRef && canvasRef.current) {
+        canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
+        const displaySize = {
+          width: videoWidth,
+          height: videoHeight
+        }
+
+        faceapi.matchDimensions(canvasRef.current, displaySize);
+
+        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
+        if(detection !== undefined) {
+          timesRecognitionLeft--;
+
+          if(findFace(detection.descriptor)){
+            closeWebcam();
+            clearInterval(videoInterval);
+            return;
+          }
+  
+          canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
+          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, detection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, detection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, detection);
+        }
+        if(timesRecognitionLeft === 0 && recognizedProfile === null){
+          closeWebcam();
+          clearInterval(videoInterval);
+          setIsRecognized(false);
+          setCapturedFace(detection.descriptor);
+        }
+
+      }
+    }, 100)
+  }
+
+  const closeWebcam = () => {
+    videoRef.current.pause();
+    videoRef.current.srcObject.getTracks()[0].stop();
+    setCaptureVideo(false);
+  }
+  //-----------------------------------------------------------------------
+
+  const init = () => {
+    if(!widgetLoaded) {
+      jotform.subscribe("ready", (response) => {
+        //WIDGET FORM ID
+        widgetFormID = response.formID;
+        //QUESTIONS OF WIDGET FORM
+        let promiseQuestions = getSavedQuestions(widgetFormID);
+        promiseQuestions.then( (response) => {
+          widgetQuestions = response;
+          //DATABASE FORM ID
+          let promiseDatabase = getWidgetDatabaseFormID();
+          promiseDatabase.then( (response) => {
+            widgetDatabaseFormID = response;
+            //DATABSE SUBMISSIONS
+            let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+              promiseSubmission.then( (response) => {
+              faceArchiveSubmissions = response;
+              setWidgetLoaded(true);
+            });
           });
         });
       });
-    });
+    }
   }
-  else {
-    console.log("form id:", widgetFormID);
-    console.log("form questions:", widgetQuestions);
-    console.log("database id:", widgetDatabaseFormID);
-    console.log("database submission:", faceArchiveSubmissions);
+
+  const returnFunction = () => {
+    if(widgetLoaded) {
+      if(recognizedProfile === null && isRecognized === null) {
+        if(!captureVideo && modelsLoaded) {
+          startVideo();
+          return(
+            <div>
+              {
+                captureVideo ?
+                  modelsLoaded ?
+                    <div>
+                     <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                      <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                      <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+                     </div>
+                    </div>
+                  :
+                    <div>loading...</div>
+                :
+                  <></>
+              }
+            </div>
+          );
+        }
+      }
+      else {
+        returnFaceInfo();
+      }
+    }
+    else {
+      init();
+    }
   }
+
+  return(
+    <Wrapper>
+      {returnFunction()}
+    </Wrapper>
+  );
 
   // return (
   //   <Wrapper>
@@ -385,11 +421,11 @@ function Video(props) {
   //   </Wrapper>
   // );
 
-  return(
-    <Wrapper>
-      <h1>Hello World!</h1>
-    </Wrapper>
-  );
+  // return(
+  //   <Wrapper>
+  //     <h1>Hello World!</h1>
+  //   </Wrapper>
+  // );
 
 }
 
