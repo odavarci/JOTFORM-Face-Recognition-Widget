@@ -123,6 +123,11 @@ function Video(props) {
           .then(function() {
           });
         }
+        let formData = new FormData();
+        formData.append('question[type]', 'control_textbox');
+        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+          .then(function() {
+          });
         resolve(1);
       }
       catch(error) {
