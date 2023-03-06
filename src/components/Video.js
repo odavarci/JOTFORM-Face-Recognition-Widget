@@ -125,6 +125,7 @@ function Video(props) {
             formData.append('question[type]', widgetQuestions[i].type);
             axios.get('https://api.jotform.com/form/230641774901960/questions?apiKey=' + apiKey, formData)
             .then(function(response) {
+              console.log(response);
             });
           }
           resolve(1);
