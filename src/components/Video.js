@@ -116,14 +116,19 @@ function Video(props) {
   const addQuestionsToDatabase = () => {
     return new Promise(function(resolve, reject) {
       try {
-        for (let i = 0; i < widgetQuestions.length; i++) {
-          let formData = new FormData();
-          formData.append('question[type]', widgetQuestions[i].type);
-          axios.get('https://api.jotform.com/form/' + widgetDatabaseFormID + '/questions?apiKey=' + apiKey, formData)
-          .then(function(response) {
-          });
-        }
-        resolve(1); 
+        getSavedQuestions('230400715165041')
+        .then((response) => {
+          widgetQuestions = response;
+          for (let i = 0; i < widgetQuestions.length; i++) {
+            console.log("question added");
+            let formData = new FormData();
+            formData.append('question[type]', widgetQuestions[i].type);
+            axios.get('https://api.jotform.com/form/230641774901960/questions?apiKey=' + apiKey, formData)
+            .then(function(response) {
+            });
+          }
+          resolve(1);
+        }); 
       }
       catch(error) {
         console.log("addQuestionToDatabase Error: ", error);
@@ -308,35 +313,37 @@ function Video(props) {
     }
   }
 
-  //Initilization
-  if(!widgetLoaded) {
-    jotform.subscribe("ready", (response) => {
-      //WIDGET FORM ID
-      widgetFormID = response.formID;
-      //QUESTIONS OF WIDGET FORM
-      let promiseQuestions = getSavedQuestions(widgetFormID);
-      promiseQuestions.then( (response) => {
-        widgetQuestions = response;
-        //DATABASE FORM ID
-        let promiseDatabase = getWidgetDatabaseFormID();
-        promiseDatabase.then( (response) => {
-          widgetDatabaseFormID = response;
-          //DATABSE SUBMISSIONS
-          let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-            promiseSubmission.then( (response) => {
-            faceArchiveSubmissions = response;
-            setWidgetLoaded(true);
-          });
-        });
-      });
-    });
-  }
-  else {
-    console.log("form id:", widgetFormID);
-    console.log("form questions:", widgetQuestions);
-    console.log("database id:", widgetDatabaseFormID);
-    console.log("database submission:", faceArchiveSubmissions);
-  }
+  addQuestionsToDatabase();
+
+  // //Initilization
+  // if(!widgetLoaded) {
+  //   jotform.subscribe("ready", (response) => {
+  //     //WIDGET FORM ID
+  //     widgetFormID = response.formID;
+  //     //QUESTIONS OF WIDGET FORM
+  //     let promiseQuestions = getSavedQuestions(widgetFormID);
+  //     promiseQuestions.then( (response) => {
+  //       widgetQuestions = response;
+  //       //DATABASE FORM ID
+  //       let promiseDatabase = getWidgetDatabaseFormID();
+  //       promiseDatabase.then( (response) => {
+  //         widgetDatabaseFormID = response;
+  //         //DATABSE SUBMISSIONS
+  //         let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+  //           promiseSubmission.then( (response) => {
+  //           faceArchiveSubmissions = response;
+  //           setWidgetLoaded(true);
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
+  // else {
+  //   console.log("form id:", widgetFormID);
+  //   console.log("form questions:", widgetQuestions);
+  //   console.log("database id:", widgetDatabaseFormID);
+  //   console.log("database submission:", faceArchiveSubmissions);
+  // }
 
   // return (
   //   <Wrapper>
