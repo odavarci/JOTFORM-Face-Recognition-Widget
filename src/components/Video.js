@@ -102,7 +102,7 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
-        addQuestionsToDatabase().then( () => {
+        addQuestionsToDatabase(response.data.content.id).then( () => {
           resolve(response.data.content.id);
         });
       })
@@ -113,24 +113,17 @@ function Video(props) {
     });
   }
 
-  const addQuestionsToDatabase = () => {
+  const addQuestionsToDatabase = (databaseID) => {
     return new Promise(function(resolve, reject) {
       try {
-        getSavedQuestions('230400715165041')
-        .then((response) => {
-          widgetQuestions = response;
-          for (let i = 0; i < widgetQuestions.length; i++) {
-            console.log("question added: ", widgetQuestions[i].type);
-            let formData = new FormData();
-            formData.append('apikey', apiKey);
-            formData.append('question[type]', widgetQuestions[i].type);
-            axios.get('https://api.jotform.com/form/230641774901960/questions', formData)
-            .then(function(response) {
-              console.log(response);
-            });
-          }
-          resolve(1);
-        }); 
+        for (let i = 0; i < widgetQuestions.length; i++) {
+          let formData = new FormData();
+          formData.append('question[type]', widgetQuestions[i].type.toString());
+          axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+          .then(function() {
+          });
+        }
+        resolve(1);
       }
       catch(error) {
         console.log("addQuestionToDatabase Error: ", error);
