@@ -69,21 +69,24 @@ function Video(props) {
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
       try {
+        let match = false;
         let submission = getSubmissions(formDatabaseID);
         submission.then((response) => {
           for(let i = 0; i < response.length; i++) {
             if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+              match = true;
               resolve(response[i].answers[5].answer);
-              return;
             }
           }
-          console.log("new form created");
-          let promise = createNewDatabaseForm(widgetFormID);
-          promise.then((response) => {
-            console.log("SUBMIT MATCH WORKED");
-            submitDatabaseMatch(widgetFormID,response);
-            resolve(response);
-          });
+          if(!match) {
+            console.log("new form created");
+            let promise = createNewDatabaseForm(widgetFormID);
+            promise.then((response) => {
+              console.log("SUBMIT MATCH WORKED");
+              submitDatabaseMatch(widgetFormID,response);
+              resolve(response);
+            });
+          }
         });
       }
       catch(error) {
@@ -96,7 +99,7 @@ function Video(props) {
   const createNewDatabaseForm = (formID) => {
     return new Promise(function(resolve, reject){
       let formData = new FormData();
-      formData.append('properties[title]', 'TITLE');
+      formData.append('properties[title]', formID + "Database");
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
         resolve(response.data.content.id);
