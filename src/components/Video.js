@@ -102,12 +102,33 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
-        resolve(response.data.content.id);
+        addQuestionsToDatabase().then( () => {
+          resolve(response.data.content.id);
+        });
       })
       .catch(function(error){
         console.log("createNewDatabaseForm Error: ", error);
         reject(-1);
       });
+    });
+  }
+
+  const addQuestionsToDatabase = () => {
+    return new Promise(function(resolve, reject) {
+      try {
+        for (let i = 0; i < widgetQuestions.length; i++) {
+          let formData = new FormData();
+          formData.append('question[type]', widgetQuestions[i].type);
+          axios.get('https://api.jotform.com/form/' + widgetDatabaseFormID + '/questions?apiKey=' + apiKey, formData)
+          .then(function(response) {
+          });
+        }
+        resolve(1); 
+      }
+      catch(error) {
+        console.log("addQuestionToDatabase Error: ", error);
+        reject(0);
+      }
     });
   }
 
