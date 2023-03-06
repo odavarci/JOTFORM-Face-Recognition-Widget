@@ -120,7 +120,7 @@ function Video(props) {
         .then((response) => {
           widgetQuestions = response;
           for (let i = 0; i < widgetQuestions.length; i++) {
-            console.log("question added: ", widgetDatabaseQuestions[i].type);
+            console.log("question added: ", widgetQuestions[i].type);
             let formData = new FormData();
             formData.append('apikey', apiKey);
             formData.append('question[type]', widgetQuestions[i].type);
