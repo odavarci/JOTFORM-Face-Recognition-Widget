@@ -308,37 +308,35 @@ function Video(props) {
     }
   }
 
-  addQuestionsToDatabase();
-
-  // //Initilization
-  // if(!widgetLoaded) {
-  //   jotform.subscribe("ready", (response) => {
-  //     //WIDGET FORM ID
-  //     widgetFormID = response.formID;
-  //     //QUESTIONS OF WIDGET FORM
-  //     let promiseQuestions = getSavedQuestions(widgetFormID);
-  //     promiseQuestions.then( (response) => {
-  //       widgetQuestions = response;
-  //       //DATABASE FORM ID
-  //       let promiseDatabase = getWidgetDatabaseFormID();
-  //       promiseDatabase.then( (response) => {
-  //         widgetDatabaseFormID = response;
-  //         //DATABSE SUBMISSIONS
-  //         let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-  //           promiseSubmission.then( (response) => {
-  //           faceArchiveSubmissions = response;
-  //           setWidgetLoaded(true);
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
-  // else {
-  //   console.log("form id:", widgetFormID);
-  //   console.log("form questions:", widgetQuestions);
-  //   console.log("database id:", widgetDatabaseFormID);
-  //   console.log("database submission:", faceArchiveSubmissions);
-  // }
+  //Initilization
+  if(!widgetLoaded) {
+    jotform.subscribe("ready", (response) => {
+      //WIDGET FORM ID
+      widgetFormID = response.formID;
+      //QUESTIONS OF WIDGET FORM
+      let promiseQuestions = getSavedQuestions(widgetFormID);
+      promiseQuestions.then( (response) => {
+        widgetQuestions = response;
+        //DATABASE FORM ID
+        let promiseDatabase = getWidgetDatabaseFormID();
+        promiseDatabase.then( (response) => {
+          widgetDatabaseFormID = response;
+          //DATABSE SUBMISSIONS
+          let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+            promiseSubmission.then( (response) => {
+            faceArchiveSubmissions = response;
+            setWidgetLoaded(true);
+          });
+        });
+      });
+    });
+  }
+  else {
+    console.log("form id:", widgetFormID);
+    console.log("form questions:", widgetQuestions);
+    console.log("database id:", widgetDatabaseFormID);
+    console.log("database submission:", faceArchiveSubmissions);
+  }
 
   // return (
   //   <Wrapper>
