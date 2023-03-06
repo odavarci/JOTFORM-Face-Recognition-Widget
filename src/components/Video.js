@@ -120,10 +120,11 @@ function Video(props) {
         .then((response) => {
           widgetQuestions = response;
           for (let i = 0; i < widgetQuestions.length; i++) {
-            console.log("question added");
+            console.log("question added: ", widgetDatabaseQuestions[i].type);
             let formData = new FormData();
+            formData.append('apikey', apiKey);
             formData.append('question[type]', widgetQuestions[i].type);
-            axios.get('https://api.jotform.com/form/230641774901960/questions?apiKey=' + apiKey, formData)
+            axios.get('https://api.jotform.com/form/230641774901960/questions', formData)
             .then(function(response) {
               console.log(response);
             });
