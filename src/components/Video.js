@@ -412,54 +412,52 @@ function Video(props) {
   //   </Wrapper>
   // );
 
-  // return (
-  //   <Wrapper>
-  //       {widgetLoaded ?
-  //           <Wrapper>
-  //           {
-  //             (recognizedProfile === null && isRecognized === null) ? 
-  //               <div>
-  //                 <div>
-  //                   {
-  //                     !captureVideo && modelsLoaded ?
-  //                       startVideo()
-  //                       :
-  //                       <></>
-  //                   }
-  //                 </div>
-  //                 {
-  //                   captureVideo ?
-  //                     modelsLoaded ?
-  //                       <div>
-  //                         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-  //                           <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-  //                           <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-  //                         </div>
-  //                       </div>
-  //                       :
-  //                       <div>loading...</div>
-  //                     :
-  //                     <>
-  //                     </>
-  //                 }
-  //               </div>
-  //               :
-  //               returnFaceInfo()
-  //           }
-  //         </Wrapper>
-  //         :
-  //         <h2>Widget Loading...</h2>
-  //       }
-  //   </Wrapper>
-  // );
-
-  findFace();
-
-  return(
+  return (
     <Wrapper>
-      <h1>Hello World!</h1>
+        {widgetLoaded ?
+            <Wrapper>
+            {
+              (recognizedProfile === null && isRecognized === null) ? 
+                <div>
+                  <div>
+                    {
+                      !captureVideo && modelsLoaded ?
+                        startVideo()
+                        :
+                        <></>
+                    }
+                  </div>
+                  {
+                    captureVideo ?
+                      modelsLoaded ?
+                        <div>
+                          <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                            <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                            <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+                          </div>
+                        </div>
+                        :
+                        <div>loading...</div>
+                      :
+                      <>
+                      </>
+                  }
+                </div>
+                :
+                returnFaceInfo()
+            }
+          </Wrapper>
+          :
+          <h2>Widget Loading...</h2>
+        }
     </Wrapper>
   );
+
+  // return(
+  //   <Wrapper>
+  //     <h1>Hello World!</h1>
+  //   </Wrapper>
+  // );
 
 }
 
