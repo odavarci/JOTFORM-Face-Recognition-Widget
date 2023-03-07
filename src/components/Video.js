@@ -394,11 +394,11 @@ function Video(props) {
                   }
                 </div>
                 :
-                <h1>set or get info</h1>
+                returnFaceInfo()
             }
           </Wrapper>
           :
-          returnFaceInfo()
+          <h1>widget loading...</h1>
         }
     </Wrapper>
   );
