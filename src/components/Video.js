@@ -245,23 +245,23 @@ function Video(props) {
       arr.push(widgetQuestions[i].qid);
     }
     jotform.getFieldsValueById( arr, (response) => {
-        submitFace();
+        submitFace(response);
       });
   }
 
-   const submitFace = (face, name, surname) => {
+   const submitFace = (values) => {
     let formData = new FormData();
-    formData.append('submission[3]', face);
-    formData.append('submission[6_first]', name);
-    formData.append('submission[6_last]', surname);
+    for(let i = 0; i < values.length; i++) {
+      console.log(values[i]);
+    }
 
-    axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
-    .then(function(response){
-      console.log("Submit response", response);
-    })
-    .catch(function(error){
-      console.log(error);
-    });
+    // axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
+    // .then(function(response){
+    //   console.log("Submit response", response);
+    // })
+    // .catch(function(error){
+    //   console.log(error);
+    // });
   }
 
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
