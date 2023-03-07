@@ -240,16 +240,19 @@ function Video(props) {
   }
 
   const creteNewFaceSubmission = () => {
+    console.log("creteNewFaceSubmission worked!");
     let arr = [];
     for(let i = 0; i < widgetQuestions.length; i++) {
       arr.push(widgetQuestions[i].qid);
     }
     jotform.getFieldsValueById( arr, (response) => {
+      console.log("response", response);
         submitFace(response);
       });
   }
 
    const submitFace = (values) => {
+    console.log("submit face worked");
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       console.log(values[i]);
