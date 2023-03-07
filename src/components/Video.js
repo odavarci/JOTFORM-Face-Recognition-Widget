@@ -3,16 +3,16 @@ import * as faceapi from 'face-api.js';
 import React, { useEffect } from 'react';
 import Wrapper from './Helper/Wrapper';
 
+const faceFieldName = 'FACE_DATABASE';
+
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
 let widgetQuestions, widgetDatabaseQuestions;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
-let faceArchiveSubmissions; //Stores the submissions in the database
+let databaseSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
-
-const basicID = '230572712727052';
 
 function Video(props) {
 
@@ -51,9 +51,9 @@ function Video(props) {
     loadModels();
   }, []);
 
-  const getSubmissions = (id) => {
+  const getSubmissions = (formID) => {
     return new Promise(function(resolve, reject){
-        axios.get('https://api.jotform.com/form/' + id + '/submissions?apiKey=' + apiKey)
+        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
         .then(function(response){
             let result = response.data.content.filter( (item) => {
                 return item.status !== 'DELETED';
@@ -66,6 +66,22 @@ function Video(props) {
     });
   }
 
+  const getQuestions = (formID) => {
+    return new Promise((resolve, reject) => {
+      try {
+        axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
+        .then((response) => {
+          resolve(response);
+        });
+      }
+      catch(error) {
+        console.log("getQuestions Error: ", error);
+        reject(error);
+      }
+    });
+  }
+
+  //DATABASE FORM FUNCTIONS---------------------------------------------------------
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
       try {
@@ -125,6 +141,7 @@ function Video(props) {
         }
         let formData = new FormData();
         formData.append('question[type]', 'control_textbox');
+        formData.append('question[name]', faceFieldName);
         axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
         .then(function() {
           console.log("after add face");
@@ -147,6 +164,7 @@ function Video(props) {
       console.log("match submit return", response);
     });
   }
+  //--------------------------------------------------------------------------------
 
   // const submitFace = (face, name, surname) => {
   //   let formData = new FormData();
@@ -176,7 +194,6 @@ function Video(props) {
               toReturn.push(arr[i]);
             }
           }
-
           resolve(toReturn);
         });
       }
@@ -196,22 +213,37 @@ function Video(props) {
   }
 
   const findFace = (face) => {
-    let isMatched = false;
+    getQuestions(widgetDatabaseFormID)
+    .then((response) => {
+      let faceQID;
 
-    for(let i = 0; i < faceArchiveSubmissions.length; i++) {
-      let currentFace = faceArchiveSubmissions[i].answers[3].answer.split(",");
-      let distance = calculateSimilarityOfFaces(face, currentFace);
-      if(distance < faceRecognizorThreshold) {
-        let name = faceArchiveSubmissions[i].answers[6].answer.first;
-        let surname = faceArchiveSubmissions[i].answers[6].answer.last;
-        isMatched = true;
-        setRecognizedProfile([name, surname]);
-        return true;
+      let arr = response.data.content;
+      for(let i in arr) {
+        if(arr[i].name === faceFieldName) {
+          faceQID = i;
+        }
       }
-    }
-    if(!isMatched) {
-      return false;
-    }
+
+      let match = false;
+      for(let i in databaseSubmissions) {
+        let answers = databaseSubmissions[i].answers;
+        for(let j in answers) {
+          if(j === faceQID) {
+            let currentFace = answers[j].answer.split(",");
+            let distance = calculateSimilarityOfFaces(currentFace, face);
+            if(distance < faceRecognizorThreshold) {
+              match = true;
+              console.log("FOUND: ",answers);
+              setRecognizedProfile(answers);
+              return true;
+            }
+          }
+        }
+      }
+      if(!match) {
+        return false;
+      }
+    })
   }
 
   const setFieldsValue = () => {
@@ -331,7 +363,7 @@ function Video(props) {
             //DATABSE SUBMISSIONS
             let promiseSubmission = getSubmissions(widgetDatabaseFormID);
               promiseSubmission.then( (response) => {
-              faceArchiveSubmissions = response;
+              databaseSubmissions = response;
               setWidgetLoaded(true);
             });
           });
@@ -374,11 +406,11 @@ function Video(props) {
     }
   }
 
-  return(
-    <Wrapper>
-      {returnFunction()}
-    </Wrapper>
-  );
+  // return(
+  //   <Wrapper>
+  //     {returnFunction()}
+  //   </Wrapper>
+  // );
 
   // return (
   //   <Wrapper>
@@ -421,11 +453,13 @@ function Video(props) {
   //   </Wrapper>
   // );
 
-  // return(
-  //   <Wrapper>
-  //     <h1>Hello World!</h1>
-  //   </Wrapper>
-  // );
+  findFace();
+
+  return(
+    <Wrapper>
+      <h1>Hello World!</h1>
+    </Wrapper>
+  );
 
 }
 
