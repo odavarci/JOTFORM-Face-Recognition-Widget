@@ -138,13 +138,10 @@ function Video(props) {
             formData.append('question[type]', widgetQuestions[i].type);
             formData.append('question[name]', widgetQuestions[i].qid);
             axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-            // eslint-disable-next-line no-loop-func
             .then(function() {
-              if(i === widgetQuestions.length - 1) {
-                resolve(1);
-              }
             });
           }
+          resolve(1);
         });
         
       }
