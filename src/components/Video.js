@@ -412,6 +412,8 @@ function Video(props) {
   //   </Wrapper>
   // );
 
+  init();
+
   return (
     <Wrapper>
         {widgetLoaded ?
