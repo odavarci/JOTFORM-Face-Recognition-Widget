@@ -23,7 +23,7 @@ function Video(props) {
   jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
-  const [modelsLoaded, setModelsLoaded] = useState(false);
+  //const [modelsLoaded, setModelsLoaded] = useState(false);
   const [captureVideo, setCaptureVideo] = useState(false);
   const [capturedFace, setCapturedFace] = useState(null);
   const [recognizedProfile, setRecognizedProfile] = useState(null);
@@ -35,23 +35,6 @@ function Video(props) {
   const videoHeight = 480;
   const videoWidth = 640;
   const canvasRef = React.useRef();
-  
-  // useEffect(() => {
-    
-  //   loadModels();
-  // }, []);
-
-  // const loadModels = async () => {
-  //   const MODEL_URL = process.env.PUBLIC_URL + '/models';
-
-  //   Promise.all([
-  //     faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-  //     faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-  //     faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-  //     faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-  //   ])
-  //   .then(setModelsLoaded(true));
-  // }
 
   const loadModels = async () => {
     const MODEL_URL = process.env.PUBLIC_URL + '/models';
@@ -94,7 +77,7 @@ function Video(props) {
     });
   }
 
-  //DATABASE FORM FUNCTIONS---------------------------------------------------------
+  //---------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
       try {
@@ -177,7 +160,8 @@ function Video(props) {
       console.log("match submit return", response);
     });
   }
-  //--------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------------------
+
 
   // const submitFace = (face, name, surname) => {
   //   let formData = new FormData();
@@ -283,24 +267,7 @@ function Video(props) {
       });
   }
 
-  const returnFaceInfo = () => {
-    if(isRecognized === false){
-      return(
-        <Wrapper>
-          <p>Face not found. Please fill the form.</p>
-          <button onClick={creteNewFaceSubmission}>Done!</button>
-        </Wrapper>
-      );  
-    }
-    else{
-      setFieldsValue();
-      return (
-        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-      );
-    }
-  }
-
-  //WEBCAM FUNCTIONS--------------------------------------------------------
+  //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
   const startVideo = () => {
     setCaptureVideo(true);
     navigator.mediaDevices
@@ -358,7 +325,7 @@ function Video(props) {
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
   }
-  //-----------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------------------------
 
   const init = () => {
     if(!widgetLoaded) {
@@ -377,8 +344,8 @@ function Video(props) {
             let promiseSubmission = getSubmissions(widgetDatabaseFormID);
               promiseSubmission.then( (response) => {
               databaseSubmissions = response;
+              //LOAD FACE API MODELS
               loadModels().then(() => {
-                console.log("widgetloaded!!");
                 setWidgetLoaded(true);
               });
             });
@@ -388,45 +355,22 @@ function Video(props) {
     }
   }
 
-  // const returnFunction = () => {
-  //   if(widgetLoaded) {
-  //     if(recognizedProfile === null && isRecognized === null) {
-  //       if(!captureVideo && modelsLoaded) {
-  //         startVideo();
-  //         return(
-  //           <div>
-  //             {
-  //               captureVideo ?
-  //                 modelsLoaded ?
-  //                   <div>
-  //                    <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-  //                     <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-  //                     <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-  //                    </div>
-  //                   </div>
-  //                 :
-  //                   <div>loading...</div>
-  //               :
-  //                 <></>
-  //             }
-  //           </div>
-  //         );
-  //       }
-  //     }
-  //     else {
-  //       returnFaceInfo();
-  //     }
-  //   }
-  //   else {
-  //     init();
-  //   }
-  // }
-
-  // return(
-  //   <Wrapper>
-  //     {returnFunction()}
-  //   </Wrapper>
-  // );
+  const returnFaceInfo = () => {
+    if(isRecognized === false){
+      return(
+        <Wrapper>
+          <p>Face not found. Please fill the form.</p>
+          <button onClick={creteNewFaceSubmission}>Done!</button>
+        </Wrapper>
+      );  
+    }
+    else{
+      setFieldsValue();
+      return (
+        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+      );
+    }
+  }
 
   init();
 
@@ -454,51 +398,9 @@ function Video(props) {
             }
           </Wrapper>
           :
-          <h2>Widget Loading...</h2>
+          {returnFaceInfo()}
         }
     </Wrapper>
   );
-
-//   return (
-//     <Wrapper>
-//         {widgetLoaded ?
-//             <Wrapper>
-//             {
-//               (recognizedProfile === null && isRecognized === null) ? 
-//                 <div>
-//                   <div>
-//                     {
-//                       !captureVideo && modelsLoaded ?
-//                         startVideo()
-//                         :
-//                         <></>
-//                     }
-//                   </div>
-//                   {
-//                     captureVideo ?
-//                       modelsLoaded ?
-//                         <div>
-//                           <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-//                             <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-//                             <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-//                           </div>
-//                         </div>
-//                         :
-//                         <div>loading...</div>
-//                       :
-//                       <>
-//                       </>
-//                   }
-//                 </div>
-//                 :
-//                 returnFaceInfo()
-//             }
-//           </Wrapper>
-//           :
-//           <h2>Widget Loading...</h2>
-//         }
-//     </Wrapper>
-//   );
-// }
 }
 export default Video;
