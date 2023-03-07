@@ -128,21 +128,25 @@ function Video(props) {
   const addQuestionsToDatabase = (databaseID) => {
     return new Promise(function(resolve, reject) {
       try {
-        for (let i = 0; i < widgetQuestions.length; i++) {
-          let formData = new FormData();
-          formData.append('question[type]', widgetQuestions[i].type.toString());
-          axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-          .then(function() {
-          });
-        }
         let formData = new FormData();
         formData.append('question[type]', 'control_textbox');
         formData.append('question[name]', faceFieldName);
         axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
         .then(function() {
-          console.log("after add face");
-          resolve(1);
+          for (let i = 0; i < widgetQuestions.length; i++) {
+            let formData = new FormData();
+            formData.append('question[type]', widgetQuestions[i].type);
+            formData.append('question[name]', widgetQuestions[i].qid);
+            axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+            // eslint-disable-next-line no-loop-func
+            .then(function() {
+              if(i === widgetQuestions.length - 1) {
+                resolve(1);
+              }
+            });
+          }
         });
+        
       }
       catch(error) {
         console.log("addQuestionToDatabase Error: ", error);
@@ -161,22 +165,6 @@ function Video(props) {
     });
   }
   //-----------------------------------------------------------------------------------------------------------
-
-
-  // const submitFace = (face, name, surname) => {
-  //   let formData = new FormData();
-  //   formData.append('submission[3]', face);
-  //   formData.append('submission[6_first]', name);
-  //   formData.append('submission[6_last]', surname);
-
-  //   axios.post('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
-  //   .then(function(response){
-  //     console.log("Submit response", response);
-  //   })
-  //   .catch(function(error){
-  //     console.log(error);
-  //   });
-  // }
 
   const getSavedQuestions = (id) => {
     return new Promise(function(resolve, reject){
@@ -260,11 +248,23 @@ function Video(props) {
       arr.push(widgetQuestions[i].qid);
     }
     jotform.getFieldsValueById( arr, (response) => {
-        // let input = response.data[0].value.split(" ");
-        // submitFace(capturedFace, input[0], input[1]);
-        // console.log("Submission sent");
-        console.log(response);
+        submitFace();
       });
+  }
+
+   const submitFace = (face, name, surname) => {
+    let formData = new FormData();
+    formData.append('submission[3]', face);
+    formData.append('submission[6_first]', name);
+    formData.append('submission[6_last]', surname);
+
+    axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
+    .then(function(response){
+      console.log("Submit response", response);
+    })
+    .catch(function(error){
+      console.log(error);
+    });
   }
 
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
