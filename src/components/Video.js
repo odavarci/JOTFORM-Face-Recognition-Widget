@@ -333,6 +333,7 @@ function Video(props) {
         let promiseQuestions = getSavedQuestions(widgetFormID);
         promiseQuestions.then( (response) => {
           widgetQuestions = response;
+          console.log("widget questions ", widgetQuestions);
           //DATABASE FORM ID
           let promiseDatabase = getWidgetDatabaseFormID();
           promiseDatabase.then( (response) => {
