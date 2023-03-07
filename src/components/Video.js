@@ -398,7 +398,7 @@ function Video(props) {
             }
           </Wrapper>
           :
-          {returnFaceInfo()}
+          returnFaceInfo()
         }
     </Wrapper>
   );
