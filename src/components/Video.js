@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 const faceFieldName = 'FACE_DATABASE';
@@ -23,12 +23,12 @@ function Video(props) {
   jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
-  const [modelsLoaded, setModelsLoaded] = React.useState(false);
-  const [captureVideo, setCaptureVideo] = React.useState(false);
-  const [capturedFace, setCapturedFace] = React.useState(null);
-  const [recognizedProfile, setRecognizedProfile] = React.useState(null);
-  const [widgetLoaded, setWidgetLoaded] = React.useState(false);
-  const [isRecognized, setIsRecognized] = React.useState(null);
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [captureVideo, setCaptureVideo] = useState(false);
+  const [capturedFace, setCapturedFace] = useState(null);
+  const [recognizedProfile, setRecognizedProfile] = useState(null);
+  const [widgetLoaded, setWidgetLoaded] = useState(false);
+  const [isRecognized, setIsRecognized] = useState(null);
 
   //Video properties
   const videoRef = React.useRef();
@@ -36,20 +36,33 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
   
-  useEffect(() => {
-    const loadModels = async () => {
-      const MODEL_URL = process.env.PUBLIC_URL + '/models';
+  // useEffect(() => {
+    
+  //   loadModels();
+  // }, []);
 
-      Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-      ])
-      .then(setModelsLoaded(true));
-    }
-    loadModels();
-  }, []);
+  // const loadModels = async () => {
+  //   const MODEL_URL = process.env.PUBLIC_URL + '/models';
+
+  //   Promise.all([
+  //     faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+  //     faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+  //     faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+  //     faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+  //   ])
+  //   .then(setModelsLoaded(true));
+  // }
+
+  const loadModels = async () => {
+    const MODEL_URL = process.env.PUBLIC_URL + '/models';
+
+    return Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+    ]);
+  }
 
   const getSubmissions = (formID) => {
     return new Promise(function(resolve, reject){
@@ -364,7 +377,9 @@ function Video(props) {
             let promiseSubmission = getSubmissions(widgetDatabaseFormID);
               promiseSubmission.then( (response) => {
               databaseSubmissions = response;
-              setWidgetLoaded(true);
+              loadModels().then(() => {
+                setWidgetLoaded(true);
+              });
             });
           });
         });
@@ -372,39 +387,39 @@ function Video(props) {
     }
   }
 
-  const returnFunction = () => {
-    if(widgetLoaded) {
-      if(recognizedProfile === null && isRecognized === null) {
-        if(!captureVideo && modelsLoaded) {
-          startVideo();
-          return(
-            <div>
-              {
-                captureVideo ?
-                  modelsLoaded ?
-                    <div>
-                     <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                      <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                      <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                     </div>
-                    </div>
-                  :
-                    <div>loading...</div>
-                :
-                  <></>
-              }
-            </div>
-          );
-        }
-      }
-      else {
-        returnFaceInfo();
-      }
-    }
-    else {
-      init();
-    }
-  }
+  // const returnFunction = () => {
+  //   if(widgetLoaded) {
+  //     if(recognizedProfile === null && isRecognized === null) {
+  //       if(!captureVideo && modelsLoaded) {
+  //         startVideo();
+  //         return(
+  //           <div>
+  //             {
+  //               captureVideo ?
+  //                 modelsLoaded ?
+  //                   <div>
+  //                    <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+  //                     <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+  //                     <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+  //                    </div>
+  //                   </div>
+  //                 :
+  //                   <div>loading...</div>
+  //               :
+  //                 <></>
+  //             }
+  //           </div>
+  //         );
+  //       }
+  //     }
+  //     else {
+  //       returnFaceInfo();
+  //     }
+  //   }
+  //   else {
+  //     init();
+  //   }
+  // }
 
   // return(
   //   <Wrapper>
@@ -423,6 +438,7 @@ function Video(props) {
                 <div>
                   <div>
                     {
+                      // !captureVideo && modelsLoaded ?
                       !captureVideo && modelsLoaded ?
                         startVideo()
                         :
@@ -431,15 +447,15 @@ function Video(props) {
                   </div>
                   {
                     captureVideo ?
-                      modelsLoaded ?
+                      // modelsLoaded ?
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
                             <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
                             <canvas ref={canvasRef} style={{ position: 'absolute' }} />
                           </div>
                         </div>
-                        :
-                        <div>loading...</div>
+                        // :
+                        // <div>loading...</div>
                       :
                       <>
                       </>
