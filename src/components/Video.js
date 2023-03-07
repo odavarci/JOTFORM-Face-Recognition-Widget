@@ -259,7 +259,7 @@ function Video(props) {
     for(let i = 0; i < widgetQuestions.length; i++) {
       arr.push(widgetQuestions.qid);
     }
-    jotform.getFieldsValueById( arr, (response) => {
+    jotform.getFieldsValueById( widgetDatabaseQuestions[0], (response) => {
         // let input = response.data[0].value.split(" ");
         // submitFace(capturedFace, input[0], input[1]);
         // console.log("Submission sent");
