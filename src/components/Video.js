@@ -356,20 +356,26 @@ function Video(props) {
   }
 
   const returnFaceInfo = () => {
-    if(isRecognized === false){
-      return(
-        <Wrapper>
-          <p>Face not found. Please fill the form.</p>
-          <button onClick={creteNewFaceSubmission}>Done!</button>
-        </Wrapper>
-      );  
-    }
-    else{
-      setFieldsValue();
-      return (
-        <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-      );
-    }
+    // if(isRecognized === false){
+    //   return(
+    //     <Wrapper>
+    //       <p>Face not found. Please fill the form.</p>
+    //       <button onClick={creteNewFaceSubmission}>Done!</button>
+    //     </Wrapper>
+    //   );  
+    // }
+    // else{
+    //   setFieldsValue();
+    //   return (
+    //     <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
+    //   );
+    // }
+    return(
+      <Wrapper>
+        <p>Face not found. Please fill the form.</p>
+        <button onClick={creteNewFaceSubmission}>Done!</button>
+      </Wrapper>
+    );
   }
 
   init();
