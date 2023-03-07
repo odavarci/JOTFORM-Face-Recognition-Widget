@@ -257,9 +257,9 @@ function Video(props) {
   const creteNewFaceSubmission = () => {
     let arr = [];
     for(let i = 0; i < widgetQuestions.length; i++) {
-      arr.push(widgetQuestions.qid);
+      arr.push(widgetQuestions[i].qid);
     }
-    jotform.getFieldsValueById( widgetDatabaseQuestions[0], (response) => {
+    jotform.getFieldsValueById( widgetQuestions[0].qid, (response) => {
         // let input = response.data[0].value.split(" ");
         // submitFace(capturedFace, input[0], input[1]);
         // console.log("Submission sent");
