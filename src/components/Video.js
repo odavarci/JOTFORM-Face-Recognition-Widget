@@ -255,16 +255,16 @@ function Video(props) {
     console.log("submit face worked");
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
-      console.log(values[i]);
+      formData.append("submissions[" + (i + 2) + "]", values[i].value);
     }
-
-    // axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
-    // .then(function(response){
-    //   console.log("Submit response", response);
-    // })
-    // .catch(function(error){
-    //   console.log(error);
-    // });
+    
+    axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
+    .then(function(response){
+      console.log("Submit response", response);
+    })
+    .catch(function(error){
+      console.log(error);
+    });
   }
 
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
