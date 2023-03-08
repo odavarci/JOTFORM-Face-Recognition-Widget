@@ -311,6 +311,7 @@ function Video(props) {
           timesRecognitionLeft--;
 
           if(findFace(detection.descriptor)){
+            console.log("closed!");
             closeWebcam();
             clearInterval(videoInterval);
             return;
