@@ -270,7 +270,7 @@ function Video(props) {
       }
     }
     console.log("Captured Face: ", capturedFace);
-    formData.append("submission[0]", capturedFace);
+    formData.append("submission[0]", capturedFace.toString());
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
