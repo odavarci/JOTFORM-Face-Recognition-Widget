@@ -336,9 +336,11 @@ function Video(props) {
   }
 
   const closeWebcam = () => {
-    //videoRef.current.pause();
-    videoRef.current.srcObject.getTracks()[0].stop();
-    setCaptureVideo(false);
+    if(captureVideo) {
+      videoRef.current.pause();
+      videoRef.current.srcObject.getTracks()[0].stop();
+      setCaptureVideo(false);
+    }
   }
   //------------------------------------------------------------------------------------------------------------------
 
