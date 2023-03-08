@@ -219,14 +219,27 @@ function Video(props) {
   }
 
   const setFieldsValue = () => {
-    let name = recognizedProfile[0];
-    let surname = recognizedProfile[1];
-    jotform.setFieldsValueById(
-      [{
-        id: '3',
-        value: name + ' ' + surname
-      }]
-    );
+    let arr = [];
+    for(let i in recognizedProfile) {
+      if(i === 1) {   //it is face descriptor
+        continue;
+      }
+      arr.push({
+        id: recognizedProfile[i].name,
+        value: recognizedProfile[i].prettyFormat
+      });
+    }
+
+    jotform.setFieldsValueById(arr);
+    
+    // let name = recognizedProfile[0];
+    // let surname = recognizedProfile[1];
+    // jotform.setFieldsValueById(
+    //   [{
+    //     id: '3',
+    //     value: name + ' ' + surname
+    //   }]
+    // );
   }
 
   const creteNewFaceSubmission = () => {
@@ -385,6 +398,7 @@ function Video(props) {
     }
     else{
       console.log(recognizedProfile);
+      setFieldsValue();
       return(
         <h1>FOUND!</h1>
       );
