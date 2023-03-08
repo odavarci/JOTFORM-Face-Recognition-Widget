@@ -251,7 +251,7 @@ function Video(props) {
   }
 
    const submitFace = (values) => {
-    console.log("submit face worked");
+    console.log(values);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       let qid = i + 2;
@@ -262,11 +262,14 @@ function Video(props) {
       }
       else if(values[i].type === 'control_phone') {
         let arr = values[i].value.split(" ");
-        formData.append("submission[" + qid + "_area]", arr[0]);
+        formData.append("submission[" + qid + "_area]", arr[0].substring(1,4));
         formData.append("submission[" + qid + "_phone]", arr[1]);
       }
-      //formData.append("submissions[" + (i + 2) + "]", values[i].value.toString());
+      else if(values[i].type === 'control_email') {
+        formData.append("submission[" + qid + "]", values[i].value);
+      }
     }
+    formData.append("submission[0]", capturedFace);
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
