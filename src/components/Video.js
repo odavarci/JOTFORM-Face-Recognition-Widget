@@ -240,7 +240,6 @@ function Video(props) {
   }
 
   const creteNewFaceSubmission = () => {
-    console.log("creteNewFaceSubmission worked!");
     let arr = [];
     for(let i = 0; i < widgetQuestions.length; i++) {
       arr.push(widgetQuestions[i].qid);
@@ -255,9 +254,10 @@ function Video(props) {
     console.log("submit face worked");
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
-      formData.append("submissions[" + (i + 2) + "]", values[i].value);
+      console.log(values[i].value);
+      formData.append("submissions[" + (i + 2) + "]", values[i].value.toString());
     }
-    
+
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
       console.log("Submit response", response);
