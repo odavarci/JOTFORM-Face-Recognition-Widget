@@ -215,7 +215,6 @@ function Video(props) {
             let distance = calculateSimilarityOfFaces(currentFace, face);
             if(distance < faceRecognizorThreshold) {
               match = true;
-              console.log("FOUND: ",answers);
               setRecognizedProfile(answers);
               return true;
             }
@@ -269,7 +268,6 @@ function Video(props) {
         formData.append("submission[" + qid + "]", values[i].value);
       }
     }
-    console.log("Captured Face: ", capturedFace.toString());
     formData.append("submission[1]", capturedFace.toString());
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
@@ -371,26 +369,20 @@ function Video(props) {
   }
 
   const returnFaceInfo = () => {
-    // if(isRecognized === false){
-    //   return(
-    //     <Wrapper>
-    //       <p>Face not found. Please fill the form.</p>
-    //       <button onClick={creteNewFaceSubmission}>Done!</button>
-    //     </Wrapper>
-    //   );  
-    // }
-    // else{
-    //   setFieldsValue();
-    //   return (
-    //     <p>{recognizedProfile[0] + " " + recognizedProfile[1]}</p>
-    //   );
-    // }
-    return(
-      <Wrapper>
-        <p>Face not found. Please fill the form.</p>
-        <button onClick={creteNewFaceSubmission}>Done!</button>
-      </Wrapper>
-    );
+    if(isRecognized === false){
+      return(
+        <Wrapper>
+          <p>Face not found. Please fill the form.</p>
+          <button onClick={creteNewFaceSubmission}>Done!</button>
+        </Wrapper>
+      );  
+    }
+    else{
+      console.log(recognizedProfile);
+      return(
+        <h1>FOUND!</h1>
+      );
+    }
   }
 
   init();
