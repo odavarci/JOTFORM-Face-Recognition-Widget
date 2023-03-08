@@ -255,7 +255,17 @@ function Video(props) {
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       console.log(values[i].value);
-      formData.append("submissions[" + (i + 2) + "]", values[i].value.toString());
+      if(values[i].type === 'control_fullname') {
+        let arr = values[i].value.split(" ");
+        formData.append("submission[" + i + "_first]", arr[0]);
+        formData.append("submission[" + i + "_last]", arr[1]);
+      }
+      else if(values[i].type === 'control_phone') {
+        let arr = values[i].value.split(" ");
+        formData.append("submission[" + i + "_area]", arr[0]);
+        formData.append("submission[" + i + "_phone]", arr[1]);
+      }
+      //formData.append("submissions[" + (i + 2) + "]", values[i].value.toString());
     }
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
