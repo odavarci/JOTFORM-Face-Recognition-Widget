@@ -36,17 +36,6 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  const loadModels = async () => {
-    const MODEL_URL = process.env.PUBLIC_URL + '/models';
-
-    return Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-    ]);
-  }
-
   const getSubmissions = (formID) => {
     return new Promise(function(resolve, reject){
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
@@ -213,6 +202,7 @@ function Video(props) {
           if(j === faceQID) {
             let currentFace = answers[j].answer.split(",");
             let distance = calculateSimilarityOfFaces(currentFace, face);
+            console.log(distance);
             if(distance < faceRecognizorThreshold) {
               match = true;
               closeWebcam();
@@ -336,14 +326,13 @@ function Video(props) {
   }
 
   const closeWebcam = () => {
-    if(captureVideo) {
-      videoRef.current.pause();
-      videoRef.current.srcObject.getTracks()[0].stop();
-      setCaptureVideo(false);
-    }
+    videoRef.current.pause();
+    videoRef.current.srcObject.getTracks()[0].stop();
+    setCaptureVideo(false);
   }
   //------------------------------------------------------------------------------------------------------------------
 
+  //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
   const init = () => {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
@@ -372,6 +361,18 @@ function Video(props) {
       });
     }
   }
+
+  const loadModels = async () => {
+    const MODEL_URL = process.env.PUBLIC_URL + '/models';
+
+    return Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+    ]);
+  }
+  //-------------------------------------------------------------------------------------------------------------------
 
   const returnFaceInfo = () => {
     if(isRecognized === false){
