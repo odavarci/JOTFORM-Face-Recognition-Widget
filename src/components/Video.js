@@ -202,10 +202,10 @@ function Video(props) {
           if(j === faceQID) {
             let currentFace = answers[j].answer.split(",");
             let distance = calculateSimilarityOfFaces(currentFace, face);
-            console.log(distance);
             if(distance < faceRecognizorThreshold) {
               match = true;
               closeWebcam();
+              console.log("recognized profile: ", answers);
               setRecognizedProfile(answers);
               return true;
             }
