@@ -247,7 +247,7 @@ function Video(props) {
     }
     jotform.getFieldsValueById( arr, (response) => {
       console.log("response", response);
-        submitFace(response);
+        submitFace(response.data);
       });
   }
 
