@@ -254,16 +254,16 @@ function Video(props) {
     console.log("submit face worked");
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
-      console.log(values[i].value);
+      let qid = i + 2;
       if(values[i].type === 'control_fullname') {
         let arr = values[i].value.split(" ");
-        formData.append("submission[" + i + "_first]", arr[0]);
-        formData.append("submission[" + i + "_last]", arr[1]);
+        formData.append("submission[" + qid + "_first]", arr[0]);
+        formData.append("submission[" + qid + "_last]", arr[1]);
       }
       else if(values[i].type === 'control_phone') {
         let arr = values[i].value.split(" ");
-        formData.append("submission[" + i + "_area]", arr[0]);
-        formData.append("submission[" + i + "_phone]", arr[1]);
+        formData.append("submission[" + qid + "_area]", arr[0]);
+        formData.append("submission[" + qid + "_phone]", arr[1]);
       }
       //formData.append("submissions[" + (i + 2) + "]", values[i].value.toString());
     }
