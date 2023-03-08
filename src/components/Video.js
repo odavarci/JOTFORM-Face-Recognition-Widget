@@ -215,8 +215,8 @@ function Video(props) {
             let distance = calculateSimilarityOfFaces(currentFace, face);
             if(distance < faceRecognizorThreshold) {
               match = true;
-              setRecognizedProfile(answers);
-              return true;
+              //setRecognizedProfile(answers);
+              return answers;
             }
           }
         }
@@ -310,10 +310,12 @@ function Video(props) {
         if(detection !== undefined) {
           timesRecognitionLeft--;
 
-          if(findFace(detection.descriptor)){
+          let found = findFace(detection.descriptor);
+          if(found !== false){
             console.log("closed!");
             closeWebcam();
             clearInterval(videoInterval);
+            setRecognizedProfile(found);
             return;
           }
   
