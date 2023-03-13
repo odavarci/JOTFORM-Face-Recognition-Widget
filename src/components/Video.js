@@ -83,10 +83,13 @@ function Video(props) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             console.log("getWidgetDatabaseFormID: ", response);
-            addQuestionsToDatabase(response).then(() => {
-              submitDatabaseMatch(widgetFormID, response);
-              resolve(response);
-            });
+            // addQuestionsToDatabase(response).then(() => {
+            //   submitDatabaseMatch(widgetFormID, response);
+            //   resolve(response);
+            // });
+            addQuestionsToDatabase(widgetFormID);
+            submitDatabaseMatch(widgetFormID, response);
+            resolve(response);
           });
         }
       });
