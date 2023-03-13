@@ -98,7 +98,7 @@ function Video(props) {
         console.log("response", response);
         let newID = response.data.content.id;
         console.log("createNewDatabaseForm: ", newID);
-        //addQuestionsToDatabase(newID);
+        addQuestionsToDatabase(newID);
         resolve(newID);
         // addQuestionsToDatabase(newID).then( () => {
         //   resolve(newID);
