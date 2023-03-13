@@ -149,9 +149,9 @@ function Video(props) {
 
   const addQuestionsToDatabase = (databaseID) => {
     let promiseArr = [];
-    promiseArr.append(getQuestionPromise('control_textbox', faceFieldName, databaseID));
+    promiseArr.push(getQuestionPromise('control_textbox', faceFieldName, databaseID));
     for (let i = 0; i < widgetQuestions.length; i++) {
-      promiseArr.append(getQuestionPromise(widgetQuestions[i].type.toString(), widgetQuestions[i].qid.toString(), databaseID));
+      promiseArr.push(getQuestionPromise(widgetQuestions[i].type.toString(), widgetQuestions[i].qid.toString(), databaseID));
     }
     Promise.all(promiseArr);
   }
