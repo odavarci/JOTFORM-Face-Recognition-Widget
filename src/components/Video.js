@@ -96,10 +96,12 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
-        addQuestionsToDatabase(response.data.content.id).then( () => {
-          //console.log("new id: ",response.data.content.id);
-          resolve(response.data.content.id);
-        });
+        let newID = response.data.content.id;
+        addQuestionsToDatabase(newID);
+        resolve(newID);
+        // addQuestionsToDatabase(newID).then( () => {
+        //   resolve(newID);
+        // });
       })
       .catch(function(error){
         console.log("createNewDatabaseForm Error: ", error);
@@ -108,31 +110,47 @@ function Video(props) {
     });
   }
 
-  const addQuestionsToDatabase = (databaseID) => {
-    return new Promise(function(resolve, reject) {
-      try {
-        let formData = new FormData();
-        formData.append('question[type]', 'control_textbox');
-        formData.append('question[name]', faceFieldName);
-        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-        .then(function() {
-          for (let i = 0; i < widgetQuestions.length; i++) {
-            let formData = new FormData();
-            formData.append('question[type]', widgetQuestions[i].type.toString());
-            formData.append('question[name]', widgetQuestions[i].qid.toString());
-            axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-            .then(function() {
-            });
-          }
-          resolve(1);
-        });
+  // const addQuestionsToDatabase = (databaseID) => {
+  //   return new Promise(function(resolve, reject) {
+  //     try {
+  //       let formData = new FormData();
+  //       formData.append('question[type]', 'control_textbox');
+  //       formData.append('question[name]', faceFieldName);
+  //       axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+  //       .then(function() {
+  //         for (let i = 0; i < widgetQuestions.length; i++) {
+  //           let formData = new FormData();
+  //           formData.append('question[type]', widgetQuestions[i].type.toString());
+  //           formData.append('question[name]', widgetQuestions[i].qid.toString());
+  //           axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+  //           .then(function() {
+  //           });
+  //         }
+  //         resolve(1);
+  //       });
         
+  //     }
+  //     catch(error) {
+  //       console.log("addQuestionToDatabase Error: ", error);
+  //       reject(0);
+  //     }
+  //   });
+  // }
+
+  const addQuestionsToDatabase = (databaseID) => {
+    let formData = new FormData();
+    formData.append('question[type]', 'control_textbox');
+    formData.append('question[name]', faceFieldName);
+    axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+    .then(function() {
+      for (let i = 0; i < widgetQuestions.length; i++) {
+        let formData = new FormData();
+        formData.append('question[type]', widgetQuestions[i].type.toString());
+        formData.append('question[name]', widgetQuestions[i].qid.toString());
+        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+        .then(function() {});
       }
-      catch(error) {
-        console.log("addQuestionToDatabase Error: ", error);
-        reject(0);
-      }
-    });
+    });   
   }
 
   const submitDatabaseMatch = (formID, databaseID) => {
