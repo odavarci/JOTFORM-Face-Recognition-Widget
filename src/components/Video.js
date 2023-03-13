@@ -94,6 +94,7 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
+        console.log("response", response);
         let newID = response.data.content.id;
         console.log("createNewDatabaseForm: ", newID);
         addQuestionsToDatabase(newID);
