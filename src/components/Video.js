@@ -111,10 +111,10 @@ function Video(props) {
           }
         }
         if(!match) {
-          console.log("new form created");
+          //console.log("new form created");
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
-            console.log("SUBMIT MATCH WORKED: ", response);
+            //console.log("SUBMIT MATCH WORKED: ", response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
           });
@@ -130,7 +130,7 @@ function Video(props) {
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
         addQuestionsToDatabase(response.data.content.id).then( () => {
-          console.log("new id: ",response.data.content.id);
+          //console.log("new id: ",response.data.content.id);
           resolve(response.data.content.id);
         });
       })
