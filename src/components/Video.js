@@ -129,12 +129,12 @@ function Video(props) {
       formData.append("question[name]", faceFieldName);
       axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
       .then(() => {
-        addIthQuestion(widgetQuestions.length - 1, formID);
+        addIthQuestion(0, formID);
       });
   }
 
   const addIthQuestion = (order, formID) => {
-    if(order < 0) {
+    if(order >= widgetQuestions.length) {
       return;
     }
     let formData = new FormData();
@@ -142,7 +142,7 @@ function Video(props) {
     formData.append("question[type]", widgetQuestions[order].qid);
     axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
     .then(() => {
-      addIthQuestion(order - 1, formID);
+      addIthQuestion(order + 1, formID);
     });
   }
 
