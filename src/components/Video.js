@@ -124,23 +124,46 @@ function Video(props) {
   }
 
   const addQuestionsToDatabase = (formID) => {
-    console.log(widgetQuestions);
+      let formData = new FormData();
+      formData.append("question[type]", "control_textbox");
+      formData.append("question[name]", faceFieldName);
+      axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+      .then(() => {
+        addIthQuestion(widgetQuestions.length - 1, formID);
+      });
+  }
+
+  const addIthQuestion = (order, formID) => {
+    if(order < 0) {
+      return;
+    }
     let formData = new FormData();
-    formData.append("question[type]", "control_textbox");
-    formData.append("question[name]", faceFieldName);
+    formData.append("question[type]", widgetQuestions[order].type);
+    formData.append("question[type]", widgetQuestions[order].qid);
     axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
     .then(() => {
-      for(let i = 0; i < widgetQuestions.length; i++) {
-        let formData = new FormData();
-        formData.append("question[type]", widgetQuestions[i].type);
-        formData.append("question[type]", widgetQuestions[i].qid);
-        axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
-        .then(() => {
-          console.log("worked: ", );
-        });
-      }
+      addIthQuestion(order - 1, formID);
     });
   }
+
+  // const addQuestionsToDatabase = (formID) => {
+  //   console.log(widgetQuestions);
+  //   let formData = new FormData();
+  //   formData.append("question[type]", "control_textbox");
+  //   formData.append("question[name]", faceFieldName);
+  //   axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+  //   .then(() => {
+  //     for(let i = 0; i < widgetQuestions.length; i++) {
+  //       let formData = new FormData();
+  //       formData.append("question[type]", widgetQuestions[i].type);
+  //       formData.append("question[type]", widgetQuestions[i].qid);
+  //       axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+  //       .then(() => {
+  //         console.log("worked: ", );
+  //       });
+  //     }
+  //   });
+  // }
 
   const getQuestionPromise = (type, name, databaseID) => {
     let formData = new FormData();
