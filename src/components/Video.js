@@ -158,15 +158,17 @@ function Video(props) {
   }
 
   const getQuestionPromise = (type, name, databaseID) => {
-    return new Promise((resolve, reject) => {
-      let formData = new FormData();
-      formData.append('question[type]', type);
-      formData.append('question[name]', name);
-      axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-      .then(function() {
-        resolve(1);
+    setTimeout(() => {
+      return new Promise((resolve, reject) => {
+        let formData = new FormData();
+        formData.append('question[type]', type);
+        formData.append('question[name]', name);
+        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+        .then(function() {
+          resolve(1);
+        });
       });
-    });
+    }, 10);
   }
   //-----------------------------------------------------------------------------------------------------------
 
