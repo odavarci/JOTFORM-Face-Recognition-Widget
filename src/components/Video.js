@@ -87,7 +87,7 @@ function Video(props) {
             //   submitDatabaseMatch(widgetFormID, response);
             //   resolve(response);
             // });
-            addQuestionsToDatabase(widgetDatabaseFormID);
+            addQuestionsToDatabase(response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
           });
