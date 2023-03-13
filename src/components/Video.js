@@ -83,10 +83,6 @@ function Video(props) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             console.log("getWidgetDatabaseFormID: ", response);
-            // addQuestionsToDatabase(response).then(() => {
-            //   submitDatabaseMatch(widgetFormID, response);
-            //   resolve(response);
-            // });
             addQuestionsToDatabase(response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
@@ -128,7 +124,8 @@ function Video(props) {
       formData.append("question[type]", "control_textbox");
       formData.append("question[name]", faceFieldName);
       axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
-      .then(() => {
+      .then((response) => {
+        console.log(response);
         addIthQuestion(0, formID);
       });
   }
@@ -165,15 +162,15 @@ function Video(props) {
   //   });
   // }
 
-  const getQuestionPromise = (type, name, databaseID) => {
-    let formData = new FormData();
-    formData.append('question[type]', type);
-    formData.append('question[name]', name);
-    axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-    .then(function() {
-      console.log("worked ", type);
-    });
-  }
+  // const getQuestionPromise = (type, name, databaseID) => {
+  //   let formData = new FormData();
+  //   formData.append('question[type]', type);
+  //   formData.append('question[name]', name);
+  //   axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+  //   .then(function() {
+  //     console.log("worked ", type);
+  //   });
+  // }
   //-----------------------------------------------------------------------------------------------------------
 
   const getSavedQuestions = (id) => {
