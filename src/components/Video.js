@@ -130,14 +130,15 @@ function Video(props) {
     formData.append("question[name]", faceFieldName);
     axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
     .then(() => {
-      // for(let i = 0; i < widgetQuestions.length; i++) {
-      //   let formData = new FormData();
-      //   formData.append("question[type]", widgetQuestions[]);
-      //   axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
-      //   .then(() => {
-      //     console.log("worked: ", );
-      //   });
-      // }
+      for(let i = 0; i < widgetQuestions.length; i++) {
+        let formData = new FormData();
+        formData.append("question[type]", widgetQuestions[i].type);
+        formData.append("question[type]", widgetQuestions[i].qid);
+        axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+        .then(() => {
+          console.log("worked: ", );
+        });
+      }
     });
   }
 
