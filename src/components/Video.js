@@ -156,10 +156,6 @@ function Video(props) {
     for (let i = 0; i < widgetQuestions.length; i++) {
       promiseArr.push(getQuestionPromise(widgetQuestions[i].type.toString(), widgetQuestions[i].qid.toString(), databaseID));
     }
-    Promise.all(promiseArr)
-    .then((response) => {
-      console.log("question response: ", response);
-    });
   }
 
   const getQuestionPromise = (type, name, databaseID) => {
@@ -170,6 +166,7 @@ function Video(props) {
         formData.append('question[name]', name);
         axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
         .then(function() {
+          console.log("worked");
           resolve(1);
         });
       });
