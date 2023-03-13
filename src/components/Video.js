@@ -65,35 +65,61 @@ function Video(props) {
   }
 
   //---------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
+  // const getWidgetDatabaseFormID = () => {
+  //   return new Promise(function(resolve, reject){
+  //     try {
+  //       let match = false;
+  //       let submission = getSubmissions(formDatabaseID);
+  //       submission.then((response) => {
+  //         for(let i = 0; i < response.length; i++) {
+  //           console.log("function form id: ", response[i].answers[4].answer);
+  //           console.log("function database id: ", response[i].answers[5].answer);
+  //           if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+  //             match = true;
+  //             resolve(response[i].answers[5].answer);
+  //           }
+  //         }
+  //         if(!match) {
+  //           console.log("new form created");
+  //           let promise = createNewDatabaseForm(widgetFormID);
+  //           promise.then((response) => {
+  //             console.log("SUBMIT MATCH WORKED");
+  //             submitDatabaseMatch(widgetFormID,response);
+  //             resolve(response);
+  //           });
+  //         }
+  //       });
+  //     }
+  //     catch(error) {
+  //       console.log("getWidgetDatabaseFormID Error: ", error);
+  //       reject(error);
+  //     }
+  //   });
+  // }
+
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
-      try {
-        let match = false;
-        let submission = getSubmissions(formDatabaseID);
-        submission.then((response) => {
-          for(let i = 0; i < response.length; i++) {
-            console.log("function form id: ", response[i].answers[4].answer);
-            console.log("function database id: ", response[i].answers[5].answer);
-            if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
-              match = true;
-              resolve(response[i].answers[5].answer);
-            }
+      let match = false;
+      let submission = getSubmissions(formDatabaseID);
+      submission.then((response) => {
+        for(let i = 0; i < response.length; i++) {
+          console.log("function form id: ", response[i].answers[4].answer);
+          console.log("function database id: ", response[i].answers[5].answer);
+          if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+            match = true;
+            resolve(response[i].answers[5].answer);
           }
-          if(!match) {
-            console.log("new form created");
-            let promise = createNewDatabaseForm(widgetFormID);
-            promise.then((response) => {
-              console.log("SUBMIT MATCH WORKED");
-              submitDatabaseMatch(widgetFormID,response);
-              resolve(response);
-            });
-          }
-        });
-      }
-      catch(error) {
-        console.log("getWidgetDatabaseFormID Error: ", error);
-        reject(error);
-      }
+        }
+        if(!match) {
+          console.log("new form created");
+          let promise = createNewDatabaseForm(widgetFormID);
+          promise.then((response) => {
+            console.log("SUBMIT MATCH WORKED");
+            submitDatabaseMatch(widgetFormID,response);
+            resolve(response);
+          });
+        }
+      });
     });
   }
 
