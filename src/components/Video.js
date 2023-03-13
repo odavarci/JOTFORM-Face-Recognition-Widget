@@ -81,7 +81,7 @@ function Video(props) {
         if(!match) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
-            console.log("SUBMIT MATCH WORKED: ", response);
+            console.log("getWidgetDatabaseFormID: ", response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
           });
@@ -97,6 +97,7 @@ function Video(props) {
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
         let newID = response.data.content.id;
+        console.log("createNewDatabaseForm: ", newID);
         addQuestionsToDatabase(newID);
         resolve(newID);
         // addQuestionsToDatabase(newID).then( () => {
