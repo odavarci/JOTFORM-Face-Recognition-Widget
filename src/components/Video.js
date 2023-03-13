@@ -71,7 +71,7 @@ function Video(props) {
       let submission = getSubmissions(formDatabaseID);
       submission.then((response) => {
         for(let i = 0; i < response.length; i++) {
-          if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== undefined) {
+          if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== "undefined") {
             match = true;
             console.log("found in database:", response[i].answers[5].answer);
             resolve(response[i].answers[5].answer);
