@@ -1,4 +1,3 @@
-import { data } from '@tensorflow/tfjs-node';
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
 import React, { useEffect, useState } from 'react';
