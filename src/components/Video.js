@@ -138,7 +138,8 @@ function Video(props) {
     formData.append("question[type]", widgetQuestions[order].type);
     formData.append("question[type]", widgetQuestions[order].qid);
     axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
-    .then(() => {
+    .then((response) => {
+      console.log(response);
       addIthQuestion(order + 1, formID);
     });
   }
