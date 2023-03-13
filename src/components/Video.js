@@ -100,6 +100,8 @@ function Video(props) {
       formData.append('questions[0][name]', faceFieldName);
       formData.append('questions[0][order]', '0');
       for(let i = 0; i < widgetQuestions.length; i++) {
+        console.log('questions[' + (i+1) + '][type]');
+        console.log(widgetQuestions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][type]', widgetQuestions[i].type.toString());
         formData.append('questions[' + (i+1) + '][name]', widgetQuestions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][order]', (i+1).toString());
