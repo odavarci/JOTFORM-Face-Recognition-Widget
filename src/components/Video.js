@@ -97,10 +97,8 @@ function Video(props) {
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
         console.log("response", response);
-        let newID;
-        try{
-          newID = response.data.content.id;
-        } catch(error) {
+        let newID = response.data.content.id;
+        if(newID === undefined) {
           newID = response.data.content.split(" ")[1];
         }
         console.log("createNewDatabaseForm: ", newID);
