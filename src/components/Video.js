@@ -8,7 +8,7 @@ const faceFieldName = 'FACE_DATABASE';
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
-let widgetQuestions, widgetDatabaseQuestions;
+let widgetQuestions;
 
 let jotform, jotformAPI; //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
@@ -123,38 +123,22 @@ function Video(props) {
     });
   }
 
-  // const addQuestionsToDatabase = (databaseID) => {
-  //   return new Promise(function(resolve, reject) {
-  //     try {
-  //       let formData = new FormData();
-  //       formData.append('question[type]', 'control_textbox');
-  //       formData.append('question[name]', faceFieldName);
-  //       axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //       .then(function() {
-  //         for (let i = 0; i < widgetQuestions.length; i++) {
-  //           let formData = new FormData();
-  //           formData.append('question[type]', widgetQuestions[i].type.toString());
-  //           formData.append('question[name]', widgetQuestions[i].qid.toString());
-  //           axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //           .then(function() {
-  //           });
-  //         }
-  //         resolve(1);
-  //       });
-        
-  //     }
-  //     catch(error) {
-  //       console.log("addQuestionToDatabase Error: ", error);
-  //       reject(0);
-  //     }
-  //   });
-  // }
-
-  const addQuestionsToDatabase = (databaseID) => {
-    getQuestionPromise('control_textbox', faceFieldName, databaseID);
-    for (let i = 0; i < widgetQuestions.length; i++) {
-      getQuestionPromise(widgetQuestions[i].type.toString(), widgetQuestions[i].qid.toString(), databaseID);
-    }
+  const addQuestionsToDatabase = (formID) => {
+    console.log(widgetQuestions);
+    let formData = new FormData();
+    formData.append("question[type]", "control_textbox");
+    formData.append("question[name]", faceFieldName);
+    axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+    .then(() => {
+      // for(let i = 0; i < widgetQuestions.length; i++) {
+      //   let formData = new FormData();
+      //   formData.append("question[type]", widgetQuestions[]);
+      //   axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+      //   .then(() => {
+      //     console.log("worked: ", );
+      //   });
+      // }
+    });
   }
 
   const getQuestionPromise = (type, name, databaseID) => {
