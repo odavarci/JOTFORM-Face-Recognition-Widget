@@ -16,14 +16,12 @@ const basicElementTypes = ['control_fullname', 'control_email', 'control_address
 
 function Video(props) {
 
-  let formID = props.formID;
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
 
   jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
-  //const [modelsLoaded, setModelsLoaded] = useState(false);
   const [captureVideo, setCaptureVideo] = useState(false);
   const [capturedFace, setCapturedFace] = useState(null);
   const [recognizedProfile, setRecognizedProfile] = useState(null);
@@ -231,15 +229,6 @@ function Video(props) {
     }
 
     jotform.setFieldsValueById(arr);
-    
-    // let name = recognizedProfile[0];
-    // let surname = recognizedProfile[1];
-    // jotform.setFieldsValueById(
-    //   [{
-    //     id: '3',
-    //     value: name + ' ' + surname
-    //   }]
-    // );
   }
 
   const creteNewFaceSubmission = () => {
@@ -351,6 +340,7 @@ function Video(props) {
       jotform.subscribe("ready", (response) => {
         //WIDGET FORM ID
         widgetFormID = response.formID;
+        console.log("widget form: ", widgetFormID);
         //QUESTIONS OF WIDGET FORM
         let promiseQuestions = getSavedQuestions(widgetFormID);
         promiseQuestions.then( (response) => {
@@ -360,12 +350,15 @@ function Video(props) {
           let promiseDatabase = getWidgetDatabaseFormID();
           promiseDatabase.then( (response) => {
             widgetDatabaseFormID = response;
+            console.log("database id:", widgetDatabaseFormID);
             //DATABSE SUBMISSIONS
             let promiseSubmission = getSubmissions(widgetDatabaseFormID);
               promiseSubmission.then( (response) => {
               databaseSubmissions = response;
+              console.log("submission of database: ", databaseSubmissions);
               //LOAD FACE API MODELS
               loadModels().then(() => {
+                console.log("models loaded");
                 setWidgetLoaded(true);
               });
             });
