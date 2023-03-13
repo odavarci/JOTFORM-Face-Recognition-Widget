@@ -96,13 +96,13 @@ function Video(props) {
     return new Promise(function(resolve, reject){
       let formData = new FormData();
       formData.append('properties[title]', formID + "Database");
-      formData.append('questions[1][type]', 'control_textbox');
-      formData.append('questions[1][name]', faceFieldName);
-      formData.append('questions[1][order]', '0');
+      formData.append('questions[0][type]', 'control_textbox');
+      formData.append('questions[0][name]', faceFieldName);
+      formData.append('questions[0][order]', '0');
       for(let i = 0; i < widgetQuestions.length; i++) {
-        formData.append('questions[' + (i+2) + '][type]', widgetQuestions[i].type);
-        formData.append('questions[' + (i+2) + '][name]', widgetQuestions[i].qid);
-        formData.append('questions[' + (i+2) + '][order]', (i+1).toString());
+        formData.append('questions[' + (i+1) + '][type]', widgetQuestions[i].type.toString());
+        formData.append('questions[' + (i+1) + '][name]', widgetQuestions[i].qid.toString());
+        formData.append('questions[' + (i+1) + '][order]', (i+1).toString());
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
