@@ -1,3 +1,4 @@
+import { data } from '@tensorflow/tfjs-node';
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
 import React, { useEffect, useState } from 'react';
@@ -120,48 +121,53 @@ function Video(props) {
     });
   }
 
-  const addQuestionsToDatabase = (databaseID) => {
-    return new Promise(function(resolve, reject) {
-      try {
-        let formData = new FormData();
-        formData.append('question[type]', 'control_textbox');
-        formData.append('question[name]', faceFieldName);
-        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-        .then(function() {
-          for (let i = 0; i < widgetQuestions.length; i++) {
-            let formData = new FormData();
-            formData.append('question[type]', widgetQuestions[i].type.toString());
-            formData.append('question[name]', widgetQuestions[i].qid.toString());
-            axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-            .then(function() {
-            });
-          }
-          resolve(1);
-        });
+  // const addQuestionsToDatabase = (databaseID) => {
+  //   return new Promise(function(resolve, reject) {
+  //     try {
+  //       let formData = new FormData();
+  //       formData.append('question[type]', 'control_textbox');
+  //       formData.append('question[name]', faceFieldName);
+  //       axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+  //       .then(function() {
+  //         for (let i = 0; i < widgetQuestions.length; i++) {
+  //           let formData = new FormData();
+  //           formData.append('question[type]', widgetQuestions[i].type.toString());
+  //           formData.append('question[name]', widgetQuestions[i].qid.toString());
+  //           axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+  //           .then(function() {
+  //           });
+  //         }
+  //         resolve(1);
+  //       });
         
-      }
-      catch(error) {
-        console.log("addQuestionToDatabase Error: ", error);
-        reject(0);
-      }
-    });
+  //     }
+  //     catch(error) {
+  //       console.log("addQuestionToDatabase Error: ", error);
+  //       reject(0);
+  //     }
+  //   });
+  // }
+
+  const addQuestionsToDatabase = (databaseID) => {
+    let promiseArr = [];
+    promiseArr.append(getQuestionPromise('control_textbox', faceFieldName, databaseID));
+    for (let i = 0; i < widgetQuestions.length; i++) {
+      promiseArr.append(getQuestionPromise(widgetQuestions[i].type.toString(), widgetQuestions[i].qid.toString(), databaseID));
+    }
+    Promise.all(promiseArr);
   }
 
-  // const addQuestionsToDatabase = (databaseID) => {
-  //   let formData = new FormData();
-  //   formData.append('question[type]', 'control_textbox');
-  //   formData.append('question[name]', faceFieldName);
-  //   axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //   .then(function() {
-  //     for (let i = 0; i < widgetQuestions.length; i++) {
-  //       let formData = new FormData();
-  //       formData.append('question[type]', widgetQuestions[i].type.toString());
-  //       formData.append('question[name]', widgetQuestions[i].qid.toString());
-  //       axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //       .then(function() {});
-  //     }
-  //   });   
-  // }
+  const getQuestionPromise = (type, name, databaseID) => {
+    return new Promise((resolve, reject) => {
+      let formData = new FormData();
+      formData.append('question[type]', type);
+      formData.append('question[name]', name);
+      axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+      .then(function() {
+        resolve(1);
+      });
+    });
+  }
   //-----------------------------------------------------------------------------------------------------------
 
   const getSavedQuestions = (id) => {
