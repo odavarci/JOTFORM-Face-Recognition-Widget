@@ -78,10 +78,12 @@ function Video(props) {
             return;
           }
         }
+        //Create new database form and return its id
         if(!match) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             console.log("getWidgetDatabaseFormID: ", response);
+            addQuestionsToDatabase(response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
           });
@@ -144,21 +146,21 @@ function Video(props) {
   //   });
   // }
 
-  // const addQuestionsToDatabase = (databaseID) => {
-  //   let formData = new FormData();
-  //   formData.append('question[type]', 'control_textbox');
-  //   formData.append('question[name]', faceFieldName);
-  //   axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //   .then(function() {
-  //     for (let i = 0; i < widgetQuestions.length; i++) {
-  //       let formData = new FormData();
-  //       formData.append('question[type]', widgetQuestions[i].type.toString());
-  //       formData.append('question[name]', widgetQuestions[i].qid.toString());
-  //       axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
-  //       .then(function() {});
-  //     }
-  //   });   
-  // }
+  const addQuestionsToDatabase = (databaseID) => {
+    let formData = new FormData();
+    formData.append('question[type]', 'control_textbox');
+    formData.append('question[name]', faceFieldName);
+    axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+    .then(function() {
+      for (let i = 0; i < widgetQuestions.length; i++) {
+        let formData = new FormData();
+        formData.append('question[type]', widgetQuestions[i].type.toString());
+        formData.append('question[name]', widgetQuestions[i].qid.toString());
+        axios.post('https://api.jotform.com/form/' + databaseID + '/questions?apiKey=' + apiKey, formData)
+        .then(function() {});
+      }
+    });   
+  }
   //-----------------------------------------------------------------------------------------------------------
 
   const getSavedQuestions = (id) => {
