@@ -386,7 +386,6 @@ function Video(props) {
 
   return (
     <Wrapper>
-        <canvas id="canvas"></canvas>
         {jotform.isWidgetOnBuilder() ?
           <h1>I am not working on builder :(</h1>
           :
