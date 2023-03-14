@@ -361,23 +361,11 @@ function Video(props) {
                     console.log("listener response:", response);
                   });
                   setWidgetLoaded(true);
-                }
                 });
               });
             });
           });
         }
-      });
-    }
-    else {
-      let qid;
-      for(let i in widgetQuestions) {
-        if(widgetQuestions[i].builderLabel === "Auto Filler") {
-          qid = i;
-        }
-      }
-      jotform.listenFromField(qid, () => {}, (response) => {
-        console.log("listener response:", response);
       });
     }
   }
