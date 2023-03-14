@@ -118,23 +118,6 @@ function Video(props) {
     });
   }
 
-  // const createNewDatabaseForm = (formID) => {
-  //   return new Promise(function(resolve, reject){
-  //     let formData = new FormData();
-  //     formData.append('properties[title]', formID + "Database");
-  //     axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
-  //     .then(function(response){
-  //       console.log("response", response);
-  //       let newID = response.data.content.id;
-  //       if(newID === undefined) {
-  //         newID = response.data.content.split(" ")[1];
-  //       }
-  //       console.log("createNewDatabaseForm: ", newID);
-  //       resolve(newID);
-  //     })
-  //   });
-  // }
-
   const submitDatabaseMatch = (formID, databaseID) => {
     let formData = new FormData();
     formData.append('submission[4]',formID);
@@ -323,7 +306,37 @@ function Video(props) {
     }, 100)
   }
 
+  function capture() {
+    //var canvas = document.getElementById("canvas");
+    //var video = document.querySelector("video");
+    var video = videoRef;
+    var canvas = canvasRef;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas
+      .getContext("2d")
+      .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+  
+    /** Code to merge image **/
+    /** For instance, if I want to merge a play image on center of existing image **/
+    // const playImage = new Image();
+    // playImage.src = "path to image asset";
+    // playImage.onload = () => {
+    //   const startX = video.videoWidth / 2 - playImage.width / 2;
+    //   const startY = video.videoHeight / 2 - playImage.height / 2;
+    //   canvas
+    //     .getContext("2d")
+    //     .drawImage(playImage, startX, startY, playImage.width, playImage.height);
+    //   canvas.toBlob() = (blob) => {
+    //     const img = new Image();
+    //     img.src = window.URL.createObjectUrl(blob);
+    //   };
+    // };
+    /** End **/
+  }
+
   const closeWebcam = () => {
+    capture();
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
