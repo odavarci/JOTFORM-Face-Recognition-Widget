@@ -398,7 +398,10 @@ function Video(props) {
 
   return (
     <Wrapper>
-        {widgetLoaded ?
+        {jotform.isWidgetOnBuilder() ?
+          <h1>Builder...</h1>
+          :
+          widgetLoaded ?
             <Wrapper>
             {
               (recognizedProfile === null && isRecognized === null) ? 
