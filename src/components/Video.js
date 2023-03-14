@@ -335,7 +335,6 @@ function Video(props) {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
         if(jotform.isWidgetOnBuilder()) {
-          console.log("on builder");
           setWidgetLoaded(true);
         }
         else{
@@ -405,7 +404,7 @@ function Video(props) {
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
-          <h1>Builder...</h1>
+          <h1>I am not working on builder :(</h1>
           :
           widgetLoaded ?
             <Wrapper>
