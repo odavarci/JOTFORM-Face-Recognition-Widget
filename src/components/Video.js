@@ -332,35 +332,39 @@ function Video(props) {
 
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
   const init = () => {
-    if(!widgetLoaded && !jotform.isWidgetOnBuilder()) {
-      console.log(jotform.isWidgetOnBuilder());
+    if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
-        //WIDGET FORM ID
-        widgetFormID = response.formID;
-        console.log("widget form: ", widgetFormID);
-        //QUESTIONS OF WIDGET FORM
-        let promiseQuestions = getSavedQuestions(widgetFormID);
-        promiseQuestions.then( (response) => {
-          widgetQuestions = response;
-          console.log("widget questions ", widgetQuestions);
-          //DATABASE FORM ID
-          let promiseDatabase = getWidgetDatabaseFormID();
-          promiseDatabase.then( (response) => {
-            widgetDatabaseFormID = response;
-            console.log("database id:", widgetDatabaseFormID);
-            //DATABSE SUBMISSIONS
-            let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-              promiseSubmission.then( (response) => {
-              databaseSubmissions = response;
-              console.log("submission of database: ", databaseSubmissions);
-              //LOAD FACE API MODELS
-              loadModels().then(() => {
-                console.log("models loaded");
-                setWidgetLoaded(true);
+        if(jotform.isWidgetOnBuilder()) {
+          console.log("on builder");
+        }
+        else{
+          //WIDGET FORM ID
+          widgetFormID = response.formID;
+          console.log("widget form: ", widgetFormID);
+          //QUESTIONS OF WIDGET FORM
+          let promiseQuestions = getSavedQuestions(widgetFormID);
+          promiseQuestions.then( (response) => {
+            widgetQuestions = response;
+            console.log("widget questions ", widgetQuestions);
+            //DATABASE FORM ID
+            let promiseDatabase = getWidgetDatabaseFormID();
+            promiseDatabase.then( (response) => {
+              widgetDatabaseFormID = response;
+              console.log("database id:", widgetDatabaseFormID);
+              //DATABSE SUBMISSIONS
+              let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+                promiseSubmission.then( (response) => {
+                databaseSubmissions = response;
+                console.log("submission of database: ", databaseSubmissions);
+                //LOAD FACE API MODELS
+                loadModels().then(() => {
+                  console.log("models loaded");
+                  setWidgetLoaded(true);
+                });
               });
             });
           });
-        });
+        }
       });
     }
   }
