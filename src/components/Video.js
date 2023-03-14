@@ -311,8 +311,8 @@ function Video(props) {
     //var video = document.querySelector("video");
     var video = videoRef.current;
     var canvas = canvasRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = videoWidth;
+    canvas.height = videoHeight;
     canvas
       .getContext("2d")
       .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
