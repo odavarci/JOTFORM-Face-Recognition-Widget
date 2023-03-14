@@ -132,27 +132,37 @@ function Video(props) {
   }
   //-----------------------------------------------------------------------------------------------------------
 
-  const getSavedQuestions = (id) => {
-    return new Promise(function(resolve, reject){
-      try{
-        axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
-        .then(function(response) {
-          let arr = response.data.content;
-          let toReturn = [];
+  // const getSavedQuestions = (id) => {
+  //   return new Promise(function(resolve, reject){
+  //     try{
+  //       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
+  //       .then(function(response) {
+  //         let arr = response.data.content;
+  //         let toReturn = [];
 
-          for(let i in arr) {
-            if(basicElementTypes.includes(arr[i].type)) {
-              toReturn.push(arr[i]);
-            }
-          }
-          resolve(toReturn);
-        });
+  //         for(let i in arr) {
+  //           if(basicElementTypes.includes(arr[i].type)) {
+  //             toReturn.push(arr[i]);
+  //           }
+  //         }
+  //         resolve(toReturn);
+  //       });
+  //     }
+  //     catch (error){
+  //       console.log("getSavedQuestions Error:", error);
+  //       reject(error);
+  //     }
+  //   });
+  // }
+
+  const getSavedQuestions = () => {
+    let toReturn = [];
+    for(let i in widgetQuestions) {
+      if(basicElementTypes.includes(widgetQuestions[i].type)) {
+        toReturn.push(widgetQuestions[i]);
       }
-      catch (error){
-        console.log("getSavedQuestions Error:", error);
-        reject(error);
-      }
-    });
+    }
+    return toReturn;
   }
 
   const calculateSimilarityOfFaces = (face1, face2) => {
@@ -328,7 +338,7 @@ function Video(props) {
           widgetFormID = response.formID;
           console.log("widget form: ", widgetFormID);
           //QUESTIONS OF WIDGET FORM
-          let promiseQuestions = getSavedQuestions(widgetFormID);
+          let promiseQuestions = getQuestions(widgetFormID);
           promiseQuestions.then( (response) => {
             widgetQuestions = response;
             console.log("widget questions ", widgetQuestions);
@@ -354,10 +364,8 @@ function Video(props) {
       });
     }
     else {
-      getQuestions(widgetDatabaseFormID)
-      .then((response) => {
-        console.log(response);
-      });
+      console.log(getSavedQuestions());
+      console.log(widgetQuestions);
       //jotform.listenFromField();
     }
   }
