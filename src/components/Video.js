@@ -309,8 +309,8 @@ function Video(props) {
   function capture() {
     //var canvas = document.getElementById("canvas");
     //var video = document.querySelector("video");
-    var video = videoRef;
-    var canvas = canvasRef;
+    var video = videoRef.current;
+    var canvas = canvasRef.current;
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas
