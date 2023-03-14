@@ -22,6 +22,8 @@ function Video(props) {
   jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
+  console.log(jotform);
+
   const [captureVideo, setCaptureVideo] = useState(false);
   const [capturedFace, setCapturedFace] = useState(null);
   const [recognizedProfile, setRecognizedProfile] = useState(null);
