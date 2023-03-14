@@ -333,6 +333,7 @@ function Video(props) {
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
   const init = () => {
     if(!widgetLoaded && !jotform.isWidgetOnBuilder()) {
+      console.log("worked!");
       jotform.subscribe("ready", (response) => {
         //WIDGET FORM ID
         widgetFormID = response.formID;
