@@ -353,6 +353,13 @@ function Video(props) {
         }
       });
     }
+    else {
+      getQuestions(widgetDatabaseFormID)
+      .then((response) => {
+        console.log(response);
+      });
+      //jotform.listenFromField();
+    }
   }
 
   const loadModels = async () => {
