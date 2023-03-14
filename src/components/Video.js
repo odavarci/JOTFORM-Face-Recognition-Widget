@@ -56,7 +56,7 @@ function Video(props) {
       try {
         axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
         .then((response) => {
-          resolve(response);
+          resolve(response.data.content);
         });
       }
       catch(error) {
@@ -178,9 +178,8 @@ function Video(props) {
     .then((response) => {
       let faceQID;
 
-      let arr = response.data.content;
-      for(let i in arr) {
-        if(arr[i].name === faceFieldName) {
+      for(let i in response) {
+        if(response[i].name === faceFieldName) {
           faceQID = i;
         }
       }
