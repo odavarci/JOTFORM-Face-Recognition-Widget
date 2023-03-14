@@ -306,18 +306,7 @@ function Video(props) {
     }, 100)
   }
 
-  function capture() {
-    var canvas = document.getElementById("canvas");
-    var video = videoRef;
-    canvas.width = videoWidth;
-    canvas.height = videoHeight;
-    canvas
-      .getContext("2d")
-      .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-  }
-
   const closeWebcam = () => {
-    capture();
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
