@@ -335,7 +335,6 @@ function Video(props) {
         else{
           //WIDGET FORM ID
           widgetFormID = response.formID;
-          console.log("widget form: ", widgetFormID);
           //QUESTIONS OF WIDGET FORM
           let promiseQuestions = getQuestions(widgetFormID);
           promiseQuestions.then( (response) => {
@@ -350,10 +349,8 @@ function Video(props) {
               let promiseSubmission = getSubmissions(widgetDatabaseFormID);
                 promiseSubmission.then( (response) => {
                 databaseSubmissions = response;
-                console.log("submission of database: ", databaseSubmissions);
                 //LOAD FACE API MODELS
                 loadModels().then(() => {
-                  console.log("models loaded");
                   setWidgetLoaded(true);
                 });
               });
@@ -363,9 +360,15 @@ function Video(props) {
       });
     }
     else {
-      console.log(getSavedQuestions());
-      console.log(widgetQuestions);
-      //jotform.listenFromField();
+      let qid;
+      for(let i in widgetQuestions) {
+        if(widgetQuestions[i].builderLabel === "Auto Filler") {
+          qid = i;
+        }
+      }
+      jotform.listenFromField(qid, () => {}, (response) => {
+        console.log("listener response:", response);
+      });
     }
   }
 
