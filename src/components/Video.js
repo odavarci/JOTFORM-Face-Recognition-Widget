@@ -336,6 +336,7 @@ function Video(props) {
       jotform.subscribe("ready", (response) => {
         if(jotform.isWidgetOnBuilder()) {
           console.log("on builder");
+          setWidgetLoaded(true);
         }
         else{
           //WIDGET FORM ID
