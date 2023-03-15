@@ -392,9 +392,9 @@ function Video(props) {
   }
 
   init();
-  jotform.subscribe("submit", () => {
-    console.log("submitted!");
-  });
+  // jotform.subscribe("submit", () => {
+  //   console.log("submitted!");
+  // });
 
   return (
     <Wrapper>
