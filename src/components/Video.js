@@ -14,6 +14,13 @@ let jotform, jotformAPI; //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
 
+const basicCallbackFunction = () => {
+  var result = {};
+  result.valid = true;
+  result.value = "submit";
+  jotform.sendSubmit(result);
+}
+
 function Video(props) {
 
   let apiKey = props.apiKey;
@@ -29,6 +36,7 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = useState(null);
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const [isRecognized, setIsRecognized] = useState(null);
+  const [submitCallbackFunction, setSubmitCallbackFunction] = useState(basicCallbackFunction);
 
   //Video properties
   const videoRef = React.useRef();
@@ -64,6 +72,11 @@ function Video(props) {
         reject(error);
       }
     });
+  }
+
+  const recognizedCallbackFunction = () => {
+    console.log("alternavie");
+    basicCallbackFunction();
   }
 
   //---------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
@@ -131,29 +144,6 @@ function Video(props) {
     });
   }
   //-----------------------------------------------------------------------------------------------------------
-
-  // const getSavedQuestions = (id) => {
-  //   return new Promise(function(resolve, reject){
-  //     try{
-  //       axios.get('https://api.jotform.com/form/' + id + '/questions?apiKey=' + apiKey)
-  //       .then(function(response) {
-  //         let arr = response.data.content;
-  //         let toReturn = [];
-
-  //         for(let i in arr) {
-  //           if(basicElementTypes.includes(arr[i].type)) {
-  //             toReturn.push(arr[i]);
-  //           }
-  //         }
-  //         resolve(toReturn);
-  //       });
-  //     }
-  //     catch (error){
-  //       console.log("getSavedQuestions Error:", error);
-  //       reject(error);
-  //     }
-  //   });
-  // }
 
   const getSavedQuestions = () => {
     let toReturn = [];
@@ -384,7 +374,8 @@ function Video(props) {
     }
     else{
       console.log(recognizedProfile);
-      setFieldsValue();
+      setFieldsValue(recognizedCallbackFunction);
+      setSubmitCallbackFunction();
       return(
         <h1>FOUND!</h1>
       );
@@ -392,13 +383,7 @@ function Video(props) {
   }
 
   init();
-  jotform.subscribe("submit", () => {
-    console.log("submitted!");
-    var result = {};
-    result.valid = true;
-    result.value = "asd";
-    jotform.sendSubmit(result);
-  });
+  jotform.subscribe("submit", submitCallbackFunction);
 
   return (
     <Wrapper>
