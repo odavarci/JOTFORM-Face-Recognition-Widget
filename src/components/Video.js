@@ -368,6 +368,9 @@ function Video(props) {
         }
       });
     }
+    jotform.subscribe("submit", () => {
+      console.log("submitted!");
+    });
   }
 
   const loadModels = async () => {
