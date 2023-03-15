@@ -220,15 +220,35 @@ function Video(props) {
     jotform.setFieldsValueById(arr);
   }
 
+  const getFieldsValue = () => {
+    return new Promise((resolve, reject) => {
+      let arr = [];
+      let questions = getSavedQuestions();
+      for(let i = 0; i < questions.length; i++) {
+        arr.push(questions[i].qid);
+      }
+      jotform.getFieldsValueById( arr, (response) => {
+          resolve(response.data);
+        });
+    });
+  }
+
+  // const creteNewFaceSubmission = () => {
+  //   let arr = [];
+  //   let questions = getSavedQuestions();
+  //   for(let i = 0; i < questions.length; i++) {
+  //     arr.push(questions[i].qid);
+  //   }
+  //   jotform.getFieldsValueById( arr, (response) => {
+  //     console.log("response", response);
+  //       submitFace(response.data);
+  //   });
+  // }
+
   const creteNewFaceSubmission = () => {
-    let arr = [];
-    let questions = getSavedQuestions();
-    for(let i = 0; i < questions.length; i++) {
-      arr.push(questions[i].qid);
-    }
-    jotform.getFieldsValueById( arr, (response) => {
-      console.log("response", response);
-        submitFace(response.data);
+    getFieldsValue()
+    .then((response) => {
+      submitFace(response);
     });
   }
 
