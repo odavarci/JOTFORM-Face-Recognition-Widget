@@ -81,6 +81,7 @@ function Video(props) {
 
   const notRecognizedCallbackFunction = () => {
     console.log("who the heck this guy");
+    creteNewFaceSubmission();
     basicCallbackFunction();
   }
 
@@ -371,12 +372,18 @@ function Video(props) {
   const returnFaceInfo = () => {
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
+      // return(
+      //   <Wrapper>
+      //     <p>Face not found. Please fill the form.</p>
+      //     <button onClick={creteNewFaceSubmission}>Done!</button>
+      //   </Wrapper>
+      // ); 
       return(
-        <Wrapper>
-          <p>Face not found. Please fill the form.</p>
-          <button onClick={creteNewFaceSubmission}>Done!</button>
-        </Wrapper>
-      );  
+        <label>
+          <input type="checkbox"/>
+          I do not want to save my face to bring my informations when I use this form later.
+        </label>
+      );
     }
     else{
       console.log(recognizedProfile);
