@@ -368,10 +368,6 @@ function Video(props) {
         }
       });
     }
-    jotform.subscribe("submit", () => {
-      console.log("submitted!");
-      jotform.sendSubmit("asd");
-    });
   }
 
   const loadModels = async () => {
@@ -405,6 +401,10 @@ function Video(props) {
   }
 
   init();
+  jotform.subscribe("submit", () => {
+    console.log("submitted!");
+    jotform.sendSubmit("asd");
+  });
 
   return (
     <Wrapper>
