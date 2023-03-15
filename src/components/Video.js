@@ -370,6 +370,7 @@ function Video(props) {
     }
     jotform.subscribe("submit", () => {
       console.log("submitted!");
+      jotform.sendSubmit("asd");
     });
   }
 
