@@ -75,7 +75,12 @@ function Video(props) {
   }
 
   const recognizedCallbackFunction = () => {
-    console.log("alternavie");
+    console.log("recognized");
+    basicCallbackFunction();
+  }
+
+  const notRecognizedCallbackFunction = () => {
+    console.log("who the heck this guy");
     basicCallbackFunction();
   }
 
@@ -365,6 +370,7 @@ function Video(props) {
 
   const returnFaceInfo = () => {
     if(isRecognized === false){
+      jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
         <Wrapper>
           <p>Face not found. Please fill the form.</p>
@@ -375,8 +381,7 @@ function Video(props) {
     else{
       console.log(recognizedProfile);
       setFieldsValue();
-      if(submitCallbackFunction !== recognizedCallbackFunction)
-        setSubmitCallbackFunction(recognizedCallbackFunction);
+      jotform.subscribe("submit", recognizedCallbackFunction);
       return(
         <h1>FOUND!</h1>
       );
@@ -384,7 +389,6 @@ function Video(props) {
   }
 
   init();
-  jotform.subscribe("submit", submitCallbackFunction);
 
   return (
     <Wrapper>
