@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 const faceFieldName = 'FACE_DATABASE';
@@ -10,7 +10,7 @@ let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
 let widgetQuestions;
 
-let jotform, jotformAPI; //Objects for managing jotform stuff
+let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
 
@@ -26,7 +26,7 @@ function Video(props) {
   let apiKey = props.apiKey;
   let faceRecognizorThreshold = 0.20;
 
-  jotformAPI = window.JF;
+  //jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
   console.log(jotform);
@@ -36,7 +36,6 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = useState(null);
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const [isRecognized, setIsRecognized] = useState(null);
-  const [submitCallbackFunction, setSubmitCallbackFunction] = useState(basicCallbackFunction);
 
   //Video properties
   const videoRef = React.useRef();
@@ -120,10 +119,11 @@ function Video(props) {
       formData.append('questions[0][type]', 'control_textbox');
       formData.append('questions[0][name]', faceFieldName);
       formData.append('questions[0][order]', '0');
-      for(let i = 0; i < widgetQuestions.length; i++) {
-        console.log(widgetQuestions[i].type.toString());
-        formData.append('questions[' + (i+1) + '][type]', widgetQuestions[i].type.toString());
-        formData.append('questions[' + (i+1) + '][name]', widgetQuestions[i].qid.toString());
+      let questions = getSavedQuestions();
+      for(let i = 0; i < questions.length; i++) {
+        console.log(questions[i].type.toString());
+        formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
+        formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][order]', (i+1).toString());
       }
       console.log("formdata", formData.entries);
@@ -220,8 +220,9 @@ function Video(props) {
 
   const creteNewFaceSubmission = () => {
     let arr = [];
-    for(let i = 0; i < widgetQuestions.length; i++) {
-      arr.push(widgetQuestions[i].qid);
+    let questions = getSavedQuestions();
+    for(let i = 0; i < questions.length; i++) {
+      arr.push(questions[i].qid);
     }
     jotform.getFieldsValueById( arr, (response) => {
       console.log("response", response);
