@@ -394,6 +394,10 @@ function Video(props) {
   init();
   jotform.subscribe("submit", () => {
     console.log("submitted!");
+    var result = {};
+    result.valid = true;
+    result.value = "asd";
+    jotform.sendSubmit(result);
   });
 
   return (
