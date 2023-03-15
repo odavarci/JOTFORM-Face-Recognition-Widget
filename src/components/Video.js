@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 const faceFieldName = 'FACE_DATABASE';
+const faceRecognizorThreshold = 0.20;
 
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
@@ -14,23 +15,14 @@ let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
 
-const basicCallbackFunction = () => {
-  var result = {};
-  result.valid = true;
-  result.value = "submit";
-  jotform.sendSubmit(result);
-}
-
 function Video(props) {
 
   let apiKey = props.apiKey;
-  let faceRecognizorThreshold = 0.20;
 
   //jotformAPI = window.JF;
   jotform = window.JFCustomWidget;
 
-  console.log(jotform);
-
+  //States
   const [captureVideo, setCaptureVideo] = useState(false);
   const [capturedFace, setCapturedFace] = useState(null);
   const [recognizedProfile, setRecognizedProfile] = useState(null);
@@ -73,16 +65,26 @@ function Video(props) {
     });
   }
 
+  //--------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
+  const basicCallbackFunction = () => {
+    var result = {};
+    result.valid = true;
+    result.value = "submit";
+    jotform.sendSubmit(result);
+  }
+
   const recognizedCallbackFunction = () => {
     console.log("recognized");
+
     basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
-    console.log("who the heck this guy");
     creteNewFaceSubmission();
     basicCallbackFunction();
   }
+  //----------------------------------------------------------------------------------------------------------
+
 
   //---------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
   const getWidgetDatabaseFormID = () => {
@@ -227,7 +229,7 @@ function Video(props) {
     jotform.getFieldsValueById( arr, (response) => {
       console.log("response", response);
         submitFace(response.data);
-      });
+    });
   }
 
    const submitFace = (values) => {
@@ -373,18 +375,18 @@ function Video(props) {
   const returnFaceInfo = () => {
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
-      // return(
-      //   <Wrapper>
-      //     <p>Face not found. Please fill the form.</p>
-      //     <button onClick={creteNewFaceSubmission}>Done!</button>
-      //   </Wrapper>
-      // ); 
       return(
-        <label>
-          <input type="checkbox"/>
-          I do not want to save my face to bring my informations when I use this form later.
-        </label>
-      );
+        <Wrapper>
+          <p>Face not found. Please fill the form.</p>
+          <button onClick={creteNewFaceSubmission}>Done!</button>
+        </Wrapper>
+      ); 
+      // return(
+      //   <label>
+      //     <input type="checkbox"/>
+      //     I do not want to save my face to bring my informations when I use this form later.
+      //   </label>
+      // );
     }
     else{
       console.log(recognizedProfile);
