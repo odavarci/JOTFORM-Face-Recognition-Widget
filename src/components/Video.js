@@ -374,8 +374,8 @@ function Video(props) {
     }
     else{
       console.log(recognizedProfile);
-      setFieldsValue(recognizedCallbackFunction);
-      setSubmitCallbackFunction();
+      setFieldsValue();
+      setSubmitCallbackFunction(recognizedCallbackFunction);
       return(
         <h1>FOUND!</h1>
       );
