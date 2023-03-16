@@ -50,7 +50,7 @@ function Video(props) {
       console.log("recognized profile:", recognizedProfile);
       for(let i = 0; i < response.length; i++) {
         console.log("response:", response[i].value);
-        console.log("recored:", recognizedProfile[i + 1].prettyFormat);
+        console.log("recored:", recognizedProfile[i + 2].prettyFormat);
         // if(response[i].value !== recognizedProfile[i + 1].prettyFormat) {
         //   console.log("Does not matched: ", response[i].value);
         // } 
