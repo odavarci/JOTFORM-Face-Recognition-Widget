@@ -82,6 +82,9 @@ function Video(props) {
         if(!match) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
+            if(response === "-1") {
+              resolve(createNewDatabaseForm());
+            }
             console.log("getWidgetDatabaseFormID: ", response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
@@ -141,8 +144,10 @@ function Video(props) {
         if(newID === undefined) {
           resolve("-1");
         }
-        console.log("createNewDatabaseForm: ", newID);
-        resolve(newID);
+        else {
+          console.log("createNewDatabaseForm: ", newID);
+          resolve(newID);
+        }
       })
     });
   }
