@@ -44,7 +44,13 @@ function Video(props) {
   }
 
   const recognizedCallbackFunction = () => {
-    console.log("recognized");
+    getFieldsValue()
+    .then((response) => {
+      for(let i in response) {
+        console.log("yazılı:", response[i].answer);
+        console.log("kayıtlı:", recognizedProfile[i].answer);
+      }
+    });
 
     basicCallbackFunction();
   }
