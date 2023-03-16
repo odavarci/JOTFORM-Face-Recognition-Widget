@@ -35,37 +35,7 @@ function Video(props) {
   const videoWidth = 640;
   const canvasRef = React.useRef();
 
-  const getSubmissions = (formID) => {
-    return new Promise(function(resolve, reject){
-        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
-        .then(function(response){
-            let result = response.data.content.filter( (item) => {
-                return item.status !== 'DELETED';
-            });
-            resolve(result);
-        })
-        .catch(function(error){
-            reject("Submission fetch error!");
-        });
-    });
-  }
-
-  const getQuestions = (formID) => {
-    return new Promise((resolve, reject) => {
-      try {
-        axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
-        .then((response) => {
-          resolve(response.data.content);
-        });
-      }
-      catch(error) {
-        console.log("getQuestions Error: ", error);
-        reject(error);
-      }
-    });
-  }
-
-  //--------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
+  //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
   const basicCallbackFunction = () => {
     var result = {};
     result.valid = true;
@@ -85,8 +55,7 @@ function Video(props) {
   }
   //----------------------------------------------------------------------------------------------------------
 
-
-  //---------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
+  //-----------------------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
   const getWidgetDatabaseFormID = () => {
     return new Promise(function(resolve, reject){
       let match = false;
@@ -153,6 +122,37 @@ function Video(props) {
   }
   //-----------------------------------------------------------------------------------------------------------
 
+  //------------------------------------------FORM FUNCTIONS------------------------------------------------------------------
+  const getSubmissions = (formID) => {
+    return new Promise(function(resolve, reject){
+        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
+        .then(function(response){
+            let result = response.data.content.filter( (item) => {
+                return item.status !== 'DELETED';
+            });
+            resolve(result);
+        })
+        .catch(function(error){
+            reject("Submission fetch error!");
+        });
+    });
+  }
+
+  const getQuestions = (formID) => {
+    return new Promise((resolve, reject) => {
+      try {
+        axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
+        .then((response) => {
+          resolve(response.data.content);
+        });
+      }
+      catch(error) {
+        console.log("getQuestions Error: ", error);
+        reject(error);
+      }
+    });
+  }
+
   const getSavedQuestions = () => {
     let toReturn = [];
     for(let i in widgetQuestions) {
@@ -163,6 +163,36 @@ function Video(props) {
     return toReturn;
   }
 
+  const setFieldsValue = () => {
+    let arr = [];
+    for(let i in recognizedProfile) {
+      if(i === 1) {   //it is face descriptor
+        continue;
+      }
+      arr.push({
+        id: recognizedProfile[i].name,
+        value: recognizedProfile[i].prettyFormat
+      });
+    }
+
+    jotform.setFieldsValueById(arr);
+  }
+
+  const getFieldsValue = () => {
+    return new Promise((resolve, reject) => {
+      let arr = [];
+      let questions = getSavedQuestions();
+      for(let i = 0; i < questions.length; i++) {
+        arr.push(questions[i].qid);
+      }
+      jotform.getFieldsValueById( arr, (response) => {
+          resolve(response.data);
+        });
+    });
+  }
+  //----------------------------------------------------------------------------------------------------------
+
+  //-----------------------------------------FACE FUNCTIONS-----------------------------------------------------
   const calculateSimilarityOfFaces = (face1, face2) => {
     let distance = 0;
     for(let i = 0; i < face1.length; i++){
@@ -205,46 +235,6 @@ function Video(props) {
     })
   }
 
-  const setFieldsValue = () => {
-    let arr = [];
-    for(let i in recognizedProfile) {
-      if(i === 1) {   //it is face descriptor
-        continue;
-      }
-      arr.push({
-        id: recognizedProfile[i].name,
-        value: recognizedProfile[i].prettyFormat
-      });
-    }
-
-    jotform.setFieldsValueById(arr);
-  }
-
-  const getFieldsValue = () => {
-    return new Promise((resolve, reject) => {
-      let arr = [];
-      let questions = getSavedQuestions();
-      for(let i = 0; i < questions.length; i++) {
-        arr.push(questions[i].qid);
-      }
-      jotform.getFieldsValueById( arr, (response) => {
-          resolve(response.data);
-        });
-    });
-  }
-
-  // const creteNewFaceSubmission = () => {
-  //   let arr = [];
-  //   let questions = getSavedQuestions();
-  //   for(let i = 0; i < questions.length; i++) {
-  //     arr.push(questions[i].qid);
-  //   }
-  //   jotform.getFieldsValueById( arr, (response) => {
-  //     console.log("response", response);
-  //       submitFace(response.data);
-  //   });
-  // }
-
   const creteNewFaceSubmission = () => {
     getFieldsValue()
     .then((response) => {
@@ -281,6 +271,7 @@ function Video(props) {
       console.log(error);
     });
   }
+  //------------------------------------------------------------------------------------------------------------
 
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
   const startVideo = () => {
@@ -396,17 +387,11 @@ function Video(props) {
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
-        <Wrapper>
-          <p>Face not found. Please fill the form.</p>
-          <button onClick={creteNewFaceSubmission}>Done!</button>
-        </Wrapper>
-      ); 
-      // return(
-      //   <label>
-      //     <input type="checkbox"/>
-      //     I do not want to save my face to bring my informations when I use this form later.
-      //   </label>
-      // );
+        <label>
+          <input type="checkbox"/>
+          I do not want to save my face to bring my informations when I use this form later.
+        </label>
+      );
     }
     else{
       console.log(recognizedProfile);
