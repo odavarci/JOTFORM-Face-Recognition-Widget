@@ -49,7 +49,7 @@ function Video(props) {
       for(let i = 0; i < response.length; i++) {
         if(response[i].value !== recognizedProfile[i + 2].prettyFormat) {
           console.log("Does not matched: ", response[i].value);
-          createNewFaceSubmission();
+          createNewFaceSubmission(recognizedProfile[0].answer);
           break;
         } 
       }
@@ -59,7 +59,7 @@ function Video(props) {
   }
 
   const notRecognizedCallbackFunction = () => {
-    createNewFaceSubmission();
+    createNewFaceSubmission(capturedFace);
     basicCallbackFunction();
   }
   //----------------------------------------------------------------------------------------------------------
@@ -244,14 +244,14 @@ function Video(props) {
     })
   }
 
-  const createNewFaceSubmission = () => {
+  const createNewFaceSubmission = (face) => {
     getFieldsValue()
     .then((response) => {
-      submitFace(response);
+      submitFace(response, face);
     });
   }
 
-   const submitFace = (values) => {
+   const submitFace = (values, face) => {
     console.log(values);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
@@ -270,7 +270,7 @@ function Video(props) {
         formData.append("submission[" + qid + "]", values[i].value);
       }
     }
-    formData.append("submission[1]", capturedFace.toString());
+    formData.append("submission[1]", face.toString());
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){
