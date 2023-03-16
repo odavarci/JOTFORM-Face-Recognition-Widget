@@ -46,6 +46,7 @@ function Video(props) {
   const recognizedCallbackFunction = () => {
     getFieldsValue()
     .then((response) => {
+      console.log("face:", recognizedProfile[0]);
       for(let i = 0; i < response.length; i++) {
         if(response[i].value !== recognizedProfile[i + 2].prettyFormat) {
           console.log("Does not matched: ", response[i].value);
