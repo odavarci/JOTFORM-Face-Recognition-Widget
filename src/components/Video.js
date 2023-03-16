@@ -48,9 +48,9 @@ function Video(props) {
     .then((response) => {
       console.log("response:", response);
       console.log("recognized profile:", recognizedProfile);
-      for(let i in response) {
-        if(i.value !== recognizedProfile[i + 1].prettyFormat) {
-          console.log("Does not matched: ", i.value);
+      for(let i = 0; i < response.length; i++) {
+        if(response[i].value !== recognizedProfile[i + 1].prettyFormat) {
+          console.log("Does not matched: ", response[i].value);
         } 
         // console.log("yazılı:", response[i].answer);
         // console.log("kayıtlı:", recognizedProfile[i].answer);
