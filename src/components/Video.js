@@ -46,22 +46,16 @@ function Video(props) {
   const recognizedCallbackFunction = () => {
     getFieldsValue()
     .then((response) => {
-      // console.log("response:", response);
-      // console.log("recognized profile:", recognizedProfile);
       for(let i = 0; i < response.length; i++) {
-        // console.log("response:", response[i].value);
-        // console.log("recored:", recognizedProfile[i + 2].prettyFormat);
         if(response[i].value !== recognizedProfile[i + 2].prettyFormat) {
           console.log("Does not matched: ", response[i].value);
           createNewFaceSubmission();
           break;
         } 
-        // console.log("yazılı:", response[i].answer);
-        // console.log("kayıtlı:", recognizedProfile[i].answer);
       }
     });
 
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
