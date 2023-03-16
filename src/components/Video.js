@@ -55,7 +55,7 @@ function Video(props) {
       }
     });
 
-    //basicCallbackFunction();
+    basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
