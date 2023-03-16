@@ -228,6 +228,7 @@ function Video(props) {
         arr.push(questions[i].qid);
       }
       jotform.getFieldsValueById( arr, (response) => {
+          console.log("response:", response.data);
           resolve(response.data);
         });
     });
