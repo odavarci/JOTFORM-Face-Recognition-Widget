@@ -83,7 +83,6 @@ function Video(props) {
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             console.log("getWidgetDatabaseFormID: ", response);
-            //addQuestionsToDatabase(response);
             submitDatabaseMatch(widgetFormID, response);
             resolve(response);
           });
@@ -91,6 +90,34 @@ function Video(props) {
       });
     });
   }
+
+  // const createNewDatabaseForm = (formID) => {
+  //   return new Promise(function(resolve, reject){
+  //     let formData = new FormData();
+  //     formData.append('properties[title]', formID + "Database");
+  //     formData.append('questions[0][type]', 'control_textbox');
+  //     formData.append('questions[0][name]', faceFieldName);
+  //     formData.append('questions[0][order]', '0');
+  //     let questions = getSavedQuestions();
+  //     for(let i = 0; i < questions.length; i++) {
+  //       console.log(questions[i].type.toString());
+  //       formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
+  //       formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
+  //       formData.append('questions[' + (i+1) + '][order]', (i+1).toString());
+  //     }
+  //     console.log("formdata", formData.entries);
+  //     axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
+  //     .then(function(response){
+  //       console.log("response", response);
+  //       let newID = response.data.content.id;
+  //       if(newID === undefined) {
+  //         newID = response.data.content.split(" ")[1];
+  //       }
+  //       console.log("createNewDatabaseForm: ", newID);
+  //       resolve(newID);
+  //     })
+  //   });
+  // }
 
   const createNewDatabaseForm = (formID) => {
     return new Promise(function(resolve, reject){
@@ -112,7 +139,7 @@ function Video(props) {
         console.log("response", response);
         let newID = response.data.content.id;
         if(newID === undefined) {
-          newID = response.data.content.split(" ")[1];
+          resolve("-1");
         }
         console.log("createNewDatabaseForm: ", newID);
         resolve(newID);
