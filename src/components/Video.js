@@ -46,10 +46,12 @@ function Video(props) {
   const recognizedCallbackFunction = () => {
     getFieldsValue()
     .then((response) => {
-      for(let i in response) {
-        console.log("yazılı:", response[i].answer);
-        console.log("kayıtlı:", recognizedProfile[i].answer);
-      }
+      console.log("response:", response);
+      console.log("recognized profile:", recognizedProfile);
+      // for(let i in response) {
+      //   console.log("yazılı:", response[i].answer);
+      //   console.log("kayıtlı:", recognizedProfile[i].answer);
+      // }
     });
 
     //basicCallbackFunction();
