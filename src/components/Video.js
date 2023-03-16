@@ -54,13 +54,12 @@ function Video(props) {
         } 
       }
     });
-
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
     createNewFaceSubmission(capturedFace);
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
   //----------------------------------------------------------------------------------------------------------
 
