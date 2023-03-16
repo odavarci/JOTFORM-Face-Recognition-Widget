@@ -46,11 +46,11 @@ function Video(props) {
   const recognizedCallbackFunction = () => {
     getFieldsValue()
     .then((response) => {
-      console.log("face:", recognizedProfile[0]);
+      console.log("face:", recognizedProfile[1]);
       for(let i = 0; i < response.length; i++) {
         if(response[i].value !== recognizedProfile[i + 2].prettyFormat) {
           console.log("Does not matched: ", response[i].value);
-          createNewFaceSubmission(recognizedProfile[0].answer);
+          createNewFaceSubmission(recognizedProfile[1].answer);
           break;
         } 
       }
