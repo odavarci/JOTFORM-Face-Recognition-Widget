@@ -49,9 +49,11 @@ function Video(props) {
       console.log("response:", response);
       console.log("recognized profile:", recognizedProfile);
       for(let i = 0; i < response.length; i++) {
-        if(response[i].value !== recognizedProfile[i + 1].prettyFormat) {
-          console.log("Does not matched: ", response[i].value);
-        } 
+        console.log("response:", response[i].value);
+        console.log("recored:", recognizedProfile[i + 1].prettyFormat);
+        // if(response[i].value !== recognizedProfile[i + 1].prettyFormat) {
+        //   console.log("Does not matched: ", response[i].value);
+        // } 
         // console.log("yazılı:", response[i].answer);
         // console.log("kayıtlı:", recognizedProfile[i].answer);
       }
