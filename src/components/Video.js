@@ -84,11 +84,12 @@ function Video(props) {
           promise.then((response) => {
             if(response === "-1") {
               resolve(createNewDatabaseForm());
-              console.log("afeter resolve");
             }
-            console.log("getWidgetDatabaseFormID: ", response);
-            submitDatabaseMatch(widgetFormID, response);
-            resolve(response);
+            else {
+              console.log("getWidgetDatabaseFormID: ", response);
+              submitDatabaseMatch(widgetFormID, response);
+              resolve(response);
+            }
           });
         }
       });
