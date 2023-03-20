@@ -186,7 +186,7 @@ function Video(props) {
       }
       arr.push({
         id: recognizedProfile[i].name,
-        value: recognizedProfile[i].prettyFormat
+        value: recognizedProfile[i].answer
       });
     }
 
