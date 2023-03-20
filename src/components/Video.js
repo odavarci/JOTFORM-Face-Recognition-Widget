@@ -58,7 +58,7 @@ function Video(props) {
 
   const notRecognizedCallbackFunction = () => {
     createNewFaceSubmission(capturedFace);
-    //basicCallbackFunction();
+    basicCallbackFunction();
   }
   //----------------------------------------------------------------------------------------------------------
 
