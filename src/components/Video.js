@@ -48,7 +48,6 @@ function Video(props) {
     .then((response) => {
       for(let i = 0; i < response.length; i++) {
         if(response[i].value !== recognizedProfile[i + 2].prettyFormat) {
-          console.log("Does not matched: ", response[i].value);
           createNewFaceSubmission(recognizedProfile[1].answer);
           break;
         } 
@@ -105,27 +104,23 @@ function Video(props) {
       formData.append('questions[0][order]', '0');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
-        console.log(questions[i].type.toString());
-        console.log(questions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
-        console.log("response", response);
+        //console.log("response", response);
         let newID = response.data.content.id;
         if(newID === undefined) {
           let garbageFormID = response.data.content.split(" ")[1];
-          console.log("Delete:", garbageFormID);
+          //console.log("Delete:", garbageFormID);
           axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey)
           .then((asd) => {
-            console.log(asd);
           });
           resolve("-1");
         }
         else {
-          console.log("createNewDatabaseForm: ", newID);
           resolve(newID);
         }
       })
@@ -206,7 +201,7 @@ function Video(props) {
         arr.push(questions[i].qid);
       }
       jotform.getFieldsValueById( arr, (response) => {
-          console.log("response:", response.data);
+          console.log("fields:", response.data);
           resolve(response.data);
         });
     });
@@ -264,7 +259,6 @@ function Video(props) {
   }
 
    const submitFace = (values, face) => {
-    console.log(values);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       let qid = i + 2;
@@ -285,9 +279,7 @@ function Video(props) {
     formData.append("submission[1]", face.toString());
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
-    .then(function(response){
-      console.log("Submit response", response);
-    })
+    .then(function(response){})
     .catch(function(error){
       console.log(error);
     });
@@ -370,7 +362,6 @@ function Video(props) {
           let promiseQuestions = getQuestions(widgetFormID);
           promiseQuestions.then( (response) => {
             widgetQuestions = response;
-            console.log("widget questions ", widgetQuestions);
             //DATABASE FORM ID
             let promiseDatabase = getWidgetDatabaseFormID();
             promiseDatabase.then( (response) => {
@@ -415,7 +406,6 @@ function Video(props) {
       );
     }
     else{
-      console.log(recognizedProfile);
       setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
       return(
