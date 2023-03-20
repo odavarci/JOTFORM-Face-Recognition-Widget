@@ -13,7 +13,7 @@ let widgetQuestions;
 
 let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
-const basicElementTypes = ['control_fullname', 'control_email', 'control_address', 'control_phone']; //I will store those types of fields
+const basicElementTypes = ['control_fullname', 'control_email', 'control_phone']; //I will store those types of fields
 
 function Video(props) {
 
@@ -277,10 +277,6 @@ function Video(props) {
       }
       else if(values[i].type === 'control_email') {
         formData.append("submission[" + qid + "]", values[i].value);
-      }
-      else if(values[i].type === 'control_address') {
-        let arr = values[i].value.split(" ");
-        console.log("e-mail:", arr);
       }
     }
     formData.append("submission[1]", face.toString());
