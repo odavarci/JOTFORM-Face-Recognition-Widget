@@ -184,9 +184,11 @@ function Video(props) {
       if(i === 1) {   //it is face descriptor
         continue;
       }
+      let id = recognizedProfile[i].name;
+      let value = (recognizedProfile[i].prettyFormat !== undefined) ? recognizedProfile[i].prettyFormat : recognizedProfile[i].answer;
       arr.push({
-        id: recognizedProfile[i].name,
-        value: recognizedProfile[i].answer
+        id: id,
+        value: value
       });
     }
 
