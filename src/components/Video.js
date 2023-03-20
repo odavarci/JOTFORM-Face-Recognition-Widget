@@ -117,7 +117,11 @@ function Video(props) {
         let newID = response.data.content.id;
         if(newID === undefined) {
           let garbageFormID = response.data.content.split(" ")[1];
-          axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey);
+          console.log("Delete:", garbageFormID);
+          axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey)
+          .then((asd) => {
+            console.log(asd);
+          });
           resolve("-1");
         }
         else {
