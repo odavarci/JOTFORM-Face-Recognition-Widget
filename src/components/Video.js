@@ -261,6 +261,7 @@ function Video(props) {
   }
 
    const submitFace = (values, face) => {
+    console.log("values:", values);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       let qid = i + 2;
