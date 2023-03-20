@@ -277,6 +277,10 @@ function Video(props) {
       else if(values[i].type === 'control_email') {
         formData.append("submission[" + qid + "]", values[i].value);
       }
+      else if(values[i].type === 'control_address') {
+        let arr = values[i].value.split(" ");
+        console.log("e-mail:", arr);
+      }
     }
     formData.append("submission[1]", face.toString());
 
