@@ -420,6 +420,37 @@ function Video(props) {
 
   init();
 
+  // return (
+  //   <Wrapper>
+  //       {jotform.isWidgetOnBuilder() ?
+  //         <h1>I am not working on builder :(</h1>
+  //         :
+  //         widgetLoaded ?
+  //           <Wrapper>
+  //           {
+  //             (recognizedProfile === null && isRecognized === null) ? 
+  //               <div>
+  //                 {
+  //                   !captureVideo ?
+  //                     startVideo()
+  //                     :
+  //                     <div>
+  //                       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+  //                         <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+  //                         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+  //                       </div>
+  //                     </div>
+  //                 }
+  //               </div>
+  //               :
+  //               returnFaceInfo()
+  //           }
+  //         </Wrapper>
+  //         :
+  //         <h1>widget loading...</h1>
+  //       }
+  //   </Wrapper>
+  // );
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
@@ -427,24 +458,23 @@ function Video(props) {
           :
           widgetLoaded ?
             <Wrapper>
-            {
-              (recognizedProfile === null && isRecognized === null) ? 
-                <div>
-                  {
-                    !captureVideo ?
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+              </div>
+              {
+                (recognizedProfile === null && isRecognized === null) ? 
+                  <Wrapper>
+                    {
+                      !captureVideo ?
                       startVideo()
                       :
-                      <div>
-                        <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                          <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                          <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                        </div>
-                      </div>
-                  }
-                </div>
-                :
-                returnFaceInfo()
-            }
+                      <></>
+                    }
+                  </Wrapper>
+                  :
+                  returnFaceInfo()
+              }
           </Wrapper>
           :
           <h1>widget loading...</h1>
@@ -452,4 +482,5 @@ function Video(props) {
     </Wrapper>
   );
 }
+
 export default Video;
