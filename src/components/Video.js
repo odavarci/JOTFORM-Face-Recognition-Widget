@@ -230,7 +230,6 @@ function Video(props) {
         }
       }
 
-      let match = false;
       for(let i in databaseSubmissions) {
         let answers = databaseSubmissions[i].answers;
         for(let j in answers) {
@@ -238,7 +237,6 @@ function Video(props) {
             let currentFace = answers[j].answer.split(",");
             let distance = calculateSimilarityOfFaces(currentFace, face);
             if(distance < faceRecognizorThreshold) {
-              match = true;
               closeWebcam();
               console.log("recognized profile: ", answers);
               setRecognizedProfile(answers);
@@ -247,7 +245,6 @@ function Video(props) {
           }
         }
       }
-      setRecognizedProfile(null);
     })
   }
 
