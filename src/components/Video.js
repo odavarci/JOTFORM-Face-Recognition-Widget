@@ -242,15 +242,12 @@ function Video(props) {
               closeWebcam();
               console.log("recognized profile: ", answers);
               setRecognizedProfile(answers);
-              console.log("after setRecognizedProfile");
-              return true;
+              return;
             }
           }
         }
       }
-      if(!match) {
-        return false;
-      }
+      setRecognizedProfile(null);
     })
   }
 
