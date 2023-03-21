@@ -142,9 +142,9 @@ function Video(props) {
     return new Promise(function(resolve, reject){
         let formData = new FormData();
         let filter = {
-          "status":"ACTIVE"
+          "status:eq":"ACTIVE"
         }
-        formData.append("limit", 1000);
+        formData.append("limit", 100);
         formData.append("filter", filter);
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
         .then(function(response){
