@@ -324,6 +324,7 @@ function Video(props) {
           canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
         }
         if(timesRecognitionLeft === 0 && recognizedProfile === null){
+          console.log("Not Found:", recognizedProfile);
           closeWebcam();
           clearInterval(videoInterval);
           setIsRecognized(false);
