@@ -242,6 +242,7 @@ function Video(props) {
               closeWebcam();
               console.log("recognized profile: ", answers);
               setRecognizedProfile(answers);
+              console.log("after setRecognizedProfile");
               return true;
             }
           }
@@ -322,13 +323,6 @@ function Video(props) {
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
           findFace(detection.descriptor);
-          // let found = findFace(detection.descriptor);
-          // if(found){
-          //   console.log("worked!!!!");
-          //   clearInterval(videoInterval);
-          //   setRecognizedProfile(found);
-          //   return;
-          // }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
           canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
@@ -347,8 +341,6 @@ function Video(props) {
   }
 
   const closeWebcam = () => {
-    //videoRef.current.height = videoHeight / 2;
-    //videoRef.current.width = videoWidth / 2;
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
