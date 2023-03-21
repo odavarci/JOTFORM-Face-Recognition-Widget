@@ -320,17 +320,18 @@ function Video(props) {
           canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetection);
           canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
         }
-        if(timesRecognitionLeft === 0 && recognizedProfile === null){
-          console.log("Not Found:", recognizedProfile);
+        if(recognizedProfile !== null) {
+          clearInterval(videoInterval);
+        }
+        else if(timesRecognitionLeft === 0) {
           closeWebcam();
           clearInterval(videoInterval);
           setIsRecognized(false);
           setCapturedFace(detection.descriptor);
+          console.log("Not Found:", recognizedProfile);
         }
-        console.log("in interval");
       }
     }, 100);
-    console.log("out interval");
   }
 
   const closeWebcam = () => {
