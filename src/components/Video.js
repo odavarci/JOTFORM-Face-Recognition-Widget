@@ -297,6 +297,10 @@ function Video(props) {
   }
 
   const handleVideoOnPlay = () => {
+    if(recognizedProfile !== null) {
+      console.log("early return");
+      return;
+    }
     let timesRecognitionLeft = 10;
     const videoInterval = setInterval(async () => {
       if (canvasRef && canvasRef.current) {
