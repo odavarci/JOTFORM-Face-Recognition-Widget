@@ -419,9 +419,7 @@ function Video(props) {
     }
   }
 
-  getSubmissions("230581075716052");
-
-  //init();
+  init();
 
   // return (
   //   <Wrapper>
