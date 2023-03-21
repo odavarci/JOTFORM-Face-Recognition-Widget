@@ -345,6 +345,8 @@ function Video(props) {
   }
 
   const closeWebcam = () => {
+    canvasRef.current.height = videoHeight / 2;
+    canvasRef.current.width = videoWidth / 2;
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
