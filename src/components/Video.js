@@ -31,8 +31,8 @@ function Video(props) {
 
   //Video properties
   const videoRef = React.useRef();
-  const videoHeight = 480;
-  const videoWidth = 640;
+  const videoHeight = 240;
+  const videoWidth = 320;
   const canvasRef = React.useRef();
 
   //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
@@ -321,13 +321,14 @@ function Video(props) {
           timesRecognitionLeft--;
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
-          let found = findFace(detection.descriptor);
-          if(found){
-            console.log("worked!!!!");
-            clearInterval(videoInterval);
-            setRecognizedProfile(found);
-            return;
-          }
+          findFace(detection.descriptor);
+          // let found = findFace(detection.descriptor);
+          // if(found){
+          //   console.log("worked!!!!");
+          //   clearInterval(videoInterval);
+          //   setRecognizedProfile(found);
+          //   return;
+          // }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
           canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
@@ -346,8 +347,8 @@ function Video(props) {
   }
 
   const closeWebcam = () => {
-    videoRef.current.height = videoHeight / 2;
-    videoRef.current.width = videoWidth / 2;
+    //videoRef.current.height = videoHeight / 2;
+    //videoRef.current.width = videoWidth / 2;
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
