@@ -238,11 +238,12 @@ function Video(props) {
             closeWebcam();
             console.log("recognized profile: ", answers);
             setRecognizedProfile(answers);
-            return;
+            return true;
           }
         }
       }
     }
+    return false;
   }
 
   const createNewFaceSubmission = (face) => {
@@ -297,10 +298,6 @@ function Video(props) {
   }
 
   const handleVideoOnPlay = () => {
-    if(recognizedProfile !== null) {
-      console.log("early return");
-      return;
-    }
     let timesRecognitionLeft = 10;
     const videoInterval = setInterval(async () => {
       if (canvasRef && canvasRef.current) {
@@ -317,7 +314,9 @@ function Video(props) {
           timesRecognitionLeft--;
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
-          findFace(detection.descriptor);
+          if(findFace(detection.descriptor)) {
+            console.log("find face");
+          }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
           canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
