@@ -322,7 +322,7 @@ function Video(props) {
 
           let found = findFace(detection.descriptor);
           if(found){
-            console.log("closed!");
+            console.log("worked!!!!");
             clearInterval(videoInterval);
             setRecognizedProfile(found);
             return;
@@ -418,15 +418,6 @@ function Video(props) {
     }
   }
 
-  const returnCanvas = () => {
-    return(
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-        <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-        <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-      </div>
-    );
-  }
-
   init();
 
   // return (
@@ -467,8 +458,11 @@ function Video(props) {
           :
           widgetLoaded ?
             <Wrapper>
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+              </div>
               {
-                returnCanvas()
                 (recognizedProfile === null && isRecognized === null) ? 
                   <Wrapper>
                     {
