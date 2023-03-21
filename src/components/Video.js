@@ -144,8 +144,9 @@ function Video(props) {
         let filter = {
           "status":"ACTIVE"
         }
+        formData.append("limit", 1000);
         formData.append("filter", filter);
-        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
+        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
         .then(function(response){
           console.log(response);
             let result = response.data.content.filter( (item) => {
