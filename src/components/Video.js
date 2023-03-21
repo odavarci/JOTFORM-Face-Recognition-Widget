@@ -330,9 +330,10 @@ function Video(props) {
           setIsRecognized(false);
           setCapturedFace(detection.descriptor);
         }
-
+        console.log("in interval");
       }
-    }, 100)
+    }, 100);
+    console.log("out interval");
   }
 
   const closeWebcam = () => {
