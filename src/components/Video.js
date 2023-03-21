@@ -140,6 +140,11 @@ function Video(props) {
   //------------------------------------------FORM FUNCTIONS------------------------------------------------------------------
   const getSubmissions = (formID) => {
     return new Promise(function(resolve, reject){
+        let formData = new FormData();
+        let filter = {
+          "status":"ACTIVE"
+        }
+        formData.append("filter", filter);
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
         .then(function(response){
           console.log(response);
