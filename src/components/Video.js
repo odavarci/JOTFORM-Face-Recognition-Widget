@@ -315,7 +315,9 @@ function Video(props) {
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
           if(findFace(detection.descriptor)) {
-            console.log("find face");
+            console.log("worked");
+            return;
+            //clearInterval(videoInterval);
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
