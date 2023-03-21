@@ -77,6 +77,7 @@ function Video(props) {
         }
         //Create new database form and return its id
         if(!match) {
+          console.log("new form created");
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             if(response === "-1") {
@@ -145,7 +146,7 @@ function Video(props) {
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, params)
         .then(function(response){
           console.log(response);
-          resolve(response);
+          resolve(response.data.content);
         })
         .catch(function(error){
             reject("Submission fetch error!");
@@ -421,37 +422,6 @@ function Video(props) {
 
   init();
 
-  // return (
-  //   <Wrapper>
-  //       {jotform.isWidgetOnBuilder() ?
-  //         <h1>I am not working on builder :(</h1>
-  //         :
-  //         widgetLoaded ?
-  //           <Wrapper>
-  //           {
-  //             (recognizedProfile === null && isRecognized === null) ? 
-  //               <div>
-  //                 {
-  //                   !captureVideo ?
-  //                     startVideo()
-  //                     :
-  //                     <div>
-  //                       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-  //                         <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-  //                         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-  //                       </div>
-  //                     </div>
-  //                 }
-  //               </div>
-  //               :
-  //               returnFaceInfo()
-  //           }
-  //         </Wrapper>
-  //         :
-  //         <h1>widget loading...</h1>
-  //       }
-  //   </Wrapper>
-  // );
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
