@@ -235,7 +235,7 @@ function Video(props) {
           let currentFace = answers[j].answer.split(",");
           let distance = calculateSimilarityOfFaces(currentFace, face);
           if(distance < faceRecognizorThreshold) {
-            closeWebcam();
+            //closeWebcam();
             console.log("recognized profile: ", answers);
             setRecognizedProfile(answers);
             return true;
@@ -316,7 +316,8 @@ function Video(props) {
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
           if(findFace(detection.descriptor)) {
             console.log("worked");
-            return;
+            closeWebcam();
+            clearInterval(videoInterval);
             //clearInterval(videoInterval);
           }
   
@@ -325,10 +326,7 @@ function Video(props) {
           canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetection);
           canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
         }
-        if(recognizedProfile !== null) {
-          clearInterval(videoInterval);
-        }
-        else if(timesRecognitionLeft === 0) {
+        if(timesRecognitionLeft === 0) {
           closeWebcam();
           clearInterval(videoInterval);
           setIsRecognized(false);
