@@ -9,7 +9,7 @@ const faceRecognizorThreshold = 0.20;
 let formDatabaseID = '230581075716052'; //Form that I store the match for forms and database forms
 let widgetFormID; //Form that user interacts right now
 let widgetDatabaseFormID; //Form that stores the database
-let widgetQuestions;
+let widgetQuestions, widgetDatabaseQuestions;
 
 let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
@@ -219,33 +219,30 @@ function Video(props) {
     return distance;
   }
 
-  const findFace = async (face) => {
-    getQuestions(widgetDatabaseFormID)
-    .then((response) => {
-      let faceQID;
+  const findFace = (face) => {
+    let faceQID;
 
-      for(let i in response) {
-        if(response[i].name === faceFieldName) {
-          faceQID = i;
-        }
+    for(let i in widgetDatabaseQuestions) {
+      if(widgetDatabaseQuestions[i].name === faceFieldName) {
+        faceQID = i;
       }
+    }
 
-      for(let i in databaseSubmissions) {
-        let answers = databaseSubmissions[i].answers;
-        for(let j in answers) {
-          if(j === faceQID) {
-            let currentFace = answers[j].answer.split(",");
-            let distance = calculateSimilarityOfFaces(currentFace, face);
-            if(distance < faceRecognizorThreshold) {
-              closeWebcam();
-              console.log("recognized profile: ", answers);
-              setRecognizedProfile(answers);
-              return;
-            }
+    for(let i in databaseSubmissions) {
+      let answers = databaseSubmissions[i].answers;
+      for(let j in answers) {
+        if(j === faceQID) {
+          let currentFace = answers[j].answer.split(",");
+          let distance = calculateSimilarityOfFaces(currentFace, face);
+          if(distance < faceRecognizorThreshold) {
+            closeWebcam();
+            console.log("recognized profile: ", answers);
+            setRecognizedProfile(answers);
+            return;
           }
         }
       }
-    })
+    }
   }
 
   const createNewFaceSubmission = (face) => {
@@ -316,7 +313,7 @@ function Video(props) {
           timesRecognitionLeft--;
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
-          await findFace(detection.descriptor);
+          findFace(detection.descriptor);
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
           canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
@@ -353,23 +350,33 @@ function Video(props) {
         else{
           //WIDGET FORM ID
           widgetFormID = response.formID;
+
           //QUESTIONS OF WIDGET FORM
-          let promiseQuestions = getQuestions(widgetFormID);
-          promiseQuestions.then( (response) => {
+          getQuestions(widgetFormID)
+          .then((response) => {
             widgetQuestions = response;
             console.log("Widget Questions:", widgetQuestions);
+
             //DATABASE FORM ID
-            let promiseDatabase = getWidgetDatabaseFormID();
-            promiseDatabase.then( (response) => {
+            getWidgetDatabaseFormID()
+            .then((response) => {
               widgetDatabaseFormID = response;
               console.log("database id:", widgetDatabaseFormID);
-              //DATABSE SUBMISSIONS
-              let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+              
+              //DATABASE QUESTIONS
+              getQuestions(widgetDatabaseFormID)
+              .then((response) => {
+                widgetDatabaseQuestions = response;
+
+                //DATABSE SUBMISSIONS
+                let promiseSubmission = getSubmissions(widgetDatabaseFormID);
                 promiseSubmission.then( (response) => {
-                databaseSubmissions = response;
-                //LOAD FACE API MODELS
-                loadModels().then(() => {
-                  setWidgetLoaded(true);
+                  databaseSubmissions = response;
+
+                  //LOAD FACE API MODELS
+                  loadModels().then(() => {
+                    setWidgetLoaded(true);
+                  });
                 });
               });
             });
