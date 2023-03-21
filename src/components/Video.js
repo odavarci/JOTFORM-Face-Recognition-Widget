@@ -140,19 +140,12 @@ function Video(props) {
   //------------------------------------------FORM FUNCTIONS------------------------------------------------------------------
   const getSubmissions = (formID) => {
     return new Promise(function(resolve, reject){
-        let formData = new FormData();
-        let filter = {
-          "status:eq":"ACTIVE"
-        }
-        formData.append("limit", 100);
-        //formData.append("filter", filter);
-        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, formData)
+        let filter = {"status:eq": "ACTIVE"};
+        let params = { params: { "limit": 1000, "filter": JSON.stringify(filter) } };
+        axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, params)
         .then(function(response){
           console.log(response);
-            let result = response.data.content.filter( (item) => {
-                return item.status !== 'DELETED';
-            });
-            resolve(result);
+          resolve(response);
         })
         .catch(function(error){
             reject("Submission fetch error!");
@@ -426,7 +419,9 @@ function Video(props) {
     }
   }
 
-  init();
+  getSubmissions("230581075716052");
+
+  //init();
 
   // return (
   //   <Wrapper>
