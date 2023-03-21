@@ -68,7 +68,6 @@ function Video(props) {
       let match = false;
       let submission = getSubmissions(formDatabaseID);
       submission.then((response) => {
-        console.log("form database submissions", submission);
         for(let i = 0; i < response.length; i++) {
           if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== "undefined") {
             match = true;
@@ -143,6 +142,7 @@ function Video(props) {
     return new Promise(function(resolve, reject){
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey)
         .then(function(response){
+          console.log(response);
             let result = response.data.content.filter( (item) => {
                 return item.status !== 'DELETED';
             });
