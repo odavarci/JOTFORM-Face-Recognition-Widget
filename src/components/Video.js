@@ -319,7 +319,8 @@ function Video(props) {
         const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
-
+          
+          const resizedDetection = faceapi.resizeResults(detection, displaySize);
           let found = findFace(detection.descriptor);
           if(found){
             console.log("worked!!!!");
@@ -329,9 +330,9 @@ function Video(props) {
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, detection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, detection);
-          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, detection);
+          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetection);
+          canvasRef && canvasRef.current && faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetection);
         }
         if(timesRecognitionLeft === 0 && recognizedProfile === null){
           closeWebcam();
