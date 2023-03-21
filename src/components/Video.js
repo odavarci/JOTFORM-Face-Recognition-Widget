@@ -145,7 +145,6 @@ function Video(props) {
         let params = { params: { "limit": 1000, "filter": JSON.stringify(filter) } };
         axios.get('https://api.jotform.com/form/' + formID + '/submissions?apiKey=' + apiKey, params)
         .then(function(response){
-          console.log(response);
           resolve(response.data.content);
         })
         .catch(function(error){
