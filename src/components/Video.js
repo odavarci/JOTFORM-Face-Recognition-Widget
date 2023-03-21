@@ -219,7 +219,7 @@ function Video(props) {
     return distance;
   }
 
-  const findFace = (face) => {
+  const findFace = async (face) => {
     getQuestions(widgetDatabaseFormID)
     .then((response) => {
       let faceQID;
@@ -316,7 +316,7 @@ function Video(props) {
           timesRecognitionLeft--;
           
           const resizedDetection = faceapi.resizeResults(detection, displaySize);
-          findFace(detection.descriptor);
+          await findFace(detection.descriptor);
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
           canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
