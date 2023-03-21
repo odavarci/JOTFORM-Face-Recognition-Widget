@@ -67,6 +67,7 @@ function Video(props) {
     return new Promise(function(resolve, reject){
       let match = false;
       let submission = getSubmissions(formDatabaseID);
+      console.log("form database submissions", submission);
       submission.then((response) => {
         for(let i = 0; i < response.length; i++) {
           if(response[i].answers[4].answer === widgetFormID && response[i].answers[5].answer !== "undefined") {
