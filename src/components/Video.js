@@ -467,8 +467,8 @@ function Video(props) {
           :
           widgetLoaded ?
             <Wrapper>
-              returnCanvas();
               {
+                returnCanvas()
                 (recognizedProfile === null && isRecognized === null) ? 
                   <Wrapper>
                     {
