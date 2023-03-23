@@ -13,7 +13,7 @@ let widgetQuestions, widgetDatabaseQuestions;
 
 let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
-const basicElementTypes = ['control_fullname', 'control_email', 'control_phone']; //I will store those types of fields
+const basicElementTypes = ['control_fullname', 'control_email', 'control_phone', 'control_address']; //I will store those types of fields
 
 function Video(props) {
 
@@ -54,12 +54,12 @@ function Video(props) {
         } 
       }
     });
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
     createNewFaceSubmission(capturedFace);
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const changeSavedStatus = () => {
