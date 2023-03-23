@@ -415,7 +415,7 @@ function Video(props) {
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
-        <label>
+        <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           I do not want to be recognized later!
         </label>
@@ -425,7 +425,6 @@ function Video(props) {
       setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
       return(
-        <h1>FOUND!</h1>
       );
     }
   }
