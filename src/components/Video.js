@@ -180,9 +180,20 @@ function Video(props) {
 
   const getSavedQuestions = () => {
     let toReturn = [];
-    for(let i in widgetQuestions) {
-      if(basicElementTypes.includes(widgetQuestions[i].type)) {
-        toReturn.push(widgetQuestions[i]);
+    let QIDSetting = jotform.getWidgetSetting("Question IDs:")
+    if(QIDSetting !== "") {
+      let qids = QIDSetting.split(",");
+      for(let i in widgetQuestions) {
+        if(qids.includes(widgetQuestions[i].qid)) {
+          console.log("question matched:", i);
+          toReturn.push(widgetQuestions[i]);
+        }
+      }
+    }
+    else {
+      for(let i in widgetQuestions) {
+        if(basicElementTypes.includes(widgetQuestions[i].type))
+          toReturn.push(widgetQuestions[i]);
       }
     }
     return toReturn;
@@ -357,8 +368,7 @@ function Video(props) {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
         console.log(jotform);
-        console.log("Settings: ", jotform.getWidgetSettings().toString());
-        console.log("Setting: ", jotform.getWidgetSetting("Question IDs:") === "");
+        console.log("Setting: ",  === "");
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
