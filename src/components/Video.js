@@ -401,13 +401,17 @@ function Video(props) {
   }
   //-------------------------------------------------------------------------------------------------------------------
 
+  const doNotSave = () => {
+    jotform.subscribe("submit", basicCallbackFunction);
+  }
+
   const returnFaceInfo = () => {
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
         <label>
-          <input type="checkbox"/>
-          I do not want to save my face to bring my informations when I use this form later.
+          <input type="checkbox" onClick={doNotSave}/>
+          I do not want to be recognized later!
         </label>
       );
     }
