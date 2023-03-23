@@ -107,7 +107,8 @@ function Video(props) {
       for(let i = 0; i < questions.length; i++) {
         formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
-        formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
+        //formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
+        formData.append('questions[' + (i+1) + '][order]', '0');
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
@@ -117,7 +118,7 @@ function Video(props) {
           let garbageFormID = response.data.content.split(" ")[1];
           //console.log("Delete:", garbageFormID);
           axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey)
-          .then((asd) => {
+          .then(() => {
           });
           resolve("-1");
         }
