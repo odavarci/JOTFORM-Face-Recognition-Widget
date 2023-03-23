@@ -357,6 +357,7 @@ function Video(props) {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
         console.log(jotform);
+        console.log("Settings: ", jotform.getWidgetSettings());
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
@@ -424,8 +425,7 @@ function Video(props) {
     else{
       setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
-      return(
-      );
+      //return();
     }
   }
 
