@@ -402,6 +402,7 @@ function Video(props) {
   //-------------------------------------------------------------------------------------------------------------------
 
   const doNotSave = () => {
+    console.log("doNotSave worked!!");
     jotform.subscribe("submit", basicCallbackFunction);
   }
 
