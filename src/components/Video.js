@@ -61,6 +61,16 @@ function Video(props) {
     createNewFaceSubmission(capturedFace);
     basicCallbackFunction();
   }
+
+  const changeSavedStatus = () => {
+    if(willBeSaved.current) {
+      jotform.subscribe("submit", basicCallbackFunction);  
+    }
+    else {
+      jotform.subscribe("submit", notRecognizedCallbackFunction);
+    }
+    willBeSaved.current = !willBeSaved.current;
+  }
   //----------------------------------------------------------------------------------------------------------
 
   //-----------------------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
@@ -113,11 +123,9 @@ function Video(props) {
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
-        //console.log("response", response);
         let newID = response.data.content.id;
         if(newID === undefined) {
           let garbageFormID = response.data.content.split(" ")[1];
-          //console.log("Delete:", garbageFormID);
           axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey)
           .then(() => {
           });
@@ -348,6 +356,7 @@ function Video(props) {
   const init = () => {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
+        console.log(jotform);
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
@@ -401,17 +410,6 @@ function Video(props) {
     ]);
   }
   //-------------------------------------------------------------------------------------------------------------------
-
-  const changeSavedStatus = () => {
-    if(willBeSaved.current) {
-      jotform.subscribe("submit", basicCallbackFunction);  
-    }
-    else {
-      jotform.subscribe("submit", notRecognizedCallbackFunction);
-    }
-    willBeSaved.current = !willBeSaved.current;
-    console.log("willBeSaved: ", willBeSaved);
-  }
 
   const returnFaceInfo = () => {
     if(isRecognized === false){
