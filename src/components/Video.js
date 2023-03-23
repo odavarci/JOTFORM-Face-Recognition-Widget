@@ -368,7 +368,6 @@ function Video(props) {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
         console.log(jotform);
-        console.log("Setting: ",  === "");
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
