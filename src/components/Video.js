@@ -358,7 +358,7 @@ function Video(props) {
       jotform.subscribe("ready", (response) => {
         console.log(jotform);
         console.log("Settings: ", jotform.getWidgetSettings().toString());
-        console.log("Setting: ", jotform.getWidgetSetting("Question IDs:"));
+        console.log("Setting: ", jotform.getWidgetSetting("Question IDs:") === "");
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
