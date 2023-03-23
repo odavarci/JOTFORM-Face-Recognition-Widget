@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 
 const faceFieldName = 'FACE_DATABASE';
@@ -30,10 +30,11 @@ function Video(props) {
   const [isRecognized, setIsRecognized] = useState(null);
 
   //Video properties
-  const videoRef = React.useRef();
+  const videoRef = useRef();
   const videoHeight = 240;
   const videoWidth = 320;
-  const canvasRef = React.useRef();
+  const canvasRef = useRef();
+  const willBeSaved = useRef(true);
 
   //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
   const basicCallbackFunction = () => {
@@ -401,9 +402,15 @@ function Video(props) {
   }
   //-------------------------------------------------------------------------------------------------------------------
 
-  const doNotSave = () => {
-    console.log("doNotSave worked!!");
-    jotform.subscribe("submit", basicCallbackFunction);
+  const changeSavedStatus = () => {
+    if(willBeSaved.current) {
+      jotform.subscribe("submit", basicCallbackFunction);  
+    }
+    else {
+      jotform.subscribe("submit", notRecognizedCallbackFunction);
+    }
+    willBeSaved.current = !willBeSaved.current;
+    console.log("willBeSaved: ", willBeSaved);
   }
 
   const returnFaceInfo = () => {
@@ -411,7 +418,7 @@ function Video(props) {
       jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
         <label>
-          <input type="checkbox" onClick={doNotSave}/>
+          <input type="checkbox" onClick={changeSavedStatus}/>
           I do not want to be recognized later!
         </label>
       );
