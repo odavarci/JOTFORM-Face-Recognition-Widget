@@ -154,7 +154,7 @@ function Video(props) {
       formData.append('question[type]', 'control_textbox');
       formData.append('question[name]', name);
       formData.append('question[order]', '0');
-      axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+      axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/questions?apiKey=' + apiKey, formData)
       .then((response) => {
         console.log(response);
         resolve(1);
