@@ -116,6 +116,7 @@ function Video(props) {
       formData.append('questions[0][order]', '0');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
+        console.log("worked");
         //formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
         formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
