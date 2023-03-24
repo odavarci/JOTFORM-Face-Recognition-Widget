@@ -148,7 +148,21 @@ function Video(props) {
     });
   }
 
-  const checkDatabaseQuestions = () => {
+  const addQuestion = (name) => {
+    return new Promise((resolve, reject) => {
+      let formData = new FormData();
+      formData.append('question[type]', 'control_textbox');
+      formData.append('question[name]', name);
+      formData.append('question[order]', '0');
+      axios.post('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey, formData)
+      .then((response) => {
+        console.log(response);
+        resolve(1);
+      });
+    });
+  }
+
+  const checkDatabaseQuestions = async() => {
     let oldQuestions = widgetDatabaseQuestions;
     let newQuestions = getSavedQuestions();
     let oldQIDs = [];
@@ -157,13 +171,9 @@ function Video(props) {
     }
     for(let i in newQuestions) {
       if(!oldQIDs.includes(newQuestions[i].qid)) {
-        console.log("different", newQuestions[i].qid);
-        return false;
+        await addQuestion(newQuestions[i].qid);
       }
     }
-    return true;
-    console.log("old questions:", oldQuestions);
-    console.log("new questions:", newQuestions);
   }
   //-----------------------------------------------------------------------------------------------------------
 
@@ -370,7 +380,7 @@ function Video(props) {
   //------------------------------------------------------------------------------------------------------------------
 
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
-  const init = () => {
+  const init = async () => {
     if(!widgetLoaded) {
       jotform.subscribe("ready", (response) => {
         console.log(jotform);
@@ -395,9 +405,9 @@ function Video(props) {
               
               //DATABASE QUESTIONS
               getQuestions(widgetDatabaseFormID)
-              .then((response) => {
+              .then( async (response) => {
                 widgetDatabaseQuestions = response;
-                checkDatabaseQuestions();
+                await checkDatabaseQuestions();
 
                 //DATABSE SUBMISSIONS
                 let promiseSubmission = getSubmissions(widgetDatabaseFormID);
