@@ -156,8 +156,7 @@ function Video(props) {
       oldQIDs.push(oldQuestions[i].name);
     }
     for(let i in newQuestions) {
-      console.log(i);
-      if(!oldQIDs.includes(i.qid)) {
+      if(!oldQIDs.includes(newQuestions[i].qid)) {
         console.log("different", i.qid);
         return false;
       }
