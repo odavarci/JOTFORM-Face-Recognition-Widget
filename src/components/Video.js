@@ -174,6 +174,7 @@ function Video(props) {
         await addQuestion(newQuestions[i].qid);
       }
     }
+    widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID);
   }
   //-----------------------------------------------------------------------------------------------------------
 
@@ -442,11 +443,11 @@ function Video(props) {
           console.log("Widget Questions:", widgetQuestions);
 
           //DATABASE FORM ID
-          widgetDatabaseFormID = await getWidgetDatabaseFormID()
+          widgetDatabaseFormID = await getWidgetDatabaseFormID();
           console.log("database id:", widgetDatabaseFormID);
               
           //DATABASE QUESTIONS
-          widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID)
+          widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID);
           await checkDatabaseQuestions();
 
           //DATABSE SUBMISSIONS
