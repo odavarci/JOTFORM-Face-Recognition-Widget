@@ -151,7 +151,17 @@ function Video(props) {
   const checkDatabaseQuestions = () => {
     let oldQuestions = widgetDatabaseQuestions;
     let newQuestions = getSavedQuestions();
-
+    let oldQIDs = [];
+    for(let i in oldQuestions) {
+      oldQIDs.push(oldQuestions[i].name);
+    }
+    for(let i in newQuestions) {
+      if(!oldQIDs.includes(i.qid)) {
+        console.log("different", i.qid);
+        return false;
+      }
+    }
+    return true;
     console.log("old questions:", oldQuestions);
     console.log("new questions:", newQuestions);
   }
