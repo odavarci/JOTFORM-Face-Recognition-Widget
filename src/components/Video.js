@@ -113,7 +113,7 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       formData.append('questions[0][type]', 'control_textbox');
       formData.append('questions[0][name]', faceFieldName);
-      formData.append('questions[0][order]', '0');
+      //formData.append('questions[0][order]', '0');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
         console.log("worked");
