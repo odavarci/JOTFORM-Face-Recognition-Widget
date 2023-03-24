@@ -74,7 +74,7 @@ function Video(props) {
   //----------------------------------------------------------------------------------------------------------
 
   //-----------------------------------------DATABASE FORM FUNCTIONS---------------------------------------------------------
-  const getWidgetDatabaseFormID = () => {
+  const getWidgetDatabaseFormID = async () => {
     return new Promise(function(resolve, reject){
       let match = false;
       let submission = getSubmissions(formDatabaseID);
@@ -178,7 +178,7 @@ function Video(props) {
   //-----------------------------------------------------------------------------------------------------------
 
   //------------------------------------------FORM FUNCTIONS------------------------------------------------------------------
-  const getSubmissions = (formID) => {
+  const getSubmissions = async (formID) => {
     return new Promise(function(resolve, reject){
         let filter = {"status:eq": "ACTIVE"};
         let params = { params: { "limit": 1000, "filter": JSON.stringify(filter) } };
@@ -192,7 +192,7 @@ function Video(props) {
     });
   }
 
-  const getQuestions = (formID) => {
+  const getQuestions = async (formID) => {
     return new Promise((resolve, reject) => {
       try {
         axios.get('https://api.jotform.com/form/' + formID + '/questions?apiKey=' + apiKey)
@@ -380,48 +380,81 @@ function Video(props) {
   //------------------------------------------------------------------------------------------------------------------
 
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
+  // const init = async () => {
+  //   if(!widgetLoaded) {
+  //     jotform.subscribe("ready", (response) => {
+  //       console.log(jotform);
+  //       if(jotform.isWidgetOnBuilder()) {
+  //         setWidgetLoaded(true);
+  //       }
+  //       else{
+  //         //WIDGET FORM ID
+  //         widgetFormID = response.formID;
+
+  //         //QUESTIONS OF WIDGET FORM
+  //         getQuestions(widgetFormID)
+  //         .then((response) => {
+  //           widgetQuestions = response;
+  //           console.log("Widget Questions:", widgetQuestions);
+
+  //           //DATABASE FORM ID
+  //           getWidgetDatabaseFormID()
+  //           .then((response) => {
+  //             widgetDatabaseFormID = response;
+  //             console.log("database id:", widgetDatabaseFormID);
+              
+  //             //DATABASE QUESTIONS
+  //             getQuestions(widgetDatabaseFormID)
+  //             .then( async (response) => {
+  //               widgetDatabaseQuestions = response;
+  //               await checkDatabaseQuestions();
+
+  //               //DATABSE SUBMISSIONS
+  //               let promiseSubmission = getSubmissions(widgetDatabaseFormID);
+  //               promiseSubmission.then( (response) => {
+  //                 databaseSubmissions = response;
+
+  //                 //LOAD FACE API MODELS
+  //                 loadModels().then(() => {
+  //                   setWidgetLoaded(true);
+  //                 });
+  //               });
+  //             });
+  //           });
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
+
   const init = async () => {
     if(!widgetLoaded) {
-      jotform.subscribe("ready", (response) => {
-        console.log(jotform);
+      jotform.subscribe("ready", async (response) => {
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
-        else{
+        else {
           //WIDGET FORM ID
           widgetFormID = response.formID;
 
           //QUESTIONS OF WIDGET FORM
-          getQuestions(widgetFormID)
-          .then((response) => {
-            widgetQuestions = response;
-            console.log("Widget Questions:", widgetQuestions);
+          widgetQuestions = await getQuestions(widgetFormID);
+          console.log("Widget Questions:", widgetQuestions);
 
-            //DATABASE FORM ID
-            getWidgetDatabaseFormID()
-            .then((response) => {
-              widgetDatabaseFormID = response;
-              console.log("database id:", widgetDatabaseFormID);
+          //DATABASE FORM ID
+          widgetDatabaseFormID = await getWidgetDatabaseFormID()
+          console.log("database id:", widgetDatabaseFormID);
               
-              //DATABASE QUESTIONS
-              getQuestions(widgetDatabaseFormID)
-              .then( async (response) => {
-                widgetDatabaseQuestions = response;
-                await checkDatabaseQuestions();
+          //DATABASE QUESTIONS
+          widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID)
+          await checkDatabaseQuestions();
 
-                //DATABSE SUBMISSIONS
-                let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-                promiseSubmission.then( (response) => {
-                  databaseSubmissions = response;
+          //DATABSE SUBMISSIONS
+          databaseSubmissions = await getSubmissions(widgetDatabaseFormID);
 
-                  //LOAD FACE API MODELS
-                  loadModels().then(() => {
-                    setWidgetLoaded(true);
-                  });
-                });
-              });
-            });
-          });
+          //LOAD FACE API MODELS
+          await loadModels();
+          setWidgetLoaded(true);
         }
       });
     }
