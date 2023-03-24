@@ -113,7 +113,7 @@ function Video(props) {
       formData.append('properties[title]', formID + "Database");
       formData.append('questions[0][type]', 'control_textbox');
       formData.append('questions[0][name]', faceFieldName);
-      //formData.append('questions[0][order]', '0');
+      formData.append('questions[0][order]', '0');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
         console.log("worked");
@@ -121,7 +121,7 @@ function Video(props) {
         formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
         //formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
-        //formData.append('questions[' + (i+1) + '][order]', '0');
+        formData.append('questions[' + (i+1) + '][order]', '0');
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
@@ -130,8 +130,8 @@ function Video(props) {
           let garbageFormID = response.data.content.split(" ")[1];
           axios.delete("https://api.jotform.com/form/" + garbageFormID + "?apiKey=" + apiKey)
           .then(() => {
+            resolve("-1");
           });
-          resolve("-1");
         }
         else {
           resolve(newID);
