@@ -120,8 +120,8 @@ function Video(props) {
         //formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
         formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
-        formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
-        //formData.append('questions[' + (i+1) + '][order]', '0');
+        //formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
+        formData.append('questions[' + (i+1) + '][order]', '0');
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
