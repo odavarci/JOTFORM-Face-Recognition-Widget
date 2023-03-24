@@ -116,7 +116,8 @@ function Video(props) {
       formData.append('questions[0][order]', '0');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
-        formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
+        //formData.append('questions[' + (i+1) + '][type]', questions[i].type.toString());
+        formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
         //formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
         //formData.append('questions[' + (i+1) + '][order]', '0');
@@ -273,24 +274,40 @@ function Video(props) {
     });
   }
 
-   const submitFace = (values, face) => {
+  //  const submitFace = (values, face) => {
+  //   console.log("values:", values);
+  //   let formData = new FormData();
+  //   for(let i = 0; i < values.length; i++) {
+  //     let qid = i + 2;
+  //     if(values[i].type === 'control_fullname') {
+  //       let arr = values[i].value.split(" ");
+  //       formData.append("submission[" + qid + "_first]", arr[0]);
+  //       formData.append("submission[" + qid + "_last]", arr[1]);
+  //     }
+  //     else if(values[i].type === 'control_phone') {
+  //       let arr = values[i].value.split(" ");
+  //       formData.append("submission[" + qid + "_area]", arr[0].substring(1,4));
+  //       formData.append("submission[" + qid + "_phone]", arr[1]);
+  //     }
+  //     else if(values[i].type === 'control_email') {
+  //       formData.append("submission[" + qid + "]", values[i].value);
+  //     }
+  //   }
+  //   formData.append("submission[1]", face.toString());
+
+  //   axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
+  //   .then(function(response){})
+  //   .catch(function(error){
+  //     console.log(error);
+  //   });
+  // }
+
+  const submitFace = (values, face) => {
     console.log("values:", values);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       let qid = i + 2;
-      if(values[i].type === 'control_fullname') {
-        let arr = values[i].value.split(" ");
-        formData.append("submission[" + qid + "_first]", arr[0]);
-        formData.append("submission[" + qid + "_last]", arr[1]);
-      }
-      else if(values[i].type === 'control_phone') {
-        let arr = values[i].value.split(" ");
-        formData.append("submission[" + qid + "_area]", arr[0].substring(1,4));
-        formData.append("submission[" + qid + "_phone]", arr[1]);
-      }
-      else if(values[i].type === 'control_email') {
-        formData.append("submission[" + qid + "]", values[i].value);
-      }
+      formData.append("submission[" + qid + "]", values[i].value);
     }
     formData.append("submission[1]", face.toString());
 
