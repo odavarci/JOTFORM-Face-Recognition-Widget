@@ -208,6 +208,7 @@ function Video(props) {
   const getSavedQuestions = () => {
     let toReturn = [];
     let QIDSetting = jotform.getWidgetSetting("Question IDs:")
+    console.log("QID setting:", QIDSetting);
     if(QIDSetting !== "") {
       let qids = QIDSetting.split(",");
       for(let i in widgetQuestions) {
