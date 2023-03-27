@@ -114,13 +114,14 @@ function Video(props) {
       formData.append('questions[0][type]', 'control_textbox');
       formData.append('questions[0][name]', faceFieldName);
       formData.append('questions[0][order]', '0');
+      formData.append('question[0][text]', 'face');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
         console.log("worked");
         formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
-        //formData.append('questions[' + (i+1) + '][order]', (i + 1).toString());
         formData.append('questions[' + (i+1) + '][order]', '0');
+        formData.append('questions[' + (i+1) + '][text]', questions[i].text.toString());
       }
       axios.post('https://api.jotform.com/form?apiKey=' + apiKey, formData)
       .then(function(response){
@@ -230,6 +231,10 @@ function Video(props) {
 
   const setFieldsValue = () => {
     let arr = [];
+    // let qids = [];
+    // for(let i in widgetDatabaseQuestions) {
+    //   qids.push(widgetDatabaseQuestions[i].name);
+    // }
     for(let i in recognizedProfile) {
       if(i === 1) {   //it is face descriptor
         continue;
