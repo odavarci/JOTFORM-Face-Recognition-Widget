@@ -330,9 +330,8 @@ function Video(props) {
     for(let i in widgetDatabaseQuestions) {
       console.log("widgetDatabaseQuestions[i]", widgetDatabaseQuestions[i]);
       for(let j in values) {
-        console.log("j", j);
-        if(widgetDatabaseQuestions[i].name == j.selector) {
-          formData.append("submission[" + widgetDatabaseQuestions[i].qid + "]", j.value);
+        if(widgetDatabaseQuestions[i].name == values[j].selector) {
+          formData.append("submission[" + widgetDatabaseQuestions[i].qid + "]", values[j].value);
         }
       }
     }
