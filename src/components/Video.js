@@ -309,7 +309,7 @@ function Video(props) {
   }
 
   const submitFace = (values, face) => {
-    console.log("values:", values);
+    console.log("database questions:", widgetDatabaseFormID);
     let formData = new FormData();
     for(let i = 0; i < values.length; i++) {
       let qid = i + 2;
