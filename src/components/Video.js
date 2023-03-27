@@ -86,7 +86,6 @@ function Video(props) {
         }
         //Create new database form and return its id
         if(!match) {
-          console.log("new form created");
           let promise = createNewDatabaseForm(widgetFormID);
           promise.then((response) => {
             if(response === "-1") {
@@ -115,7 +114,6 @@ function Video(props) {
       formData.append('question[0][text]', 'face');
       let questions = getSavedQuestions();
       for(let i = 0; i < questions.length; i++) {
-        console.log("worked");
         formData.append('questions[' + (i+1) + '][type]', 'control_textbox');
         formData.append('questions[' + (i+1) + '][name]', questions[i].qid.toString());
         formData.append('questions[' + (i+1) + '][order]', '0');
@@ -156,7 +154,6 @@ function Video(props) {
       formData.append('question[order]', '0');
       axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/questions?apiKey=' + apiKey, formData)
       .then((response) => {
-        console.log(response);
         resolve(1);
       });
     });
@@ -294,8 +291,6 @@ function Video(props) {
           let currentFace = answers[j].answer.split(",");
           let distance = calculateSimilarityOfFaces(currentFace, face);
           if(distance < faceRecognizorThreshold) {
-            //closeWebcam();
-            console.log("recognized profile: ", answers);
             setRecognizedProfile(answers);
             return true;
           }
@@ -313,10 +308,8 @@ function Video(props) {
   }
 
   const submitFace = (values, face) => {
-    console.log("database questions:", widgetDatabaseQuestions);
     let formData = new FormData();
     for(let i in widgetDatabaseQuestions) {
-      console.log("widgetDatabaseQuestions[i]", widgetDatabaseQuestions[i]);
       for(let j in values) {
         if(widgetDatabaseQuestions[i].name == values[j].selector) {
           formData.append("submission[" + widgetDatabaseQuestions[i].qid + "]", values[j].value);
@@ -380,7 +373,6 @@ function Video(props) {
           clearInterval(videoInterval);
           setIsRecognized(false);
           setCapturedFace(detection.descriptor);
-          console.log("Not Found:", recognizedProfile);
         }
       }
     }, 100);
@@ -394,53 +386,6 @@ function Video(props) {
   //------------------------------------------------------------------------------------------------------------------
 
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
-  // const init = async () => {
-  //   if(!widgetLoaded) {
-  //     jotform.subscribe("ready", (response) => {
-  //       console.log(jotform);
-  //       if(jotform.isWidgetOnBuilder()) {
-  //         setWidgetLoaded(true);
-  //       }
-  //       else{
-  //         //WIDGET FORM ID
-  //         widgetFormID = response.formID;
-
-  //         //QUESTIONS OF WIDGET FORM
-  //         getQuestions(widgetFormID)
-  //         .then((response) => {
-  //           widgetQuestions = response;
-  //           console.log("Widget Questions:", widgetQuestions);
-
-  //           //DATABASE FORM ID
-  //           getWidgetDatabaseFormID()
-  //           .then((response) => {
-  //             widgetDatabaseFormID = response;
-  //             console.log("database id:", widgetDatabaseFormID);
-              
-  //             //DATABASE QUESTIONS
-  //             getQuestions(widgetDatabaseFormID)
-  //             .then( async (response) => {
-  //               widgetDatabaseQuestions = response;
-  //               await checkDatabaseQuestions();
-
-  //               //DATABSE SUBMISSIONS
-  //               let promiseSubmission = getSubmissions(widgetDatabaseFormID);
-  //               promiseSubmission.then( (response) => {
-  //                 databaseSubmissions = response;
-
-  //                 //LOAD FACE API MODELS
-  //                 loadModels().then(() => {
-  //                   setWidgetLoaded(true);
-  //                 });
-  //               });
-  //             });
-  //           });
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
-
   const init = async () => {
     if(!widgetLoaded) {
       jotform.subscribe("ready", async (response) => {
