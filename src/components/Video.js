@@ -328,7 +328,9 @@ function Video(props) {
     console.log("database questions:", widgetDatabaseQuestions);
     let formData = new FormData();
     for(let i in widgetDatabaseQuestions) {
+      console.log("widgetDatabaseQuestions[i]", widgetDatabaseQuestions[i]);
       for(let j in values) {
+        console.log("j", j);
         if(widgetDatabaseQuestions[i].name == j.selector) {
           formData.append("submission[" + widgetDatabaseQuestions[i].qid + "]", j.value);
         }
