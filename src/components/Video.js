@@ -241,7 +241,7 @@ function Video(props) {
       if(i === 1) {   //it is face descriptor
         continue;
       }
-      else if(!qids.contains(recognizedProfile[i].name)) {
+      else if(!qids.includes(recognizedProfile[i].name)) {
         continue;
       }
       let id = recognizedProfile[i].name;
