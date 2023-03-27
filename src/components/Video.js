@@ -232,12 +232,16 @@ function Video(props) {
 
   const setFieldsValue = () => {
     let arr = [];
-    // let qids = [];
-    // for(let i in widgetDatabaseQuestions) {
-    //   qids.push(widgetDatabaseQuestions[i].name);
-    // }
+    let questions = getSavedQuestions();
+    let qids = [];
+    for(let i in questions) {
+      qids.push(questions[i].qid);
+    }
     for(let i in recognizedProfile) {
       if(i === 1) {   //it is face descriptor
+        continue;
+      }
+      else if(!qids.contains(recognizedProfile[i].name)) {
         continue;
       }
       let id = recognizedProfile[i].name;
