@@ -149,11 +149,12 @@ function Video(props) {
     });
   }
 
-  const addQuestion = (name) => {
+  const addQuestion = (question) => {
     return new Promise((resolve, reject) => {
       let formData = new FormData();
       formData.append('question[type]', 'control_textbox');
-      formData.append('question[name]', name);
+      formData.append('question[name]', question.qid);
+      formData.append('question[text]', question.text);
       formData.append('question[order]', '0');
       axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/questions?apiKey=' + apiKey, formData)
       .then((response) => {
@@ -172,7 +173,7 @@ function Video(props) {
     }
     for(let i in newQuestions) {
       if(!oldQIDs.includes(newQuestions[i].qid)) {
-        await addQuestion(newQuestions[i].qid);
+        await addQuestion(newQuestions[i]);
       }
     }
     widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID);
@@ -307,22 +308,6 @@ function Video(props) {
       submitFace(response, face);
     });
   }
-
-  // const submitFace = (values, face) => {
-  //   console.log("database questions:", widgetDatabaseQuestions);
-  //   let formData = new FormData();
-  //   for(let i = 0; i < values.length; i++) {
-  //     let qid = i + 2;
-  //     formData.append("submission[" + qid + "]", values[i].value);
-  //   }
-  //   formData.append("submission[1]", face.toString());  //face description is always the first question
-
-  //   axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
-  //   .then(function(response){})
-  //   .catch(function(error){
-  //     console.log(error);
-  //   });
-  // }
 
   const submitFace = (values, face) => {
     console.log("database questions:", widgetDatabaseQuestions);
