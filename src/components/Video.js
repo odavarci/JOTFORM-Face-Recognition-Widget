@@ -308,14 +308,33 @@ function Video(props) {
     });
   }
 
+  // const submitFace = (values, face) => {
+  //   console.log("database questions:", widgetDatabaseQuestions);
+  //   let formData = new FormData();
+  //   for(let i = 0; i < values.length; i++) {
+  //     let qid = i + 2;
+  //     formData.append("submission[" + qid + "]", values[i].value);
+  //   }
+  //   formData.append("submission[1]", face.toString());  //face description is always the first question
+
+  //   axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
+  //   .then(function(response){})
+  //   .catch(function(error){
+  //     console.log(error);
+  //   });
+  // }
+
   const submitFace = (values, face) => {
     console.log("database questions:", widgetDatabaseQuestions);
     let formData = new FormData();
-    for(let i = 0; i < values.length; i++) {
-      let qid = i + 2;
-      formData.append("submission[" + qid + "]", values[i].value);
+    for(let i in widgetDatabaseQuestions) {
+      for(let j in values) {
+        if(widgetDatabaseQuestions[i].name == j.selector) {
+          formData.append("submission[" + widgetDatabaseQuestions[i].qid + "]", j.value);
+        }
+      }
     }
-    formData.append("submission[1]", face.toString());
+    formData.append("submission[1]", face.toString());  //face description is always the first question
 
     axios.post('https://api.jotform.com/form/' + widgetDatabaseFormID + '/submissions?apiKey=' + apiKey, formData)
     .then(function(response){})
