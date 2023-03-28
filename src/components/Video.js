@@ -241,6 +241,9 @@ function Video(props) {
       }
       let id = recognizedProfile[i].name;
       let value = (recognizedProfile[i].prettyFormat !== undefined) ? recognizedProfile[i].prettyFormat : recognizedProfile[i].answer;
+      if(value === undefined) {
+        value = "";
+      }
       console.log("id", id);
       console.log("value", value);
       arr.push({
