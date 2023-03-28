@@ -455,6 +455,7 @@ function Video(props) {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
       <div>
+        <h1>I am not working on builder BUT,</h1>
         <h3>You are saving the following questions:</h3>
         <p>{QIDSetting}</p>
       </div>
@@ -466,7 +467,8 @@ function Video(props) {
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
-          <h1>I am not working on builder :(</h1>
+          // <h1>I am not working on builder :(</h1>
+          returnBuilderValue()
           :
           widgetLoaded ?
             <Wrapper>
