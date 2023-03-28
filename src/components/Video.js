@@ -244,8 +244,6 @@ function Video(props) {
       if(value === undefined) {
         value = "";
       }
-      console.log("id", id);
-      console.log("value", value);
       arr.push({
         id: id,
         value: value
