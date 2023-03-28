@@ -52,12 +52,12 @@ function Video(props) {
         } 
       }
     });
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
     createNewFaceSubmission(capturedFace);
-    basicCallbackFunction();
+    //basicCallbackFunction();
   }
 
   const changeSavedStatus = () => {
@@ -260,7 +260,6 @@ function Video(props) {
       for(let i = 0; i < questions.length; i++) {
         arr.push(questions[i].qid);
       }
-      console.log("qids to be saved:", arr);
       jotform.getFieldsValueById( arr, (response) => {
           console.log("fields:", response.data);
           resolve(response.data);
