@@ -207,7 +207,7 @@ function Video(props) {
 
   const getSavedQuestions = () => {
     let toReturn = [];
-    let QIDSetting = jotform.getWidgetSetting("Question IDs:")
+    let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     if(QIDSetting !== "") {
       let qids = QIDSetting.split(",");
       for(let i in widgetQuestions) {
@@ -449,6 +449,16 @@ function Video(props) {
       console.log("Recognized profile:", recognizedProfile);
       //return();
     }
+  }
+
+  const returnBuilderValue = () => {
+    let QIDSetting = jotform.getWidgetSetting("Question IDs:");
+    return(
+      <div>
+        <h3>You are saving the following questions:</h3>
+        <p>{QIDSetting}</p>
+      </div>
+    );
   }
 
   init();
