@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
-import cameraDisabledImage from '../../public/images/cameraDisabled.jpg';
+import cameraDisabledImage from '../images/cameraDisabled.jpg';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
