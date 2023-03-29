@@ -336,7 +336,7 @@ function Video(props) {
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
-        videoRef.current.srcObject = stream;
+        //videoRef.current.srcObject = stream;
         videoRef.current.play();
       })
       .catch(err => {
