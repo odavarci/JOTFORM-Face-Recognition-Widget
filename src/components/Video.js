@@ -521,7 +521,18 @@ function Video(props) {
       );
     }
     else {
-      return returnFaceInfo();
+      return(
+        <div>
+          {
+            !isRecognized ?
+              returnVideoElement()
+            :
+              <></>
+          }
+          returnFaceInfo();
+        </div>
+      );
+      //return returnFaceInfo();
     }
   }
 
