@@ -481,6 +481,7 @@ function Video(props) {
   }
 
   const returnCameraDisallow = () => {
+    console.log("returned!");
     return (
       <div>
         <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
