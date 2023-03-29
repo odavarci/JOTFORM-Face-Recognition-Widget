@@ -336,9 +336,8 @@ function Video(props) {
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
       })
       .catch(err => {
         console.log("acces denied!");
