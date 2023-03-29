@@ -341,7 +341,7 @@ function Video(props) {
       })
       .catch(err => {
         console.log("Open Camera Err:", err);
-        closeWebcam();
+        //closeWebcam();
         setIsCameraEnabled(false);
       });
   }
