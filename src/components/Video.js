@@ -578,7 +578,7 @@ function Video(props) {
               }
           </Wrapper>
           :
-          returnLoading();
+          returnLoading()
         }
     </Wrapper>
   );
