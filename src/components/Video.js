@@ -491,7 +491,7 @@ function Video(props) {
       );
     }
     if(recognizedProfile === null && isRecognized === null) {
-      if(!setIsCameraEnabled) {
+      if(!isCameraEnabled) {
         return (
           <img src={cameraDisabledImage}></img>
         );
