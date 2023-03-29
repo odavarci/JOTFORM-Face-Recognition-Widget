@@ -341,6 +341,8 @@ function Video(props) {
       })
       .catch(err => {
         console.log("Open Camera Err:", err);
+        closeWebcam();
+        setIsCameraEnabled(false);
       });
   }
 
@@ -551,9 +553,14 @@ function Video(props) {
           returnBuilderValue()
           :
           widgetLoaded ?
-
             <Wrapper>
-              {returnVideoElement()}
+              {
+                isCameraEnabled === false ?
+                  returnCameraDisallow()
+                :
+                  returnVideoElement()
+              }
+              {/* {returnVideoElement()} */}
               {
                 (recognizedProfile === null && isRecognized === null) ? 
                   <Wrapper>
