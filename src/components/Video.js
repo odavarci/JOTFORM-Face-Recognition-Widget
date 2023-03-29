@@ -335,6 +335,7 @@ function Video(props) {
   const startVideo = () => {
     setCaptureVideo(true);
     count.current++;
+    console.log(count.current);
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
