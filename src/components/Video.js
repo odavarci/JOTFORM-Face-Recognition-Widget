@@ -450,7 +450,7 @@ function Video(props) {
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log("Recognized profile:", recognizedProfile);
       return(
-        <div style={{display: "flex",alignItems: "center",height: "100%"}}>
+        <div>
           <h3>Welcome Back!</h3>
           <button onClick={setFieldsValue}>Fill The Form</button>
         </div>
@@ -474,7 +474,6 @@ function Video(props) {
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
-          // <h1>I am not working on builder :(</h1>
           returnBuilderValue()
           :
           widgetLoaded ?
@@ -482,8 +481,7 @@ function Video(props) {
               <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
                 <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
                 <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-              </div>
-              {
+                {
                 (recognizedProfile === null && isRecognized === null) ? 
                   <Wrapper>
                     {
@@ -495,7 +493,8 @@ function Video(props) {
                   </Wrapper>
                   :
                   returnFaceInfo()
-              }
+                }
+              </div>
           </Wrapper>
           :
           <h1>widget loading...</h1>
