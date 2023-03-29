@@ -440,7 +440,7 @@ function Video(props) {
       return(
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
-          Remind me later!
+          Remember me later!
         </label>
       );
     }
