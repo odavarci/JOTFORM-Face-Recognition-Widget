@@ -475,8 +475,8 @@ function Video(props) {
   const returnVideoElement = () => {
     return(
       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-        {/* <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} /> */}
-        <video ref={videoRef} height={videoHeight} width={videoWidth} style={{ borderRadius: '10px' }} />
+        <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+        {/* <video ref={videoRef} height={videoHeight} width={videoWidth} style={{ borderRadius: '10px' }} /> */}
         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
       </div>
     );
