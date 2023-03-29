@@ -478,6 +478,7 @@ function Video(props) {
         {/* <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} /> */}
         <video ref={videoRef} height={videoHeight} width={videoWidth} style={{ borderRadius: '10px' }} />
         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+        {startVideo()}
       </div>
     );
   }
@@ -498,18 +499,16 @@ function Video(props) {
     if(recognizedProfile === null && isRecognized === null) {
       if(isCameraEnabled === null && !captureVideo) {
         console.log("start video");
+        //startVideo();
+      }
+      else if(isCameraEnabled === false) {
         return (
           <div>
             <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
             <p>Please give the camera permission to use Face Recignition Widget!</p>
-            {startVideo()}
           </div>
         );
-        startVideo();
       }
-      // else if(isCameraEnabled === false) {
-        
-      // }
       else {
         return returnVideoElement();
       }
