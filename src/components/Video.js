@@ -561,7 +561,6 @@ function Video(props) {
                 :
                   returnVideoElement()
               }
-              {/* {returnVideoElement()} */}
               {
                 (recognizedProfile === null && isRecognized === null) ? 
                   <Wrapper>
