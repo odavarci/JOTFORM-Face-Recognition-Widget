@@ -529,7 +529,7 @@ function Video(props) {
             :
               <></>
           }
-          returnFaceInfo();
+          {returnFaceInfo()}
         </div>
       );
       //return returnFaceInfo();
