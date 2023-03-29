@@ -35,6 +35,7 @@ function Video(props) {
   const videoWidth = 320;
   const canvasRef = useRef();
   const willBeSaved = useRef(false);
+  const count = useRef(0);
 
   //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
   const basicCallbackFunction = () => {
@@ -333,6 +334,7 @@ function Video(props) {
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
   const startVideo = () => {
     setCaptureVideo(true);
+    count.current++;
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
@@ -340,9 +342,6 @@ function Video(props) {
         videoRef.current.play();
       })
       .catch(err => {
-        console.log("acces denied!");
-        console.log("bu ne:", err);
-        //setIsCameraEnabled(false);
       });
   }
 
@@ -496,22 +495,13 @@ function Video(props) {
         </div>
       );
     }
-    //No camera permission
-    if(isCameraEnabled === false) {
-      return (
-        <div>
-          <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
-          <p>Please refresh the page and give the camera permission to use Face Recignition Widget!</p>
-        </div>
-      );
-    }
-
     if(recognizedProfile === null && isRecognized === null) {
-      if(captureVideo) {
+      //
+      if(count.current === 1) {
         return (
           <div>
             <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
-            <p>Please refresh the page and give the camera permission to use Face Recignition Widget!</p>
+            <p>Please give the camera permission and refresh the page to use Face Recignition Widget!</p>
           </div>
         );
       }
