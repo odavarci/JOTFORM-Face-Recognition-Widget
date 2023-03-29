@@ -497,7 +497,10 @@ function Video(props) {
       }
       else if(!isCameraEnabled) {
         return (
-          <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px', display: 'flex', justifyContent: 'center' }}></img>
+          <div>
+            <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
+            <p>Please give the camera permission to use Face Recignition Widget!</p>
+          </div>
         );
       }
       else {
