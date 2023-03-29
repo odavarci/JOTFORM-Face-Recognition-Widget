@@ -343,6 +343,7 @@ function Video(props) {
         videoRef.current.play();
       })
       .catch(err => {
+        console.log("Open Camera Err:", err);
       });
   }
 
