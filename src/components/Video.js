@@ -497,7 +497,7 @@ function Video(props) {
       }
       else if(!isCameraEnabled) {
         return (
-          <img src={cameraDisabledImage}></img>
+          <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight }}></img>
         );
       }
       else {
