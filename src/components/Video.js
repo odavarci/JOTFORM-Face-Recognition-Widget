@@ -475,6 +475,7 @@ function Video(props) {
   const returnVideoElement = () => {
     return(
       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+        {/* <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} /> */}
         <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
       </div>
@@ -487,7 +488,11 @@ function Video(props) {
     }
     if(!widgetLoaded) {
       return(
-        <h1>widget loading...</h1>
+        <div>
+          <h2>Face Recignition Widget</h2>
+          <p>Please make sure that camera captures you only.</p>
+          <p>Try to stay stable.</p>
+        </div>
       );
     }
     if(recognizedProfile === null && isRecognized === null) {
