@@ -32,7 +32,7 @@ function Video(props) {
   const videoHeight = 240;
   const videoWidth = 320;
   const canvasRef = useRef();
-  const willBeSaved = useRef(true);
+  const willBeSaved = useRef(false);
 
   //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
   const basicCallbackFunction = () => {
@@ -434,15 +434,17 @@ function Video(props) {
   //-------------------------------------------------------------------------------------------------------------------
 
   const returnFaceInfo = () => {
+    //Not recognized!
     if(isRecognized === false){
       jotform.subscribe("submit", notRecognizedCallbackFunction);
       return(
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
-          I do not want to be recognized later!
+          Remind me later!
         </label>
       );
     }
+    //Recognized!
     else{
       setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
