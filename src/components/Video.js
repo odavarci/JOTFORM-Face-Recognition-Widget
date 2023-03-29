@@ -342,6 +342,7 @@ function Video(props) {
       })
       .catch(err => {
         console.log("acces denied!");
+        console.log("bu ne:", err);
         setIsCameraEnabled(false);
       });
   }
@@ -476,7 +477,7 @@ function Video(props) {
     return(
       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
         {/* <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} /> */}
-        <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+        <video ref={videoRef} height={videoHeight} width={videoWidth} style={{ borderRadius: '10px' }} />
         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
       </div>
     );
