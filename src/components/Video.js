@@ -436,7 +436,7 @@ function Video(props) {
   const returnFaceInfo = () => {
     //Not recognized!
     if(isRecognized === false){
-      jotform.subscribe("submit", notRecognizedCallbackFunction);
+      jotform.subscribe("submit", basicCallbackFunction);
       return(
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
