@@ -446,10 +446,15 @@ function Video(props) {
     }
     //Recognized!
     else{
-      setFieldsValue();
+      //setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log("Recognized profile:", recognizedProfile);
-      //return();
+      return(
+        <div>
+          <h3>Welcome Back!</h3>
+          <button onClick={setFieldsValue}>Fill The Form</button>
+        </div>
+      );
     }
   }
 
