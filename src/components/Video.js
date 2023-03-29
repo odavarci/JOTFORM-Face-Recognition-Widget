@@ -500,7 +500,7 @@ function Video(props) {
         console.log("start video");
         startVideo();
       }
-      else if(!isCameraEnabled) {
+      else if(isCameraEnabled === false) {
         return (
           <div>
             <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
