@@ -450,7 +450,7 @@ function Video(props) {
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log("Recognized profile:", recognizedProfile);
       return(
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+        <div style={{justifyContent: 'center'}}>
           <h3>Welcome Back!</h3>
           <button onClick={setFieldsValue}>Fill The Form</button>
         </div>
