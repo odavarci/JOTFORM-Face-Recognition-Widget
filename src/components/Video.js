@@ -337,12 +337,12 @@ function Video(props) {
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
         //videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        //videoRef.current.play();
       })
       .catch(err => {
         console.log("acces denied!");
         console.log("bu ne:", err);
-        setIsCameraEnabled(false);
+        //setIsCameraEnabled(false);
       });
   }
 
