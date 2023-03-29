@@ -35,7 +35,6 @@ function Video(props) {
   const videoWidth = 320;
   const canvasRef = useRef();
   const willBeSaved = useRef(false);
-  const count = useRef(0);
 
   //-----------------------------------------CALLBACK FUNCTIONS-------------------------------------------------------------
   const basicCallbackFunction = () => {
@@ -334,7 +333,6 @@ function Video(props) {
   //----------------------------------------WEBCAM FUNCTIONS--------------------------------------------------------
   const startVideo = () => {
     setCaptureVideo(true);
-    console.log(count.current);
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
@@ -480,6 +478,25 @@ function Video(props) {
     );
   }
 
+  const returnCameraDisallow = () => {
+    return (
+      <div>
+        <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
+        <p>Please give the camera permission and refresh the page to use Face Recognition Widget!</p>
+      </div>
+    );
+  }
+
+  const returnLoading = () => {
+    return(
+      <div>
+        <h2>Face Recignition Widget</h2>
+        <p>Please make sure that camera captures you only.</p>
+        <p>Try to stay stable.</p>
+      </div>
+    );
+  }
+
   const returnFunction = () => {
     //If widget is on the builder
     if(jotform.isWidgetOnBuilder()) {
@@ -545,10 +562,6 @@ function Video(props) {
           widgetLoaded ?
 
             <Wrapper>
-              {/* <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-              </div> */}
               {returnVideoElement()}
               {
                 (recognizedProfile === null && isRecognized === null) ? 
@@ -565,7 +578,7 @@ function Video(props) {
               }
           </Wrapper>
           :
-          <h1>widget loading...</h1>
+          returnLoading();
         }
     </Wrapper>
   );
