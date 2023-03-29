@@ -336,8 +336,8 @@ function Video(props) {
     navigator.mediaDevices
       .getUserMedia({ video: { width: 300 } })
       .then(stream => {
-        //videoRef.current.srcObject = stream;
-        //videoRef.current.play();
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
       })
       .catch(err => {
         console.log("acces denied!");
@@ -476,7 +476,6 @@ function Video(props) {
     return(
       <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
         <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-        {/* <video ref={videoRef} height={videoHeight} width={videoWidth} style={{ borderRadius: '10px' }} /> */}
         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
       </div>
     );
@@ -535,6 +534,7 @@ function Video(props) {
   //         returnBuilderValue()
   //         :
   //         widgetLoaded ?
+
   //           <Wrapper>
   //             <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
   //               <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
