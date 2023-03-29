@@ -449,7 +449,6 @@ function Video(props) {
     }
     //Recognized!
     else{
-      //setFieldsValue();
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log("Recognized profile:", recognizedProfile);
       return(
@@ -538,39 +537,40 @@ function Video(props) {
 
   init();
 
-  // return (
-  //   <Wrapper>
-  //       {jotform.isWidgetOnBuilder() ?
-  //         returnBuilderValue()
-  //         :
-  //         widgetLoaded ?
+  return (
+    <Wrapper>
+        {jotform.isWidgetOnBuilder() ?
+          returnBuilderValue()
+          :
+          widgetLoaded ?
 
-  //           <Wrapper>
-  //             <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-  //               <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-  //               <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-  //             </div>
-  //             {
-  //               (recognizedProfile === null && isRecognized === null) ? 
-  //                 <Wrapper>
-  //                   {
-  //                     !captureVideo ?
-  //                     startVideo()
-  //                     :
-  //                     <></>
-  //                   }
-  //                 </Wrapper>
-  //                 :
-  //                 returnFaceInfo()
-  //             }
-  //         </Wrapper>
-  //         :
-  //         <h1>widget loading...</h1>
-  //       }
-  //   </Wrapper>
-  // );
+            <Wrapper>
+              {/* <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+                <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+              </div> */}
+              {returnVideoElement()}
+              {
+                (recognizedProfile === null && isRecognized === null) ? 
+                  <Wrapper>
+                    {
+                      !captureVideo ?
+                      startVideo()
+                      :
+                      <></>
+                    }
+                  </Wrapper>
+                  :
+                  returnFaceInfo()
+              }
+          </Wrapper>
+          :
+          <h1>widget loading...</h1>
+        }
+    </Wrapper>
+  );
 
-  return returnFunction();
+  //return returnFunction();
 }
 
 export default Video;
