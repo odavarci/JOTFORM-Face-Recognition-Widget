@@ -513,15 +513,6 @@ function Video(props) {
       );
     }
     if(recognizedProfile === null && isRecognized === null) {
-      //
-      if(count.current === 1) {
-        return (
-          <div>
-            <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
-            <p>Please give the camera permission and refresh the page to use Face Recignition Widget!</p>
-          </div>
-        );
-      }
       return(
         <Wrapper>
           <div>
@@ -582,8 +573,6 @@ function Video(props) {
         }
     </Wrapper>
   );
-
-  //return returnFunction();
 }
 
 export default Video;
