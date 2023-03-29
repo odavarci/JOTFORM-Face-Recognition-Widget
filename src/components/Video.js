@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
+import cameraDisabledImage from 'images/cameraDisabledImage';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -26,6 +27,7 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = useState(null);
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const [isRecognized, setIsRecognized] = useState(null);
+  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
 
   //Video properties
   const videoRef = useRef();
@@ -340,6 +342,7 @@ function Video(props) {
       })
       .catch(err => {
         console.error("error:", err);
+        setIsCameraEnabled(false);
       });
   }
 
@@ -469,38 +472,74 @@ function Video(props) {
     );
   }
 
+  const returnVideoElement = () => {
+    return(
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+        <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+        <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+      </div>
+    );
+  }
+
+  const returnFunction = () => {
+    if(jotform.isWidgetOnBuilder()) {
+      return returnBuilderValue();
+    }
+    if(!widgetLoaded) {
+      return(
+        <h1>widget loading...</h1>
+      );
+    }
+    if(recognizedProfile === null && isRecognized === null) {
+      if(!setIsCameraEnabled) {
+        return (
+          <img src={cameraDisabledImage}></img>
+        );
+      }
+      else {
+        startVideo();
+        return returnVideoElement();
+      }
+    }
+    else {
+      return returnFaceInfo();
+    }
+  }
+
   init();
 
-  return (
-    <Wrapper>
-        {jotform.isWidgetOnBuilder() ?
-          returnBuilderValue()
-          :
-          widgetLoaded ?
-            <Wrapper>
-              <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
-                <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                {
-                (recognizedProfile === null && isRecognized === null) ? 
-                  <Wrapper>
-                    {
-                      !captureVideo ?
-                      startVideo()
-                      :
-                      <></>
-                    }
-                  </Wrapper>
-                  :
-                  returnFaceInfo()
-                }
-              </div>
-          </Wrapper>
-          :
-          <h1>widget loading...</h1>
-        }
-    </Wrapper>
-  );
+  // return (
+  //   <Wrapper>
+  //       {jotform.isWidgetOnBuilder() ?
+  //         returnBuilderValue()
+  //         :
+  //         widgetLoaded ?
+  //           <Wrapper>
+  //             <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+  //               <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
+  //               <canvas ref={canvasRef} style={{ position: 'absolute' }} />
+  //             </div>
+  //             {
+  //               (recognizedProfile === null && isRecognized === null) ? 
+  //                 <Wrapper>
+  //                   {
+  //                     !captureVideo ?
+  //                     startVideo()
+  //                     :
+  //                     <></>
+  //                   }
+  //                 </Wrapper>
+  //                 :
+  //                 returnFaceInfo()
+  //             }
+  //         </Wrapper>
+  //         :
+  //         <h1>widget loading...</h1>
+  //       }
+  //   </Wrapper>
+  // );
+
+  return(returnFunction());
 }
 
 export default Video;
