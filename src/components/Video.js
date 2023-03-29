@@ -27,7 +27,7 @@ function Video(props) {
   const [recognizedProfile, setRecognizedProfile] = useState(null);
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const [isRecognized, setIsRecognized] = useState(null);
-  const [isCameraEnabled, setIsCameraEnabled] = useState(true);
+  const [isCameraEnabled, setIsCameraEnabled] = useState(null);
 
   //Video properties
   const videoRef = useRef();
@@ -341,7 +341,7 @@ function Video(props) {
         video.play();
       })
       .catch(err => {
-        console.error("error:", err);
+        console.log("acces denied!");
         setIsCameraEnabled(false);
       });
   }
@@ -491,13 +491,15 @@ function Video(props) {
       );
     }
     if(recognizedProfile === null && isRecognized === null) {
-      if(!isCameraEnabled) {
+      if(isCameraEnabled == null) {
+        startVideo();
+      }
+      else if(!isCameraEnabled) {
         return (
           <img src={cameraDisabledImage}></img>
         );
       }
       else {
-        startVideo();
         return returnVideoElement();
       }
     }
