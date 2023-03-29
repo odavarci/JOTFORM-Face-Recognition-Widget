@@ -507,6 +507,14 @@ function Video(props) {
     }
 
     if(recognizedProfile === null && isRecognized === null) {
+      if(captureVideo) {
+        return (
+          <div>
+            <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
+            <p>Please refresh the page and give the camera permission to use Face Recignition Widget!</p>
+          </div>
+        );
+      }
       return(
         <Wrapper>
           <div>
