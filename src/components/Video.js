@@ -491,7 +491,8 @@ function Video(props) {
       );
     }
     if(recognizedProfile === null && isRecognized === null) {
-      if(isCameraEnabled == null) {
+      if(isCameraEnabled === null) {
+        console.log("start video");
         startVideo();
       }
       else if(!isCameraEnabled) {
