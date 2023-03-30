@@ -388,6 +388,10 @@ function Video(props) {
     videoRef.current.srcObject.getTracks()[0].stop();
     setCaptureVideo(false);
   }
+
+  const startScan = () => {
+    setIsScanStarted(true);
+  }
   //------------------------------------------------------------------------------------------------------------------
 
   //--------------------------------------INITILIZATION FUNCTIONS-----------------------------------------------------
@@ -436,6 +440,7 @@ function Video(props) {
   }
   //-------------------------------------------------------------------------------------------------------------------
 
+  //-------------------------------------RETURN FUNCTIONS--------------------------------------------------------------
   const returnFaceInfo = () => {
     //Not recognized!
     if(isRecognized === false){
@@ -460,7 +465,7 @@ function Video(props) {
     }
   }
 
-  const returnBuilderValue = () => {
+  const returnBuilder = () => {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
       <div>
@@ -504,7 +509,7 @@ function Video(props) {
     return(
       <Wrapper>
         {returnLoading}
-        <button onClick={setIsScanStarted(true)}>Start Scan</button>
+        <button onClick={startScan}>Start Scan</button>
       </Wrapper>
     );
   }
@@ -534,59 +539,14 @@ function Video(props) {
       </Wrapper>      
     );
   }
-
-  const returnFunction = () => {
-    //If widget is on the builder
-    if(jotform.isWidgetOnBuilder()) {
-      return returnBuilderValue();
-    }
-    //If the widget is loading
-    if(!widgetLoaded) {
-      return(
-        <div>
-          <h2>Face Recignition Widget</h2>
-          <p>Please make sure that camera captures you only.</p>
-          <p>Try to stay stable.</p>
-        </div>
-      );
-    }
-    if(recognizedProfile === null && isRecognized === null) {
-      return(
-        <Wrapper>
-          <div>
-            {returnVideoElement()}
-          </div>
-          {
-            !captureVideo ?
-            startVideo()
-            :
-            <></>
-          }
-        </Wrapper>
-      );
-    }
-    else {
-      return(
-        <div>
-          {
-            !isRecognized ?
-              returnVideoElement()
-            :
-              <></>
-          }
-          {returnFaceInfo()}
-        </div>
-      );
-      //return returnFaceInfo();
-    }
-  }
+  //--------------------------------------------------------------------------------------------------------------------
 
   init();
 
   return (
     <Wrapper>
         {jotform.isWidgetOnBuilder() ?
-          returnBuilderValue()
+          returnBuilder()
           :
           widgetLoaded ?
             isScanStarted ?
