@@ -16,7 +16,7 @@ let jotform;             //Objects for managing jotform stuff
 let databaseSubmissions; //Stores the submissions in the database
 const basicElementTypes = ['control_fullname', 'control_email', 'control_phone']; //I will store those types of fields
 
-async function Video(props) {
+function Video(props) {
 
   let apiKey = props.apiKey;
   jotform = window.JFCustomWidget;
@@ -537,12 +537,12 @@ async function Video(props) {
     );
   }
 
-  const setSize = async() => {
+  const setSize = () => {
     let data = {width:640, height: 400};
-    await jotform.requestFrameResize(data);
+    jotform.requestFrameResize(data);
   }
   //--------------------------------------------------------------------------------------------------------------------
-  await setSize();
+  setSize();
   init();
 
   return (
