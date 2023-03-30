@@ -359,7 +359,7 @@ function Video(props) {
         faceapi.matchDimensions(canvasRef.current, displaySize);
 
         // const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
-        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions());
+        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
           
