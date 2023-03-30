@@ -508,7 +508,7 @@ function Video(props) {
   const returnStartScan = () => {
     return(
       <Wrapper>
-        {returnLoading}
+        {returnLoading()}
         <button onClick={startScan}>Start Scan</button>
       </Wrapper>
     );
