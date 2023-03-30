@@ -28,6 +28,7 @@ function Video(props) {
   const [widgetLoaded, setWidgetLoaded] = useState(false);
   const [isRecognized, setIsRecognized] = useState(null);
   const [isCameraEnabled, setIsCameraEnabled] = useState(null);
+  const [isScanStarted, setIsScanStarted] = useState(false);
 
   //Video properties
   const videoRef = useRef();
@@ -340,8 +341,7 @@ function Video(props) {
         videoRef.current.play();
       })
       .catch(err => {
-        console.log("Open Camera Err:", err);
-        //closeWebcam();
+        //console.log("Open Camera Err:", err);
         setIsCameraEnabled(false);
       });
   }
@@ -500,6 +500,41 @@ function Video(props) {
     );
   }
 
+  const returnStartScan = () => {
+    return(
+      <Wrapper>
+        {returnLoading}
+        <button onClick={setIsScanStarted(true)}>Start Scan</button>
+      </Wrapper>
+    );
+  }
+
+  const returnAfterStartScan = () => {
+    return(
+      <Wrapper>
+        {
+          isCameraEnabled === false ?
+            returnCameraDisallow()
+            :
+            returnVideoElement()
+        }
+        {
+          (recognizedProfile === null && isRecognized === null) ? 
+            <Wrapper>
+              {
+                !captureVideo ?
+                  startVideo()
+                  :
+                  <></>
+              }
+            </Wrapper>
+            :
+            returnFaceInfo()
+        }
+      </Wrapper>      
+    );
+  }
+
   const returnFunction = () => {
     //If widget is on the builder
     if(jotform.isWidgetOnBuilder()) {
@@ -554,29 +589,12 @@ function Video(props) {
           returnBuilderValue()
           :
           widgetLoaded ?
-            <Wrapper>
-              {
-                isCameraEnabled === false ?
-                  returnCameraDisallow()
-                :
-                  returnVideoElement()
-              }
-              {
-                (recognizedProfile === null && isRecognized === null) ? 
-                  <Wrapper>
-                    {
-                      !captureVideo ?
-                      startVideo()
-                      :
-                      <></>
-                    }
-                  </Wrapper>
-                  :
-                  returnFaceInfo()
-              }
-          </Wrapper>
-          :
-          returnLoading()
+            isScanStarted ?
+              returnAfterStartScan()
+              :
+              returnStartScan()
+            :
+            returnLoading()
         }
     </Wrapper>
   );
