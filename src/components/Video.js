@@ -536,9 +536,13 @@ function Video(props) {
       </Wrapper>      
     );
   }
+
+  const setSize = async() => {
+    let data = {width:640, height: 400};
+    await jotform.requestFrameResize(data);
+  }
   //--------------------------------------------------------------------------------------------------------------------
-  let data = {width:640, height: 400};
-  jotform.requestFrameResize(data)
+  setSize();
   init();
 
   return (
