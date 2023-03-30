@@ -359,7 +359,6 @@ function Video(props) {
         faceapi.matchDimensions(canvasRef.current, displaySize);
 
         const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
-        //const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
           
@@ -538,7 +537,8 @@ function Video(props) {
     );
   }
   //--------------------------------------------------------------------------------------------------------------------
-
+  let data = {width:640, height: 480};
+  jotform.requestFrameResize(data)
   init();
 
   return (
