@@ -32,8 +32,8 @@ function Video(props) {
 
   //Video properties
   const videoRef = useRef();
-  const videoHeight = 240;
-  const videoWidth = 320;
+  const videoHeight = 360;
+  const videoWidth = 480;
   const canvasRef = useRef();
   const willBeSaved = useRef(false);
 
@@ -358,7 +358,8 @@ function Video(props) {
 
         faceapi.matchDimensions(canvasRef.current, displaySize);
 
-        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
+        // const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor();
+        const detection = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceDescriptor();
         if(detection !== undefined) {
           timesRecognitionLeft--;
           
@@ -407,11 +408,9 @@ function Video(props) {
 
           //QUESTIONS OF WIDGET FORM
           widgetQuestions = await getQuestions(widgetFormID);
-          console.log("Widget Questions:", widgetQuestions);
 
           //DATABASE FORM ID
           widgetDatabaseFormID = await getWidgetDatabaseFormID();
-          console.log("database id:", widgetDatabaseFormID);
               
           //DATABASE QUESTIONS
           widgetDatabaseQuestions = await getQuestions(widgetDatabaseFormID);
@@ -455,7 +454,6 @@ function Video(props) {
     //Recognized!
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
-      console.log("Recognized profile:", recognizedProfile);
       return(
         <div>
           <h3>Welcome Back!</h3>
