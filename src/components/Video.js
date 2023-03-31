@@ -56,12 +56,12 @@ function Video(props) {
         } 
       }
     });
-    //basicCallbackFunction();
+    basicCallbackFunction();
   }
 
   const notRecognizedCallbackFunction = () => {
     createNewFaceSubmission(capturedFace);
-    //basicCallbackFunction();
+    basicCallbackFunction();
   }
 
   const changeSavedStatus = () => {
@@ -489,10 +489,9 @@ function Video(props) {
       <div style={{textAlign:'center'}}>
         <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
         <Alert severity="warning">
-          <AlertTitle style={{textAlign:'left'}}>Camera Disabled</AlertTitle>
-          Please give the camera permission and refresh the page to use Face Recognition Widget!
+          <AlertTitle style={{textAlign:'left'}}>Camera Disabled!</AlertTitle>
+          Please give the camera permission and refresh the page to use Face Recognition Widget.
         </Alert>
-        {/* <p>Please give the camera permission and refresh the page to use Face Recognition Widget!</p> */}
       </div>
     );
   }
