@@ -452,19 +452,13 @@ function Video(props) {
     //Recognized!
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
-      // return(
-      //   <div style={{textAlign:'center'}}>
-      //     <h3>Welcome Back!</h3>
-      //     <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
-      //   </div>
-      // );
       return(
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
-            <AlertTitle>Welcome Back!</AlertTitle>
+            <AlertTitle style={{textAlign:'left'}}>Welcome Back!</AlertTitle>
             Your face has successfully recognized.
           </Alert>
-          <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
+          <Button style={{marginTop:'1%'}} onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
       );
     }
@@ -494,7 +488,11 @@ function Video(props) {
     return (
       <div style={{textAlign:'center'}}>
         <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
-        <p>Please give the camera permission and refresh the page to use Face Recognition Widget!</p>
+        <Alert severity="warning">
+          <AlertTitle style={{textAlign:'left'}}>Camera Disabled</AlertTitle>
+          Please give the camera permission and refresh the page to use Face Recognition Widget!
+        </Alert>
+        {/* <p>Please give the camera permission and refresh the page to use Face Recognition Widget!</p> */}
       </div>
     );
   }
