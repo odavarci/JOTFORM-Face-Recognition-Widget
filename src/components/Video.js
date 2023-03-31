@@ -369,7 +369,8 @@ function Video(props) {
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection, { withScore: false });
+          //canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
+          faceapi.draw.drawDetections(canvasRef.current, resizedDetection, { withScore: false, drawLines: false });
         }
         if(timesRecognitionLeft === 0) {
           closeWebcam();
