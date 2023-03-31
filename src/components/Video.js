@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import Button from '@mui/material/Button';
-import { textAlign } from '@mui/system';
+import Alert from '@mui/material/Alert';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -462,8 +462,8 @@ function Video(props) {
       return(
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            This is a success alert — <strong>check it out!</strong>
+            <AlertTitle>Welcome Back!</AlertTitle>
+            {/* This is a success alert — <strong>check it out!</strong> */}
           </Alert>
           <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
