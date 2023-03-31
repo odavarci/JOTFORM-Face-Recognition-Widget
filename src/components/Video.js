@@ -504,10 +504,10 @@ function Video(props) {
 
   const returnStartScan = () => {
     return(
-      <Wrapper>
+      <div style={{textAlign:'center'}}>
         {returnLoading()}
         <Button onClick={startScan} variant="contained">Start Scan</Button>
-      </Wrapper>
+      </div>
     );
   }
 
