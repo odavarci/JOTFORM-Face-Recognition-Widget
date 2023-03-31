@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import Button from '@mui/material/Button';
+import { textAlign } from '@mui/system';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -453,7 +454,7 @@ function Video(props) {
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
       return(
-        <div>
+        <div style={{textAlign:'center'}}>
           <h3>Welcome Back!</h3>
           <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
