@@ -463,7 +463,7 @@ function Video(props) {
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
             <AlertTitle>Welcome Back!</AlertTitle>
-            {/* This is a success alert — <strong>check it out!</strong> */}
+            This is a success alert — <strong>check it out!</strong>
           </Alert>
           <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
