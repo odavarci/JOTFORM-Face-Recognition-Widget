@@ -506,7 +506,7 @@ function Video(props) {
       <Wrapper>
         {returnLoading()}
         {/* <button onClick={startScan}>Start Scan</button> */}
-        <Button onClich={startScan} variant="contained">Start Scan</Button>
+        <Button onClick={startScan} variant="contained">Start Scan</Button>
       </Wrapper>
     );
   }
