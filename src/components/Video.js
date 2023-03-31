@@ -453,9 +453,18 @@ function Video(props) {
     //Recognized!
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
+      // return(
+      //   <div style={{textAlign:'center'}}>
+      //     <h3>Welcome Back!</h3>
+      //     <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
+      //   </div>
+      // );
       return(
         <div style={{textAlign:'center'}}>
-          <h3>Welcome Back!</h3>
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            This is a success alert — <strong>check it out!</strong>
+          </Alert>
           <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
       );
