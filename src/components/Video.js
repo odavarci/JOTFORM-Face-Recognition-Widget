@@ -3,6 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
+import Button from '@mui/material/Button';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -369,8 +370,7 @@ function Video(props) {
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          //canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
-          faceapi.draw.drawDetections(canvasRef.current, resizedDetection, { withScore: false, drawLines: false });
+          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection);
         }
         if(timesRecognitionLeft === 0) {
           closeWebcam();
@@ -505,7 +505,8 @@ function Video(props) {
     return(
       <Wrapper>
         {returnLoading()}
-        <button onClick={startScan}>Start Scan</button>
+        {/* <button onClick={startScan}>Start Scan</button> */}
+        <Button onClich={startScan} variant="contained">Start Scan</Button>
       </Wrapper>
     );
   }
