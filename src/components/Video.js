@@ -455,7 +455,7 @@ function Video(props) {
       return(
         <div>
           <h3>Welcome Back!</h3>
-          <button onClick={setFieldsValue}>Fill The Form</button>
+          <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
       );
     }
@@ -505,7 +505,6 @@ function Video(props) {
     return(
       <Wrapper>
         {returnLoading()}
-        {/* <button onClick={startScan}>Start Scan</button> */}
         <Button onClick={startScan} variant="contained">Start Scan</Button>
       </Wrapper>
     );
