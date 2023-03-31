@@ -465,7 +465,7 @@ function Video(props) {
   const returnBuilder = () => {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
-      <div>
+      <div style={{textAlign:'center'}}>
         <h1>I am not working on builder BUT,</h1>
         <h3>You are saving the following questions:</h3>
         <p>{QIDSetting}</p>
@@ -483,9 +483,8 @@ function Video(props) {
   }
 
   const returnCameraDisallow = () => {
-    console.log("returned!");
     return (
-      <div>
+      <div style={{textAlign:'center'}}>
         <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, borderRadius: '10px'}}></img>
         <p>Please give the camera permission and refresh the page to use Face Recognition Widget!</p>
       </div>
@@ -494,7 +493,7 @@ function Video(props) {
 
   const returnLoading = () => {
     return(
-      <div>
+      <div style={{textAlign:'center'}}>
         <h2>Face Recignition Widget</h2>
         <p>Please make sure that camera captures you only.</p>
         <p>Try to stay stable.</p>
