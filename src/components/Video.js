@@ -3,8 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
-import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
+import { AlertTitle, Alert, Button } from '@mui/material';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -463,7 +462,7 @@ function Video(props) {
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
             <AlertTitle>Welcome Back!</AlertTitle>
-            This is a success alert — <strong>check it out!</strong>
+            Your face has successfully recognized.
           </Alert>
           <Button  onClick={setFieldsValue} variant="contained">Fill The Form</Button>
         </div>
