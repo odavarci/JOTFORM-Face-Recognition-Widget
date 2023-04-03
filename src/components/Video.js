@@ -476,7 +476,7 @@ function Video(props) {
       <div style={{textAlign:'center'}}>
         <h2>Please, preview the form to see what this widget look like.</h2>
         <h3>You are saving the following questions:</h3>
-        {returnQsName()}
+        {/* {returnQsName()} */}
       </div>
     );
   }
