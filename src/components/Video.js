@@ -477,7 +477,7 @@ function Video(props) {
     console.log(nameAndQID);
     return(
       <div>
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <TableContainer component={Paper} style={{maxHeight: 200, overflow: 'auto'}}>
           <Table size="small" aria-label="sticky table">
             <TableHead>
               <TableRow>
