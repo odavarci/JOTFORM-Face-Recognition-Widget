@@ -3,7 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
-import { AlertTitle, Alert, Button } from '@mui/material';
+import { AlertTitle, Alert, Button, ListItem, ListItemText, List } from '@mui/material';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -467,7 +467,20 @@ function Video(props) {
   const returnQsName = async () => {
     let allQs = await getQuestions(widgetFormID);
     let nameAndQID = [];
-    console.log(allQs);
+    for(let i in allQs) {
+      if(allQs[i].qid === '1' || allQs[i].qid === '2') {
+        continue;
+      }
+      nameAndQID.push(allQs[i].text + " -> " + allQs[i].qid);
+    }
+    return(
+      <List>
+        {nameAndQID.map(i => 
+        <ListItem>
+          <ListItemText>{i}</ListItemText>
+        </ListItem>)}
+      </List>
+    );
   }
 
   const returnBuilder = () => {
