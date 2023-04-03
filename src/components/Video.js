@@ -397,16 +397,17 @@ function Video(props) {
   const init = async () => {
     if(!widgetLoaded) {
       jotform.subscribe("ready", async (response) => {
+        
+        //WIDGET FORM ID
+        widgetFormID = response.formID;
+
+        //QUESTIONS OF WIDGET FORM
+        widgetQuestions = await getQuestions(widgetFormID);
+
         if(jotform.isWidgetOnBuilder()) {
           setWidgetLoaded(true);
         }
         else {
-          //WIDGET FORM ID
-          widgetFormID = response.formID;
-
-          //QUESTIONS OF WIDGET FORM
-          widgetQuestions = await getQuestions(widgetFormID);
-
           //DATABASE FORM ID
           widgetDatabaseFormID = await getWidgetDatabaseFormID();
               
@@ -464,22 +465,26 @@ function Video(props) {
     }
   }
 
-  const returnQsName = async () => {
-    let allQs = await getQuestions(widgetFormID);
+  const returnQsName = () => {
+    let allQs = widgetQuestions;
     let nameAndQID = [];
     for(let i in allQs) {
-      if(allQs[i].qid === '1' || allQs[i].qid === '2') {
+      if(allQs[i].qid === '1' || allQs[i].qid === '2' || allQs[i].text === '') {
         continue;
       }
-      nameAndQID.push(allQs[i].text + " -> " + allQs[i].qid);
+      nameAndQID.push([allQs[i].text, allQs[i].qid]);
     }
+    console.log(nameAndQID);
     return(
-      <List>
-        {nameAndQID.map(i => 
-        <ListItem>
-          <ListItemText>{i}</ListItemText>
-        </ListItem>)}
-      </List>
+      <div>
+        <List>
+          {nameAndQID.map(i => 
+          <ListItem key={i[1]}>
+            <ListItemText>{i[0] + " -> " + i[1]}</ListItemText>
+          </ListItem>)}
+        </List>
+        <h1>asd</h1>
+      </div>
     );
   }
 
@@ -576,7 +581,6 @@ function Video(props) {
   }
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
-  returnQsName();
   init();
 
   return (
