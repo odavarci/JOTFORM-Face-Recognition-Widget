@@ -465,7 +465,7 @@ function Video(props) {
   }
 
   const returnQsName = async () => {
-    let allQs = await getQuestions();
+    let allQs = await getQuestions(widgetFormID);
     let nameAndQID = [];
     console.log(allQs);
   }
@@ -474,7 +474,7 @@ function Video(props) {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
       <div style={{textAlign:'center'}}>
-        <h2>Please, preview the form to see what this widget look like.</h2>
+        <h2>Preview the form to see what this widget look like.</h2>
         <h3>You are saving the following questions:</h3>
         {/* {returnQsName()} */}
       </div>
@@ -562,6 +562,7 @@ function Video(props) {
   }
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
+  returnQsName();
   init();
 
   return (
