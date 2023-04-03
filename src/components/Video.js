@@ -483,21 +483,19 @@ function Video(props) {
             <ListItemText>{i[0] + " -> " + i[1]}</ListItemText>
           </ListItem>)}
         </List>
-        <h1>asd</h1>
       </div>
     );
   }
 
   const returnBuilder = () => {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
-    // return(
-    //   <div style={{textAlign:'center'}}>
-    //     <h2>Preview the form to see what this widget look like.</h2>
-    //     <h3>You are saving the following questions:</h3>
-    //     {returnQsName()}
-    //   </div>
-    // );
-    return returnQsName();
+    return(
+      <div style={{textAlign:'center'}}>
+        <h2>Preview the form to see what this widget look like.</h2>
+        <h3>You are saving the following questions:</h3>
+        {returnQsName()}
+      </div>
+    );
   }
 
   const returnVideoElement = () => {
@@ -520,16 +518,6 @@ function Video(props) {
       </div>
     );
   }
-
-  // const returnLoading = () => {
-  //   return(
-  //     <div style={{textAlign:'center'}}>
-  //       <h2>Face Recignition Widget</h2>
-  //       <p>Please make sure that camera captures you only.</p>
-  //       <p>Try to stay stable.</p>
-  //     </div>
-  //   );
-  // }
 
   const returnLoading = () => {
     return(
