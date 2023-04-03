@@ -370,7 +370,8 @@ function Video(props) {
           }
   
           canvasRef && canvasRef.current && canvasRef.current.getContext('2d').clearRect(0, 0, videoWidth, videoHeight);
-          canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection, { withScore: false });
+          //canvasRef && canvasRef.current && faceapi.draw.drawDetections(canvasRef.current, resizedDetection, { withScore: false });
+          drawDetection(resizedDetection);
         }
         if(timesRecognitionLeft === 0) {
           closeWebcam();
@@ -390,6 +391,28 @@ function Video(props) {
 
   const startScan = () => {
     setIsScanStarted(true);
+  }
+
+  const drawDetection = (detection) => {
+        let _H = detection.box.height;
+        let _W = detection.box.width;
+        let _X = detection.box._x;
+        let _Y = detection.box._y;
+        return (
+          <div>
+            <div
+              style={{
+                position: 'absolute',
+                border: 'solid',
+                borderColor: 'blue',
+                height: _H,
+                width: _W,
+                transform: `translate(${_X}px,${_Y}px)`
+              }}
+            >
+            </div>
+          </div>
+        );
   }
   //------------------------------------------------------------------------------------------------------------------
 
