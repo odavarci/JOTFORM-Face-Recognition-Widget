@@ -496,12 +496,21 @@ function Video(props) {
     );
   }
 
+  // const returnLoading = () => {
+  //   return(
+  //     <div style={{textAlign:'center'}}>
+  //       <h2>Face Recignition Widget</h2>
+  //       <p>Please make sure that camera captures you only.</p>
+  //       <p>Try to stay stable.</p>
+  //     </div>
+  //   );
+  // }
+
   const returnLoading = () => {
     return(
       <div style={{textAlign:'center'}}>
         <h2>Face Recignition Widget</h2>
-        <p>Please make sure that camera captures you only.</p>
-        <p>Try to stay stable.</p>
+        <p>After "Start Scan" button appear, you can scan your face. While scanning, please try to stay stable and make sure that camera captures your face only.</p>
       </div>
     );
   }
