@@ -477,8 +477,8 @@ function Video(props) {
     console.log(nameAndQID);
     return(
       <div>
-        <TableContainer component={Paper}>
-          <Table size="small" aria-label="a dense table">
+        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+          <Table size="small" aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell>Question Text</TableCell>
