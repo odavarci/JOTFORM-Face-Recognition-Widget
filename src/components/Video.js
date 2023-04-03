@@ -3,7 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
-import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
