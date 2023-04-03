@@ -3,7 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
-import { AlertTitle, Alert, Button, ListItem, ListItemText, List } from '@mui/material';
+import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -477,12 +477,29 @@ function Video(props) {
     console.log(nameAndQID);
     return(
       <div>
-        <List>
-          {nameAndQID.map(i => 
-          <ListItem disablePadding key={i[1]}>
-            <ListItemText>{i[0] + " -> " + i[1]}</ListItemText>
-          </ListItem>)}
-        </List>
+        <TableContainer component={Paper}>
+          <Table size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Question Text</TableCell>
+                <TableCell align="right">Question ID</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {nameAndQID.map((i) => (
+                <TableRow
+                  key={i[0]}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {i[0]}
+                  </TableCell>
+                  <TableCell align="right">{i[1]}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     );
   }
