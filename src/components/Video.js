@@ -479,7 +479,7 @@ function Video(props) {
       <div>
         <List>
           {nameAndQID.map(i => 
-          <ListItem key={i[1]}>
+          <ListItem disablePadding key={i[1]}>
             <ListItemText>{i[0] + " -> " + i[1]}</ListItemText>
           </ListItem>)}
         </List>
