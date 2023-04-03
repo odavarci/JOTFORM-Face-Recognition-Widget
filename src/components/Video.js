@@ -509,7 +509,7 @@ function Video(props) {
     return(
       <div style={{textAlign:'center'}}>
         <h2>Preview the form to see what this widget look like.</h2>
-        <Alert severity="info">You can change questions</Alert>
+        <Alert severity="info">You can change auto filled questions from Widget Settings!</Alert>
         {returnQsName()}
       </div>
     );
