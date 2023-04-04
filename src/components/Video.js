@@ -273,7 +273,6 @@ function Video(props) {
   }
 
   const reloadWidget = () => {
-    console.log("ASD");
     setReload(!reload);
   }
   //----------------------------------------------------------------------------------------------------------
@@ -612,7 +611,8 @@ function Video(props) {
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
   init();
-  console.log("render");
+  console.log("widget loaded:", widgetLoaded);
+  console.log("isScanStarted:", isScanStarted);
 
   return (
     <Wrapper>
