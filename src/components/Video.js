@@ -614,7 +614,7 @@ function Video(props) {
 
   return (
     <Wrapper>
-        <h2 style={{textAlign:'center'}}>Face Recignition Widget</h2>
+        <h2 style={{textAlign:'center', marginBottom: "0px", marginTop: "0px"}}>Face Recignition Widget</h2>
         {jotform.isWidgetOnBuilder() ?
           returnBuilder()
           :
