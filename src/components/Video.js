@@ -507,9 +507,11 @@ function Video(props) {
       }
       row.push([allQs[i].text, allQs[i].qid]);
       if(QIDSetting.includes(allQs[i].qid)) {
+        console.log("YES", allQs[i].qid);
         row.push(<CheckCircleIcon color="success" fontSize='small'></CheckCircleIcon>);
       }
       else {
+        console.log("NO", allQs[i].qid);
         row.push(<CancelIcon sx={{ color: pink[500] }} fontSize='small'></CancelIcon>);
       }
     }
@@ -531,8 +533,8 @@ function Video(props) {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">{i[0]}</TableCell>
-                  <TableCell align="right">{i[1]}</TableCell>
-                  <TableCell align="right">{i[2]}</TableCell>
+                  <TableCell>{i[1]}</TableCell>
+                  <TableCell>{i[2]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
