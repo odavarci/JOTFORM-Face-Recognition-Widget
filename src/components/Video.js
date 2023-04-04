@@ -522,8 +522,8 @@ function Video(props) {
             <TableHead>
               <TableRow>
                 <TableCell>Question Text</TableCell>
-                <TableCell align="right">Question ID</TableCell>
-                <TableCell align="right">Auto Fill</TableCell>
+                <TableCell>Question ID</TableCell>
+                <TableCell>Auto Fill</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
