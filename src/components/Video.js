@@ -3,7 +3,6 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState, Component } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
-import infoIcon from '../images/info.png';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
 import { InfoIcon, CancelIcon, CheckCircleIcon} from '@mui/icons-material/Info';
 
