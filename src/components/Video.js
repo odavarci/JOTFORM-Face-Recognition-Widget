@@ -438,7 +438,7 @@ function Video(props) {
   }
 
   const setSize = () => {
-    let data = {width:640, height: 600};
+    let data = {width:640, height: 500};
     jotform.requestFrameResize(data);
   }
   //-------------------------------------------------------------------------------------------------------------------
@@ -458,6 +458,7 @@ function Video(props) {
     //Recognized!
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
+      console.log(recognizedProfile);
       return(
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
@@ -544,7 +545,6 @@ function Video(props) {
   const returnLoading = () => {
     return(
       <div style={{textAlign:'center'}}>
-        {/* <h2>Face Recignition Widget</h2> */}
         <p>After "Start Scan" button appear, you can scan your face. While scanning, please try to stay stable and make sure that camera captures your face only.</p>
       </div>
     );
