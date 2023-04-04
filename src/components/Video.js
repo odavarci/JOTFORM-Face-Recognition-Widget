@@ -3,6 +3,7 @@ import * as faceapi from 'face-api.js';
 import React, { useRef, useState, Component } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
+import infoIcon from '../images/info.png';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
 
 const faceFieldName = 'FACE_DATABASE';
@@ -30,7 +31,6 @@ function Video(props) {
   const [isRecognized, setIsRecognized] = useState(null);
   const [isCameraEnabled, setIsCameraEnabled] = useState(null);
   const [isScanStarted, setIsScanStarted] = useState(false);
-  const [reload, setReload] = useState(true);
 
   //Video properties
   const videoRef = useRef();
@@ -456,6 +456,7 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
+          <img src={infoIcon}></img>
         </label>
       );
     }
