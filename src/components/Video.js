@@ -459,7 +459,7 @@ function Video(props) {
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log(recognizedProfile);
-      console.log(widgetDatabaseQuestions);
+      console.log(widgetQuestions);
       return(
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
