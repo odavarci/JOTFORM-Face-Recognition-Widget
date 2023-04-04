@@ -274,7 +274,7 @@ function Video(props) {
 
   const reloadWidget = () => {
     //setIsScanStarted(false);
-    location.reload();
+    window.location.reload();
   }
   //----------------------------------------------------------------------------------------------------------
 
