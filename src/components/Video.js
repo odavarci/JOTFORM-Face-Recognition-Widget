@@ -7,6 +7,7 @@ import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer
 import InfoIcon from '@mui/icons-material/Info';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { pink } from '@mui/material/colors';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
