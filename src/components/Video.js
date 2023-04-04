@@ -5,6 +5,7 @@ import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import infoIcon from '../images/info.png';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -456,7 +457,8 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
-          <img src={infoIcon} style={{width: "25px", height: "25px"}}></img>
+          {/* <img src={infoIcon} style={{width: "25px", height: "25px"}}></img> */}
+          <InfoIcon></InfoIcon>
         </label>
       );
     }
