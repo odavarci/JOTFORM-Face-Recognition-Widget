@@ -456,7 +456,7 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
-          <img src={infoIcon}></img>
+          <img src={infoIcon} style={{width: "5px", height: "5px"}}></img>
         </label>
       );
     }
@@ -616,7 +616,7 @@ function Video(props) {
 
   return (
     <Wrapper>
-        <h2 style={{textAlign:'center', marginBottom: "0px", marginTop: "0px"}}>Face Recignition Widget</h2>
+        <h2 style={{textAlign:'center', marginBottom: "0px", marginTop: "0px"}}>Face Recognition Widget</h2>
         {jotform.isWidgetOnBuilder() ?
           returnBuilder()
           :
