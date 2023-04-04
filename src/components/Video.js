@@ -4,7 +4,9 @@ import React, { useRef, useState, Component } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
-import { InfoIcon, CancelIcon, CheckCircleIcon} from '@mui/icons-material';
+import InfoIcon from '@mui/icons-material/Info';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
