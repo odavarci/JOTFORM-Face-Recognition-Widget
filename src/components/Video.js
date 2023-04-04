@@ -30,7 +30,7 @@ function Video(props) {
   const [isRecognized, setIsRecognized] = useState(null);
   const [isCameraEnabled, setIsCameraEnabled] = useState(null);
   const [isScanStarted, setIsScanStarted] = useState(false);
-  const [reload, setReload] = useState(null);
+  const [reload, setReload] = useState(true);
 
   //Video properties
   const videoRef = useRef();
@@ -273,7 +273,7 @@ function Video(props) {
   }
 
   const reloadWidget = () => {
-    setReload(null);
+    setReload(!reload);
   }
   //----------------------------------------------------------------------------------------------------------
 
@@ -561,7 +561,7 @@ function Video(props) {
           <AlertTitle style={{textAlign:'left'}}>Camera Disabled!</AlertTitle>
           Please give the camera permission and refresh the page to use Face Recognition Widget.
         </Alert>
-        <Button onClick={reloadWidget} variant="contained">RETRY</Button>
+        <Button style={{marginTop: "1%"}} onClick={reloadWidget} variant="contained">RETRY</Button>
       </div>
     );
   }
