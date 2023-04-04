@@ -460,10 +460,27 @@ function Video(props) {
       jotform.subscribe("submit", recognizedCallbackFunction);
       console.log(recognizedProfile);
       console.log(widgetQuestions);
+      let name = "";
+      for(let i in widgetQuestions) {
+        if(widgetQuestions[i].type === "control_fullname") {
+          for(let j in recognizedProfile) {
+            if(recognizedProfile[j].name === i.toString()) {
+              name = recognizedProfile[j].answer;
+              break;
+            }
+          }
+          break;
+        }
+      }
       return(
         <div style={{textAlign:'center'}}>
           <Alert severity="success">
-            <AlertTitle style={{textAlign:'left'}}>Welcome Back!</AlertTitle>
+            {
+              name === "" ?
+              <AlertTitle style={{textAlign:'left'}}>Welcome Back!</AlertTitle>
+              :
+              <AlertTitle style={{textAlign:'left'}}>Welcome Back {name}!</AlertTitle>
+            }
             Your face has successfully recognized.
           </Alert>
           <Button style={{marginTop:'1%'}} onClick={setFieldsValue} variant="contained">Fill The Form</Button>
