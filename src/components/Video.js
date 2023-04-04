@@ -556,7 +556,7 @@ function Video(props) {
   const returnCameraDisallow = () => {
     return (
       <div style={{textAlign:'center'}}>
-        <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, marginTop: "1%", marginBottom: "1%"}}></img>
+        <img src={cameraDisabledImage} style={{ width: videoWidth, height: videoHeight, marginTop: "1%", marginBottom: "1%", borderRadius: "10px"}}></img>
         <Alert severity="warning">
           <AlertTitle style={{textAlign:'left'}}>Camera Disabled!</AlertTitle>
           Please give the camera permission and refresh the page to use Face Recognition Widget.
