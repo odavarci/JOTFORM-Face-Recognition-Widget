@@ -534,8 +534,8 @@ function Video(props) {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">{i[0]}</TableCell>
-                  <TableCell>{i[1]}</TableCell>
-                  <TableCell>{i[2]}</TableCell>
+                  <TableCell align='center'>{i[1]}</TableCell>
+                  <TableCell align='center'>{i[2]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
