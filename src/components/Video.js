@@ -513,7 +513,7 @@ function Video(props) {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
       <div style={{textAlign:'center'}}>
-        <h2>Preview the form to see what this widget look like.</h2>
+        <h3>Preview the form to see what this widget look like.</h3>
         <Alert severity="info">You can change auto filled questions from Widget Settings!</Alert>
         {returnQsName()}
       </div>
