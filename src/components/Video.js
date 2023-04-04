@@ -532,6 +532,7 @@ function Video(props) {
                 >
                   <TableCell component="th" scope="row">{i[0]}</TableCell>
                   <TableCell align="right">{i[1]}</TableCell>
+                  <TableCell align="right">{i[2]}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
