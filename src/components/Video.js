@@ -436,6 +436,11 @@ function Video(props) {
       faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
     ]);
   }
+
+  const setSize = () => {
+    let data = {width:640, height: 400};
+    jotform.requestFrameResize(data);
+  }
   //-------------------------------------------------------------------------------------------------------------------
 
   //-------------------------------------RETURN FUNCTIONS--------------------------------------------------------------
@@ -539,7 +544,7 @@ function Video(props) {
   const returnLoading = () => {
     return(
       <div style={{textAlign:'center'}}>
-        <h2>Face Recignition Widget</h2>
+        {/* <h2>Face Recignition Widget</h2> */}
         <p>After "Start Scan" button appear, you can scan your face. While scanning, please try to stay stable and make sure that camera captures your face only.</p>
       </div>
     );
@@ -579,17 +584,13 @@ function Video(props) {
       </Wrapper>      
     );
   }
-
-  const setSize = () => {
-    let data = {width:640, height: 400};
-    jotform.requestFrameResize(data);
-  }
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
   init();
 
   return (
     <Wrapper>
+        <h2 style={{textAlign:'center'}}>Face Recignition Widget</h2>
         {jotform.isWidgetOnBuilder() ?
           returnBuilder()
           :
