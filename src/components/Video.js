@@ -5,7 +5,7 @@ import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import infoIcon from '../images/info.png';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
+import { InfoIcon, CancelIcon, CheckCircleIcon} from '@mui/icons-material/Info';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -497,33 +497,38 @@ function Video(props) {
 
   const returnQsName = () => {
     let allQs = widgetQuestions;
-    let nameAndQID = [];
+    let QIDSetting = jotform.getWidgetSetting("Question IDs:").split(',');
+    let row = [];
     for(let i in allQs) {
       if(allQs[i].qid === '1' || allQs[i].qid === '2' || allQs[i].text === '') {
         continue;
       }
-      nameAndQID.push([allQs[i].text, allQs[i].qid]);
+      row.push([allQs[i].text, allQs[i].qid]);
+      if(QIDSetting.includes(allQs[i].qid)) {
+        row.push(<CheckCircleIcon color="success" fontSize='small'></CheckCircleIcon>);
+      }
+      else {
+        row.push(<CancelIcon sx={{ color: pink[500] }} fontSize='small'></CancelIcon>);
+      }
     }
-    console.log(nameAndQID);
     return(
       <div>
-        <TableContainer component={Paper} style={{maxHeight: 200, overflow: 'auto'}}>
+        <TableContainer component={Paper}>
           <Table size="small" aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell>Question Text</TableCell>
                 <TableCell align="right">Question ID</TableCell>
+                <TableCell align="right">Auto Fill</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {nameAndQID.map((i) => (
+              {row.map((i) => (
                 <TableRow
                   key={i[0]}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
-                    {i[0]}
-                  </TableCell>
+                  <TableCell component="th" scope="row">{i[0]}</TableCell>
                   <TableCell align="right">{i[1]}</TableCell>
                 </TableRow>
               ))}
@@ -535,7 +540,6 @@ function Video(props) {
   }
 
   const returnBuilder = () => {
-    let QIDSetting = jotform.getWidgetSetting("Question IDs:");
     return(
       <div style={{textAlign:'center'}}>
         <h3>Preview the form to see what this widget look like.</h3>
