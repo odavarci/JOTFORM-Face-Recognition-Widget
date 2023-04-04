@@ -273,7 +273,7 @@ function Video(props) {
   }
 
   const reloadWidget = () => {
-    setReload(!reload);
+    setIsScanStarted(false);
   }
   //----------------------------------------------------------------------------------------------------------
 
@@ -347,7 +347,6 @@ function Video(props) {
         videoRef.current.play();
       })
       .catch(err => {
-        //console.log("Open Camera Err:", err);
         setIsCameraEnabled(false);
       });
   }
