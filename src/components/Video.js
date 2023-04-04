@@ -454,7 +454,8 @@ function Video(props) {
       jotform.subscribe("submit", basicCallbackFunction);
       return(
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-          <input type="checkbox" onClick={changeSavedStatus}>Remember me later!</input>
+          <input type="checkbox" onClick={changeSavedStatus}/>
+          Remember me later!
           <img src={infoIcon} style={{width: "25px", height: "25px"}}></img>
         </label>
       );
