@@ -458,7 +458,7 @@ function Video(props) {
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
           {/* <img src={infoIcon} style={{width: "25px", height: "25px"}}></img> */}
-          <InfoIcon></InfoIcon>
+          <InfoIcon color="primary" fontSize='small'></InfoIcon>
         </label>
       );
     }
