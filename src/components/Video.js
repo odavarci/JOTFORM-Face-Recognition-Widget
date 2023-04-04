@@ -614,8 +614,6 @@ function Video(props) {
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
   init();
-  console.log("widget loaded:", widgetLoaded);
-  console.log("isScanStarted:", isScanStarted);
 
   return (
     <Wrapper>
