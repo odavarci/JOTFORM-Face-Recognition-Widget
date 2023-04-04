@@ -505,20 +505,21 @@ function Video(props) {
       if(allQs[i].qid === '1' || allQs[i].qid === '2' || allQs[i].text === '') {
         continue;
       }
-      row.push([allQs[i].text, allQs[i].qid]);
+      let thirdElement;
       if(QIDSetting.includes(allQs[i].qid)) {
         console.log("YES", allQs[i].qid);
-        row.push(<CheckCircleIcon color="success" fontSize='small'></CheckCircleIcon>);
+        thirdElement = <CheckCircleIcon color="success" fontSize='small'></CheckCircleIcon>
       }
       else {
         console.log("NO", allQs[i].qid);
-        row.push(<CancelIcon sx={{ color: pink[500] }} fontSize='small'></CancelIcon>);
+        thirdElement = <CancelIcon sx={{ color: pink[500] }} fontSize='small'></CancelIcon>
       }
+      row.push([allQs[i].text, allQs[i].qid, thirdElement]);
     }
     return(
       <div>
         <TableContainer component={Paper}>
-          <Table size="small" aria-label="sticky table">
+          <Table size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
                 <TableCell>Question Text</TableCell>
