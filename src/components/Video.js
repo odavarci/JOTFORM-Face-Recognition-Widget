@@ -458,9 +458,8 @@ function Video(props) {
           <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
             <input type="checkbox" onClick={changeSavedStatus}/>
             Remember me later!
-            {/* <img src={infoIcon} style={{width: "25px", height: "25px"}}></img> */}
+            <InfoIcon color="primary" fontSize='small'></InfoIcon>
           </label>
-          <InfoIcon color="primary" fontSize='small'></InfoIcon>
         </div>
       );
     }
