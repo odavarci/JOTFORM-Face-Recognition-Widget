@@ -273,7 +273,6 @@ function Video(props) {
   }
 
   const reloadWidget = () => {
-    //setIsScanStarted(false);
     window.location.reload();
   }
   //----------------------------------------------------------------------------------------------------------
@@ -561,7 +560,7 @@ function Video(props) {
           <AlertTitle style={{textAlign:'left'}}>Camera Disabled!</AlertTitle>
           Please give the camera permission and refresh the page to use Face Recognition Widget.
         </Alert>
-        <Button style={{marginTop: "1%"}} onClick={reloadWidget} variant="contained">RETRY</Button>
+        <Button style={{marginTop: "1%"}} onClick={reloadWidget} variant="contained">REFRESH</Button>
       </div>
     );
   }
