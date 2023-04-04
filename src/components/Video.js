@@ -507,11 +507,9 @@ function Video(props) {
       }
       let thirdElement;
       if(QIDSetting.includes(allQs[i].qid)) {
-        console.log("YES", allQs[i].qid);
         thirdElement = <CheckCircleIcon color="success" fontSize='small'></CheckCircleIcon>
       }
       else {
-        console.log("NO", allQs[i].qid);
         thirdElement = <CancelIcon sx={{ color: pink[500] }} fontSize='small'></CancelIcon>
       }
       row.push([allQs[i].text, allQs[i].qid, thirdElement]);
@@ -523,8 +521,8 @@ function Video(props) {
             <TableHead>
               <TableRow>
                 <TableCell>Question Text</TableCell>
-                <TableCell>Question ID</TableCell>
-                <TableCell>Auto Fill</TableCell>
+                <TableCell align='center'>Question ID</TableCell>
+                <TableCell align='center'>Auto Fill</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
