@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as faceapi from 'face-api.js';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Component } from 'react';
 import Wrapper from './Helper/Wrapper';
 import cameraDisabledImage from '../images/cameraDisabled.jpg';
 import { AlertTitle, Alert, Button, ListItem, ListItemText, List, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Paper } from '@mui/material';
@@ -273,7 +273,8 @@ function Video(props) {
   }
 
   const reloadWidget = () => {
-    this.forceUpdate();
+    console.log("ASD");
+    setReload(!reload);
   }
   //----------------------------------------------------------------------------------------------------------
 
@@ -611,6 +612,7 @@ function Video(props) {
   //--------------------------------------------------------------------------------------------------------------------
   setSize();
   init();
+  console.log("render");
 
   return (
     <Wrapper>
