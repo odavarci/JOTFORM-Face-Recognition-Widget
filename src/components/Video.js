@@ -454,12 +454,14 @@ function Video(props) {
     if(isRecognized === false){
       jotform.subscribe("submit", basicCallbackFunction);
       return(
-        <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-          <input type="checkbox" onClick={changeSavedStatus}/>
-          Remember me later!
-          {/* <img src={infoIcon} style={{width: "25px", height: "25px"}}></img> */}
+        <div>
+          <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+            <input type="checkbox" onClick={changeSavedStatus}/>
+            Remember me later!
+            {/* <img src={infoIcon} style={{width: "25px", height: "25px"}}></img> */}
+          </label>
           <InfoIcon color="primary" fontSize='small'></InfoIcon>
-        </label>
+        </div>
       );
     }
     //Recognized!
