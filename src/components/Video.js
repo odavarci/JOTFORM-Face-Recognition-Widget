@@ -464,12 +464,12 @@ function Video(props) {
             onMouseEnter={() => setIsShown(true)}
             onMouseLeave={() => setIsShown(false)}>
           </InfoIcon>
-          {isShown && (
-            <div>
-              I'll appear when you hover over the button.
-            </div>
-          )}
         </label>
+        {isShown && (
+          <div>
+            I'll appear when you hover over the button.
+          </div>
+        )}
       );
     }
     //Recognized!
