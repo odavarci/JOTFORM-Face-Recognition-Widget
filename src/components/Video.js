@@ -8,6 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { pink } from '@mui/material/colors';
+import Tooltip from '@mui/material/Tooltip';
 
 const faceFieldName = 'FACE_DATABASE';
 const faceRecognizorThreshold = 0.20;
@@ -460,16 +461,10 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
-          <InfoIcon color="primary" fontSize='small' 
-            onMouseEnter={() => setIsShown(true)}
-            onMouseLeave={() => setIsShown(false)}>
-          </InfoIcon>
+          <Tooltip title = "Does it work?">
+           <InfoIcon color="primary" fontSize='small'></InfoIcon>
+          </Tooltip>
         </label>
-        {isShown && (
-          <div>
-            I'll appear when you hover over the button.
-          </div>
-        )}
       );
     }
     //Recognized!
