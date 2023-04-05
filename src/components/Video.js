@@ -34,6 +34,7 @@ function Video(props) {
   const [isRecognized, setIsRecognized] = useState(null);
   const [isCameraEnabled, setIsCameraEnabled] = useState(null);
   const [isScanStarted, setIsScanStarted] = useState(false);
+  const [isShown, setIsShown] = useState(false);
 
   //Video properties
   const videoRef = useRef();
@@ -459,7 +460,15 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
-          <InfoIcon color="primary" fontSize='small'></InfoIcon>
+          <InfoIcon color="primary" fontSize='small' 
+            onMouseEnter={() => setIsShown(true)}
+            onMouseLeave={() => setIsShown(false)}>
+          </InfoIcon>
+          {isShown && (
+            <div>
+              I'll appear when you hover over the button.
+            </div>
+          )}
         </label>
       );
     }
@@ -618,6 +627,21 @@ function Video(props) {
     );
   }
   //--------------------------------------------------------------------------------------------------------------------
+  // return (
+  //   <div className="App">
+  //     <button
+  //       onMouseEnter={() => setIsShown(true)}
+  //       onMouseLeave={() => setIsShown(false)}>
+  //       Hover over me!
+  //     </button>
+  //     {isShown && (
+  //       <div>
+  //         I'll appear when you hover over the button.
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+  
   setSize();
   init();
 
