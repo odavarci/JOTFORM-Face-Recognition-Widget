@@ -461,7 +461,7 @@ function Video(props) {
         <label style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
           <input type="checkbox" onClick={changeSavedStatus}/>
           Remember me later!
-          <Tooltip title = "If you let the widget to remember you, some of the questions will be filled automatically when you come back to this form!" placement='right'>
+          <Tooltip title = "If you let the widget to remember you, some of the questions will be filled automatically when you come back to this form!" placement="right-end" arrow>
            <InfoIcon color="primary" fontSize='small'></InfoIcon>
           </Tooltip>
         </label>
