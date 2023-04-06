@@ -271,7 +271,6 @@ function Video(props) {
         arr.push(questions[i].qid);
       }
       jotform.getFieldsValueById( arr, (response) => {
-          console.log("fields:", response.data);
           resolve(response.data);
         });
     });
@@ -470,7 +469,6 @@ function Video(props) {
     //Recognized!
     else{
       jotform.subscribe("submit", recognizedCallbackFunction);
-      console.log(recognizedProfile);
       console.log(widgetQuestions);
       let name = "";
       for(let i in widgetQuestions) {
@@ -506,7 +504,7 @@ function Video(props) {
     let QIDSetting = jotform.getWidgetSetting("Question IDs:").split(',');
     let row = [];
     for(let i in allQs) {
-      if(allQs[i].qid === '1' || allQs[i].qid === '2' || allQs[i].text === '') {
+      if(allQs[i].qid === '1' || allQs[i].qid === '2' || allQs[i].text === '' || allQs[i].text === undefined) {
         continue;
       }
       let thirdElement;
